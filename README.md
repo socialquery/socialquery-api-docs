@@ -1,6 +1,6 @@
 # SocialQuery API documentation
 
-Public Mintlify documentation for https://socialquery.dev.
+Public Mintlify documentation for https://socialquery.dev/docs.
 
 Run `npx mint validate` to validate the site and OpenAPI definition.
 
