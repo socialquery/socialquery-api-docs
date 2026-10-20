@@ -3,6 +3,12 @@ title: "Instagram music search"
 openapi: "GET /instagram/search/music"
 ---
 
-<Warning>Partial local implementation. Production remains disabled; HikerAPI activation and combined verification are pending.</Warning>
+<Warning>The documented page-one fallback is enabled in code for the next combined CLI release. Hosted deployment and acceptance are pending. The primary source and continuation remain unavailable.</Warning>
 
-Partial local implementation, disabled pending HikerAPI trial activation, credentials, an approved allowance and combined verification. One non-paginated first-page result window from the typed v1 music source. Each item contains track identity, artist/title, duration in milliseconds, nullable native CDN audio/artwork URLs and explicit/lyrics/save flags. Usage counts and song monetization metadata are null; total is unknown, next_cursor is null, and coverage_complete is false. Any cursor is rejected before billing. Five credits for a nonempty validated window; zero for an observed empty list. No caching of this fallback. Returned links can expire; pagination parity remains incomplete.
+Search one trimmed query of 1–100 characters. The bounded, pinned Apify source returns at most ten tracks in source order. Two different native query windows returned ten tracks each with disjoint IDs; results can be fuzzy and do not establish exhaustive or exact keyword relevance. Native empty behavior was not observed; a completed empty dataset is supported and tested locally.
+
+Each item contains native track and audio-asset IDs, title, artist name, duration in milliseconds, explicit/lyrics flags and nullable CDN artwork/audio URLs. The source does not establish artist IDs, audio-cluster IDs, usage counts, saving flags, highlight offsets or monetization. Those fields stay null; native canonical IDs retain their source role in metadata. Unknown fields never become fabricated values. Audio/artwork links can expire and are not fetched or certified playable.
+
+`total` and `next_cursor` are null; `coverage_complete=false` and `source_mode=first_page_fallback` make the scope explicit. A supplied primary cursor returns 503 before source work or billing. This fallback is never cached. Five credits are held and charged for a validated nonempty source window; completed empty results cost zero and source failures refund the hold. Canonical receipts reject edited fields and stale observations.
+
+The single source run is pinned to build `1.0.17`, ten results, 512 MiB and a $0.04 maximum charge setting. It reserves four cents from the existing shared, non-refilling $5 Apify runtime ceiling before dispatch; no retry, ID-lookup enrichment, top-up or additional allowance is enabled. Reported source usage is an incomplete estimate, not a final invoice. API, both MCP clients, Python, cancellation, refund and replay checks use native-shaped fixtures with a disposable SQL database; they do not establish hosted acceptance.

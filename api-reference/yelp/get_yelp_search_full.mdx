@@ -3,7 +3,7 @@ title: "Yelp Search Full"
 openapi: "GET /yelp/search/full"
 ---
 
-<Warning>This adapter is staged locally and disabled pending combined production verification. A saved live first-page fixture passes; sorted searches and continuation still need live checks.</Warning>
+<Warning>Enabled in code for the next combined CLI release. Native source evidence and local API/client/SQL checks pass; hosted deployment and acceptance are pending.</Warning>
 
 Search cards preserve native business IDs, canonical Yelp links, categories, ratings, review counts, price-level strings, neighborhoods, source status text, phone, thumbnail and service options when present. Unknown totals, addresses, coordinates and websites remain null. This endpoint returns the source's search-card fields; it does not make an additional detail request for every business.
 
@@ -14,3 +14,5 @@ Pass `next_cursor` back with the same query, location, sort and ads options. Cur
 Nonempty results cost one credit. Observed empty results cost zero. A nonzero reported total with no organic rows is an upstream error and does not retain a charge.
 
 Source: [SerpApi Yelp search](https://serpapi.com/yelp-search-api).
+
+Native default, rating, review-count and continuation requests each returned ten organic cards. The adapter omits optional `yelp_domain`: explicitly sending `yelp.com` failed upstream validation, while the same default domain succeeded. Returned query/domain/order and continuation are validated independently. Runtime calls reserve a shared non-refilling 50-request ceiling within the existing free SerpApi plan. Local API/client/SQL tests verify charges, full refunds, replay and cancellation. No purchase or automatic refill is enabled.

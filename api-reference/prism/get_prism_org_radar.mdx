@@ -3,7 +3,7 @@ title: "Organization radar"
 openapi: "GET /v1/prism/org-radar"
 ---
 
-<Warning>Implemented locally and disabled pending combined source, credit and client verification. This is not yet a production-ready route.</Warning>
+<Warning>Enabled in code for the next combined CLI release. Native source evidence and local API/client/SQL checks pass; hosted deployment and acceptance are pending.</Warning>
 
 Pass `org` as a GitHub organization login or its canonical HTTPS URL. `repos` selects 1–10 repositories (default 5). `sort` accepts `stars`, `updated`, or `pushed`.
 
@@ -14,3 +14,5 @@ The adapter walks the complete public repository list before ranking. Forks and 
 The maximum hold is **1 + 5 × repos** when dossiers are requested (26 by default, 51 maximum). The final charge is 1 plus 5 for each successful dossier. Failed and deferred dossiers cost zero. An empty but successfully resolved organization costs 1. Unknown organizations or incomplete critical listings fail without a successful charge.
 
 Source: [GitHub repository API](https://docs.github.com/en/rest/repos/repos#list-organization-repositories). Only public unauthenticated requests are used; no new credential is required. Sustainable public API capacity and real source response contracts still require combined verification.
+
+The native Octokit sample fully listed 71 public repositories (67 eligible, four excluded), then resolved one issue/release dossier through three requests. A non-refilling 20-request GitHub runtime ceiling includes those three initial requests; every subsequent source request reserves first. Public GitHub rate limits still apply. Reservation, fetch and body waits are bounded and cancellation is propagated. API, both MCP clients, Python and disposable SQL pass with the redacted native fixture. This sample does not certify every organization or 30-page boundary.
