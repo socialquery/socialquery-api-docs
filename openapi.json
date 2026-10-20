@@ -21656,6 +21656,7 @@
           "sourceIndex": {
             "enum": [
               "us",
+              "gb",
               null
             ]
           }
@@ -22448,7 +22449,16 @@
             "type": "null"
           },
           "next_cursor": {
-            "type": "null"
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string",
+                "maxLength": 2048,
+                "pattern": "^bsw1_[A-Za-z0-9_-]+$"
+              }
+            ]
           },
           "complete": {
             "const": false
@@ -22469,6 +22479,7 @@
           },
           "credits": {
             "enum": [
+              0,
               5,
               10
             ]
@@ -22502,6 +22513,12 @@
           },
           "_receipt": {
             "$ref": "#/components/schemas/BingJobsReceipt"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/BingSearchPagination"
+          },
+          "_page_receipt": {
+            "$ref": "#/components/schemas/BingSearchReceipt"
           }
         },
         "additionalProperties": false
@@ -39865,6 +39882,9 @@
               },
               "credits": {
                 "const": 5
+              },
+              "next_cursor": {
+                "type": "null"
               }
             }
           }
@@ -45876,6 +45896,179 @@
             }
           }
         }
+      },
+      "BingSearchPagination": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "snapshot_id",
+          "fingerprint",
+          "offset",
+          "page",
+          "page_size",
+          "source_window_count",
+          "expires_at",
+          "source_requests"
+        ],
+        "properties": {
+          "kind": {
+            "const": "bounded_source_snapshot"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "pattern": "^[0-9a-f-]{36}$"
+          },
+          "fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "offset": {
+            "enum": [
+              0,
+              10
+            ]
+          },
+          "page": {
+            "enum": [
+              1,
+              2
+            ]
+          },
+          "page_size": {
+            "const": 10
+          },
+          "source_window_count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source_requests": {
+            "enum": [
+              0,
+              1
+            ],
+            "description": "Actor submissions for this API request; excludes Apify polling/dataset reads and Actor-internal Bing requests."
+          }
+        }
+      },
+      "BingSearchReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "version",
+          "created",
+          "expires",
+          "request_hash",
+          "signature"
+        ],
+        "properties": {
+          "version": {
+            "const": 1
+          },
+          "created": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "expires": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "request_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "signature": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$"
+          }
+        }
+      },
+      "BingSearchWindowObservation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BingJobsObservation"
+          },
+          {
+            "type": "object",
+            "required": [
+              "pagination",
+              "_page_receipt"
+            ],
+            "properties": {
+              "request": {
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "const": "search"
+                  }
+                }
+              },
+              "source_count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              },
+              "items": {
+                "type": "array",
+                "maxItems": 10,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "null"
+                    },
+                    "apply_url": {
+                      "type": "null"
+                    },
+                    "apply_options": {
+                      "type": "null"
+                    },
+                    "source_direct_apply": {
+                      "type": "null"
+                    }
+                  }
+                }
+              },
+              "credits": {
+                "enum": [
+                  0,
+                  10
+                ]
+              },
+              "_receipt": {
+                "type": "object",
+                "properties": {
+                  "records": {
+                    "type": "array",
+                    "maxItems": 10,
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "jobDescription": {
+                          "type": "null"
+                        },
+                        "applyLink": {
+                          "type": "null"
+                        },
+                        "applyOptions": {
+                          "type": "null"
+                        },
+                        "applyIsDirect": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
       }
     },
     "responses": {
@@ -188314,29 +188507,55 @@
       "get": {
         "operationId": "get_jobs_bing_search",
         "summary": "Jobs Bing Search",
-        "description": "Partial disabled Bing Jobs source adapter. One required keyword, optional location, day/week dates, remote and comma-separated FULLTIME/PARTTIME/CONTRACTOR/INTERN filters; source index fixed to US, at most twenty rows, no cursor. Source operation/query and increasing zero-based positions are validated. Location and wider filter coverage remain unverified. UTC/epoch aliases must agree; midnight may be a date-only value, so exact time is not asserted. Day/week filtering uses possible date overlap and retains unknowns, without refilling. A source-served posting is not verified open. Apply links are observations, validated but never fetched/submitted, with direct-apply flags unverified. Description completeness is unverified, salary is unknown and logos are omitted from response/receipt. Nonempty windows hold/settle ten credits even if filtered empty; raw empty/error results fail unbilled and do not establish no jobs, a closed job or absence. Native location/filter/date/empty/legacy parity, sustainable capacity and combined verification remain gaps; production is unchanged.",
+        "description": "Partial disabled adapter. First page requires query and location, with explicit country=us (default) or gb and bounded date/remote/employment filters. One source run collects at most twenty jobs; responses scan ten rows per page. Returned encrypted five-minute cursor binds to the user/API key and original filters and continues only this immutable source window, without another Actor run or quota reservation. First nonempty source window costs ten credits; continuation costs zero and accepts X-Max-Credits: 0. Descriptions/apply links are omitted from lists and receipts; use detail. Missing/expired/corrupt snapshots and source errors fail unbilled without fallback resubmission. No total, complete-set, exact geographic/date coverage, verified-open or direct-apply claim. Optional keyword, temporary employment, native/deep continuation and combined deployed acceptance remain unresolved; search stays disabled.",
         "x-credit-cost": 10,
         "x-launch-status": "beta",
         "parameters": [
           {
             "name": "query",
             "in": "query",
-            "required": true,
+            "required": false,
             "example": "software engineer",
             "schema": {
               "type": "string"
             },
-            "description": "One plain job keyword; required by this partial source contract."
+            "description": "Required on the first page; may be omitted with a returned snapshot cursor. Supplied continuation filters must agree with the original search."
           },
           {
             "name": "location",
             "in": "query",
-            "required": true,
+            "required": false,
             "example": "United States",
             "schema": {
               "type": "string"
             },
-            "description": "Required first-page location text passed to the Bing US source index; exact geographic/native coverage and continuation remain unverified."
+            "description": "Required on the first page; may be omitted with a returned snapshot cursor. Supplied continuation filters must agree with the original search."
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "description": "Explicit source index: us (default) or gb. No country is inferred from location text.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "us",
+                "gb"
+              ],
+              "default": "us"
+            },
+            "example": "us"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "description": "Returned encrypted, owner-bound five-minute cursor. Continuation serves the saved at-most-twenty-job window for zero credits and makes no new Actor call. It is not native Bing index pagination.",
+            "schema": {
+              "type": "string",
+              "maxLength": 2048,
+              "pattern": "^bsw1_[A-Za-z0-9_-]+$"
+            }
           },
           {
             "name": "date_posted",
@@ -188360,7 +188579,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Semicolon-separated fulltime, parttime or contractor. Legacy comma-separated FULLTIME/PARTTIME/CONTRACTOR/INTERN is accepted. Temporary employment has no verified source filter and returns 422. Filters apply only to the bounded collected window; search remains disabled pending continuation and full contract parity."
+            "description": "Semicolon-separated fulltime, parttime or contractor. Legacy comma-separated FULLTIME/PARTTIME/CONTRACTOR/INTERN is accepted. Temporary employment has no verified source filter and returns 422. Filters apply only to the bounded collected window; search remains disabled pending native/deep continuation and full contract parity."
           },
           {
             "name": "remote_only",
@@ -188413,7 +188632,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/BingJobsObservation"
+                          "$ref": "#/components/schemas/BingSearchWindowObservation"
                         }
                       }
                     }
@@ -188464,6 +188683,16 @@
         },
         "tags": [
           "Jobs"
+        ],
+        "x-one-of-parameters": [
+          [
+            "query",
+            "cursor"
+          ],
+          [
+            "location",
+            "cursor"
+          ]
         ]
       }
     },
