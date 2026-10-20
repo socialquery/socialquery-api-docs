@@ -44435,6 +44435,450 @@
           "coverage_note",
           "_receipt"
         ]
+      },
+      "QuoraSpaceSearchSourceRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "record_type": {
+            "const": "space"
+          },
+          "source_context": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "seed_type": {
+                "const": "keyword"
+              },
+              "seed_value": {
+                "type": "string"
+              },
+              "source_url": {
+                "type": "string"
+              },
+              "loaded_url": {
+                "type": "string"
+              },
+              "scraped_at": {
+                "type": "string"
+              },
+              "search_type": {
+                "const": "Space"
+              },
+              "search_time_filter": {
+                "type": "string",
+                "enum": [
+                  "All Time",
+                  "Past Hour",
+                  "Past Day",
+                  "Past Week",
+                  "Past Month",
+                  "Past Year"
+                ]
+              }
+            },
+            "required": [
+              "seed_type",
+              "seed_value",
+              "source_url",
+              "loaded_url",
+              "scraped_at",
+              "search_type",
+              "search_time_filter"
+            ]
+          },
+          "status": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "has_results": {
+                "const": true
+              }
+            },
+            "required": [
+              "has_results"
+            ]
+          },
+          "url": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "text": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "metrics": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "followers": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "members": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              }
+            },
+            "required": [
+              "followers",
+              "members"
+            ]
+          },
+          "media": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "icon_url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "icon_url"
+            ]
+          },
+          "space": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "tribe_id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "name": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "description": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "metrics": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "followers": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "members": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "followers",
+                  "members"
+                ]
+              },
+              "media": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "icon_url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "icon_url"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "tribe_id",
+              "name",
+              "url",
+              "description",
+              "metrics",
+              "media"
+            ]
+          }
+        },
+        "required": [
+          "record_type",
+          "source_context",
+          "status",
+          "url",
+          "title",
+          "text",
+          "metrics",
+          "media",
+          "space"
+        ]
+      },
+      "QuoraSpaceSearchItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "entity_type": {
+            "const": "space"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "members": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "followers": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "icon_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source_position": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "ext": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "source_gid": {
+                "type": "string"
+              },
+              "count_precision": {
+                "type": "null"
+              },
+              "icon_fetched": {
+                "const": false
+              },
+              "icon_placeholder": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "icon_tribe_id": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Numeric ID in a native thumbnail URL, when present. Image metadata does not establish result identity."
+              }
+            },
+            "required": [
+              "source_gid",
+              "count_precision",
+              "icon_fetched",
+              "icon_placeholder",
+              "icon_tribe_id"
+            ]
+          }
+        },
+        "required": [
+          "entity_type",
+          "id",
+          "name",
+          "url",
+          "description",
+          "members",
+          "followers",
+          "icon_url",
+          "source_position",
+          "ext"
+        ]
+      },
+      "QuoraSpaceSearchObservation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "query": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "time": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "hour",
+                  "day",
+                  "week",
+                  "month",
+                  "year"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              }
+            },
+            "required": [
+              "query",
+              "time",
+              "limit"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "$ref": "#/components/schemas/QuoraSpaceSearchItem"
+            }
+          },
+          "source_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "returned_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "total": {
+            "type": "null"
+          },
+          "next_cursor": {
+            "type": "null"
+          },
+          "complete": {
+            "const": false
+          },
+          "observed_at": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "credits": {
+            "type": "integer",
+            "enum": [
+              0,
+              5
+            ]
+          },
+          "source_actor": {
+            "const": "fatihtahta~quora-scraper"
+          },
+          "source_build": {
+            "const": "0.8.14"
+          },
+          "source_time_filter": {
+            "type": "string",
+            "enum": [
+              "All Time",
+              "Past Hour",
+              "Past Day",
+              "Past Week",
+              "Past Month",
+              "Past Year"
+            ]
+          },
+          "provider_cost_usd": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "provider_cost_basis": {
+            "const": "apify_usage_estimate"
+          },
+          "provider_cost_complete": {
+            "const": false
+          },
+          "_warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "coverage_note": {
+            "type": "string"
+          },
+          "_receipt": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "rows": {
+                "type": "array",
+                "maxItems": 10,
+                "items": {
+                  "$ref": "#/components/schemas/QuoraSpaceSearchSourceRecord"
+                }
+              }
+            },
+            "required": [
+              "rows"
+            ]
+          }
+        },
+        "required": [
+          "request",
+          "items",
+          "source_count",
+          "returned_count",
+          "total",
+          "next_cursor",
+          "complete",
+          "observed_at",
+          "credits",
+          "source_actor",
+          "source_build",
+          "source_time_filter",
+          "provider_cost_usd",
+          "provider_cost_basis",
+          "provider_cost_complete",
+          "_warnings",
+          "coverage_note",
+          "_receipt"
+        ]
       }
     },
     "responses": {
@@ -143438,7 +143882,7 @@
       "get": {
         "operationId": "get_quora_spaces",
         "summary": "Quora Spaces",
-        "description": "Partial disabled local typed Quora keyword discovery, grounded in pinned 5.0.1 source documentation and entirely synthetic fixtures. The single post-search diagnostic timed out; no usable native response was accepted, and other page-family diagnostics were not submitted. One plain query, limit 1–10, time=all only. Direct URL targets, active time filters, continuation and exact native search rank are unsupported. Each row must match requested contentType/matchedInput and a valid URL family. Visible counters and page IDs stay nullable without slug-derived identities or invented zeroes. Source discovery rank is distinct from emission position. Nonempty source windows cost five credits, including post-date-filtered-empty windows. Empty datasets cannot distinguish absence from source blocking and fail unbilled. No total/complete-result claim. Media, credentials, answer bodies and extra enrichment are omitted. Native acceptance, exact filter/rank/empty parity, sustainable capacity and combined verification remain pending. Legacy normalized-field compatibility remains unverified. Parent cancellation returns 499 and the active source deadline returns 504; interrupted requests refund the full hold on confirmed settlement, and immutable replays repeat no source work. Late source results cannot start a retry or later read. Release remains disabled pending the existing source contracts, capacity and combined acceptance.",
+        "description": "Public Quora Spaces keyword search, limit 1–10 (default 10), with native all/hour/day/week/month/year search freshness controls. Returns native Tribe ID/GID, name, URL, nullable description/member/follower observations and unfetched icon metadata. Members and followers are kept separate and never inferred from one another. Source query/type=tribe/time traces and duplicated identity/name/description/count/icon aliases must agree. A single pinned fatihtahta Actor 0.8.14 run, 512 MiB, 40-second Actor timeout inside a 45-second active request window, 2-MiB source/output bounds; no detail/asset fetch, retry or pagination. Five-credit hold/nonempty settlement, completed empty window zero without global absence claim. Malformed/error/duplicate/overflow responses fail unbilled; confirmed cancellation 499, deadline 504 and source auth/quota 503 fully refund. Immutable replay adds no source work or charge. Provider requires a $1 cap setting even for small runs, published $0.00099/outputRecord; narrow exact pinned single-keyword Profile/Topic/Space plans only. Native default ten-row/six-filter/empty checks and local API/client/SQL settlement are separate from source accuracy, freshness efficacy, sustainable capacity, real Redis and combined hosted acceptance. All gates false; source journal zero/unallocated.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -143446,11 +143890,13 @@
             "name": "query",
             "in": "query",
             "required": true,
-            "example": "learn programming",
+            "example": "Artificial Intelligence",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
             },
-            "description": "One plain keyword query; URL targets are rejected because source URL mode bypasses typed discovery."
+            "description": "Plain keyword query; direct URL targets are unsupported."
           },
           {
             "name": "time",
@@ -143459,11 +143905,17 @@
             "schema": {
               "type": "string",
               "enum": [
-                "all"
+                "all",
+                "hour",
+                "day",
+                "week",
+                "month",
+                "year"
               ],
               "default": "all"
             },
-            "description": "Only all-time discovery; pinned source dateRange does not establish exact native Quora time-filter parity."
+            "description": "Native Quora Spaces keyword-search freshness control, not Space creation or latest activity.",
+            "example": "all"
           },
           {
             "name": "limit",
@@ -143474,7 +143926,8 @@
               "minimum": 1,
               "maximum": 10,
               "default": 10
-            }
+            },
+            "example": 2
           },
           {
             "name": "Cache-Control",
@@ -143507,7 +143960,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Partial disabled local typed Quora keyword discovery, grounded in pinned 5.0.1 source documentation and entirely synthetic fixtures. The single post-search diagnostic timed out; no usable native response was accepted, and other page-family diagnostics were not submitted. One plain query, limit 1–10, time=all only. Direct URL targets, active time filters, continuation and exact native search rank are unsupported. Each row must match requested contentType/matchedInput and a valid URL family. Visible counters and page IDs stay nullable without slug-derived identities or invented zeroes. Source discovery rank is distinct from emission position. Nonempty source windows cost five credits, including post-date-filtered-empty windows. Empty datasets cannot distinguish absence from source blocking and fail unbilled. No total/complete-result claim. Media, credentials, answer bodies and extra enrichment are omitted. Native acceptance, exact filter/rank/empty parity, sustainable capacity and combined verification remain pending. Legacy normalized-field compatibility remains unverified.",
+            "description": "Validated public profile search window; empty completed windows cost zero.",
             "content": {
               "application/json": {
                 "schema": {
@@ -143519,7 +143972,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/QuoraDiscoveryObservation"
+                          "$ref": "#/components/schemas/QuoraSpaceSearchObservation"
                         }
                       }
                     }
