@@ -3,7 +3,7 @@ title: "LinkedIn Profile Interests Top Voices"
 openapi: "GET /linkedin/profile/interests/top-voices"
 ---
 
-<Note>Implemented locally and disabled pending combined release acceptance. Unavailable requests return HTTP 503 without consuming customer credits.</Note>
+<Note>Enabled in code for the next combined CLI release. Hosted activation is pending deployment. This operation shares a non-refilling ceiling of $5 in prepaid Apify capacity, reserving each full run ceiling in integer cents. Missing, corrupt or exhausted journals refuse source work. Provider reservations are retained on failure; confirmed failures refund customer credits.</Note>
 
 Supply one HTTPS LinkedIn `/in/` profile URL. This endpoint projects the visible `Top Voices` interest tab from pinned HarvestAPI `0.0.138`, with email discovery disabled. The compatibility target is SocialCrawl’s URL-only Top Voices lookup; no page or cursor is documented for that target.
 
@@ -21,4 +21,4 @@ Authenticated local API, app MCP, stdio MCP and Python checks pass against dispo
 
 Source reservation, provider work and final projection share one active **45-second deadline**. Parent cancellation returns sanitized **499 REQUEST_CANCELLED**; deadline expiry returns **504 UPSTREAM_TIMEOUT**. Held credits are fully refunded when settlement is confirmed. No later dispatch or automatic resubmission occurs after cancellation. An already accepted Actor may still finish under its original cap; outcome/cost can remain unknown, with no allowance rollback.
 
-`provider_cost_usd` is an incomplete Apify usage estimate. Its value may change after completion and does not certify a final invoice or account balance. Runtime capacity is zero/unallocated, and all three release gates remain false. Sustainable capacity, broader native cases, real Redis and combined hosted acceptance remain required before activation. No new source spending, hosted migration, build, deployment or publication occurred in this batch.
+`provider_cost_usd` is an incomplete Apify usage estimate. Its value may change after completion and does not certify a final invoice or account balance. All three code gates are enabled under the shared $5 Apify ceiling; the full $0.02 run cap is reserved before dispatch. Concurrent reservation, missing-state and corrupt-state checks pass against real Redis. Broader native cases, sustained throughput and combined hosted acceptance remain unverified.

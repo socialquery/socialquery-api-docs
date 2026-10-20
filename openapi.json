@@ -188074,12 +188074,12 @@
           {
             "name": "location",
             "in": "query",
-            "required": false,
+            "required": true,
             "example": "United States",
             "schema": {
               "type": "string"
             },
-            "description": "Location text passed to Bing US source index; exact geographic/native coverage is unverified."
+            "description": "Required first-page location text passed to the Bing US source index; exact geographic/native coverage and continuation remain unverified."
           },
           {
             "name": "date_posted",
@@ -188103,7 +188103,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Comma-separated FULLTIME, PARTTIME, CONTRACTOR or INTERN; keeps known matching source categories in this window."
+            "description": "Semicolon-separated fulltime, parttime or contractor. Legacy comma-separated FULLTIME/PARTTIME/CONTRACTOR/INTERN is accepted. Temporary employment has no verified source filter and returns 422. Filters apply only to the bounded collected window; search remains disabled pending continuation and full contract parity."
           },
           {
             "name": "remote_only",

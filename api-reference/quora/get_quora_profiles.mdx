@@ -3,7 +3,7 @@ title: "Quora Profiles"
 openapi: "GET /quora/profiles"
 ---
 
-<Warning>Implemented locally and disabled pending source capacity allocation and combined hosted release acceptance. Unavailable requests return 503 before provider work or customer charges.</Warning>
+<Note>Enabled in code for the next combined CLI release. Hosted activation is pending deployment. This operation shares a non-refilling ceiling of $5 in prepaid Apify capacity, reserving each full run ceiling in integer cents. Missing, corrupt or exhausted journals refuse source work. Provider reservations are retained on failure; confirmed failures refund customer credits.</Note>
 
 Search public Quora profiles by `query`, with `limit` 1–10 (default 10). `time` accepts `all` (default), `hour`, `day`, `week`, `month` and `year`, forwarded to Quora's search freshness control. This is not a profile creation-date or latest-activity filter. Query text is a keyword/name; direct URL targets, pagination and extra enrichment are unsupported.
 
@@ -13,7 +13,7 @@ A nonempty source window settles five customer credits from a five-credit hold. 
 
 One pinned Apify `fatihtahta/quora-scraper` build `0.8.14` run handles the request, at 512 MiB with a 40-second Actor timeout inside a 45-second active window covering reservation, transport/body reads and projection. Source and output limits are 2 MiB each. No automatic retry or extra source/asset request occurs. Already accepted remote work may finish under its original cap after local cancellation.
 
-The Actor requires a **$1 maximum-charge setting** even for small runs. Requests are limited to ten saved records; its published per-record price is $0.00099. The exception is restricted to exact pinned, single-keyword Profile/Topic/Space/Post plans under their verified bounds. Other Actor charge caps remain unchanged. Observed provider usage is an incomplete estimate, separate from customer credits. The runtime allowance remains zero/unallocated.
+The Actor requires a **$1 maximum-charge setting** even for small runs. Requests are limited to ten saved records; its published per-record price is $0.00099. The exception is restricted to exact pinned, single-keyword Profile/Topic/Space/Post plans under their verified bounds. Other Actor charge caps remain unchanged. Observed provider usage is an incomplete estimate, separate from customer credits. The shared Apify runtime ceiling is initialized; whole per-run caps are reserved before dispatch without automatic refill.
 
 Native diagnostics covered the default ten-result window, all six filter settings, placeholder avatars, and an empty no-match search. Both original captures and redacted technical fixtures pass projection, schema and canonical settlement checks. API, both MCP clients, Python and disposable SQL use simulated source transport; that is separate from native source diagnostics, real Redis/shared-capacity acceptance and deployment. `complete=false`, `total=null` and `next_cursor=null` express a bounded search window.
 

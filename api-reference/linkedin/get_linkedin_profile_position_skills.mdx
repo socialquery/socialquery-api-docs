@@ -3,13 +3,13 @@ title: "LinkedIn Position Skills"
 openapi: "GET /linkedin/profile/position-skills"
 ---
 
-<Note>Implemented locally and disabled until combined source, capacity and settlement verification. Unavailable requests return HTTP 503 without consuming credits.</Note>
+<Note>Enabled in code for the next combined CLI release. Hosted activation is pending deployment. This operation shares a non-refilling ceiling of $5 in prepaid Apify capacity, reserving each full run ceiling in integer cents. Missing, corrupt or exhausted journals refuse source work. Provider reservations are retained on failure; confirmed failures refund customer credits.</Note>
 
 Return public career positions and the skills attached to each role from a canonical LinkedIn `/in/` URL. Profile identity, company identifiers, role fields and calendar precision are validated. The pinned provider runs in explicit no-email mode and the response omits unrelated profile data.
 
 Missing role skills remain `null`; an explicitly empty list remains `[]`. Profile-wide skills are never copied to a role. Unknown calendar days, logos and whether LinkedIn helped obtain a job stay null. A company search-placeholder link is unresolved, not a company identity. This is the returned public snapshot, not a guarantee of complete history, endorsement or skill verification.
 
-A validated response costs five credits. The provider is capped to one profile, forty seconds, two MiB and a $0.02 run ceiling. Its verification journal remains unallocated; there has been no source execution. Provider failures receive the normal full refund.
+A validated response costs five credits. The provider is capped to one profile, forty seconds, two MiB and a $0.02 run ceiling. Its initialized shared runtime journal reserves the full $0.02 cap before source dispatch; saved native role records and fixture-based authenticated API/client/SQL acceptance support the mapping. Provider failures receive the normal full refund.
 
 Raw Unicode profile identifiers and their canonical uppercase UTF-8 percent encoding now identify the same member across caller input, source URL and query echoes. Identifiers allow letters, combining marks, numbers, hyphens and underscores, with at most 100 decoded code points. Encoded ASCII, partial/mixed encoding, invalid UTF-8, separators, controls and symbols reject before spending. Equivalent host/trailing-slash variants also canonicalize. Case and Unicode composition remain distinct: no case-folding or Unicode normalization is applied. Declared source usernames retain their original accepted spelling. Exact request replays are free; changing wire parameters under the same idempotency key still conflicts, even for equivalent URLs.
 

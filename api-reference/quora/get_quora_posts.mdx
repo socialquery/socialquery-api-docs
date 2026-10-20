@@ -3,7 +3,7 @@ title: "Quora Posts"
 openapi: "GET /quora/posts"
 ---
 
-<Warning>Implemented locally and disabled pending source capacity allocation and combined hosted release acceptance. Unavailable requests return 503 before source work or customer charges.</Warning>
+<Note>Enabled in code for the next combined CLI release. Hosted activation is pending deployment. This operation shares a non-refilling ceiling of $5 in prepaid Apify capacity, reserving each full run ceiling in integer cents. Missing, corrupt or exhausted journals refuse source work. Provider reservations are retained on failure; confirmed failures refund customer credits.</Note>
 
 Search public Quora Space posts by keyword `query`, with `limit` 1–10 (default 10) and native `time` controls `all`, `hour`, `day`, `week`, `month` and `year`. Native post search can also return personal-profile posts: only Space-hosted URLs with a native Space name are returned here. Unknown associations are counted in `unconfirmed_space_rows_omitted`, without fetching extra rows to fill the window.
 
@@ -17,7 +17,7 @@ A nonempty **source** window settles five customer credits from a five-credit ho
 
 One pinned Apify `fatihtahta/quora-scraper` build `0.8.14` run uses 512 MiB, a 40-second Actor timeout and a 45-second active window covering reservation, transport/body reads and projection. Source and output caps are 2 MiB each; optional body text is bounded at 50,000 characters. No automatic retry, pagination, enrichment or filter refill occurs. Already accepted remote work may finish under its original cap after local cancellation.
 
-The provider requires a **$1 maximum-charge setting** even for small runs; requests save at most ten records at published $0.00099/outputRecord pricing. Only exact pinned, single-keyword Profile/Topic/Space/Post plans qualify under their verified row, memory, byte and deadline bounds; other Actor caps stay unchanged. Reported usage is an incomplete estimate, separate from customer credits. Source allowance stays zero/unallocated.
+The provider requires a **$1 maximum-charge setting** even for small runs; requests save at most ten records at published $0.00099/outputRecord pricing. Only exact pinned, single-keyword Profile/Topic/Space/Post plans qualify under their verified row, memory, byte and deadline bounds; other Actor caps stay unchanged. Reported usage is an incomplete estimate, separate from customer credits. The shared Apify journal reserves $1 of its $5 ceiling for each attempted source window, regardless of the lower eventual usage estimate.
 
 Eight native diagnostics returned 21 row observations, including all six controls, a ten-record source window, a completed no-match window, optional missing bodies and a 24,330-character search body. Three rows lacked confirmed Space association and were omitted, leaving 18 returned observations. Nine dated recency observations fall inside their respective hour/day/week/month/year source windows; that does not independently certify every source date or whole-index relevance. Original captures and redacted technical fixtures pass schema and canonical settlement. API, both MCP clients, Python and disposable SQL use simulated source transport and Redis, including date aliases, filtered-empty billing, refunds and replay. Capacity, real Redis and combined hosted acceptance remain separate. `complete=false`, `total=null` and `next_cursor=null` describe a bounded window.
 

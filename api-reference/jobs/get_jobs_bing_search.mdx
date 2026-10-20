@@ -15,3 +15,5 @@ A nonempty source window holds/settles ten credits, including a locally filtered
 
 
 The exact-id detail route is now verified locally separately from search. Search remains partial and has its own false release gate; shared source flags cannot activate it by themselves. Common reservation/run/fetch/body deadlines are hardened, but pagination, native location/employment filter encoding and broader field acceptance remain open.
+
+First-page `location` is required. Employment selections accept the reference semicolon syntax (`fulltime;contractor`); older comma-separated values remain compatible. `temporary` has no verified native source equivalent and returns 422 before source reservation. Continuation and full filter parity are still unresolved, so search remains disabled.
