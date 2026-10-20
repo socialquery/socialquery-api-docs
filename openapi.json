@@ -44879,6 +44879,596 @@
           "coverage_note",
           "_receipt"
         ]
+      },
+      "QuoraPostSearchSourceRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "record_type": {
+            "const": "post"
+          },
+          "source_context": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "seed_type": {
+                "const": "keyword"
+              },
+              "seed_value": {
+                "type": "string"
+              },
+              "source_url": {
+                "type": "string"
+              },
+              "loaded_url": {
+                "type": "string"
+              },
+              "scraped_at": {
+                "type": "string"
+              },
+              "search_type": {
+                "const": "Post"
+              },
+              "search_time_filter": {
+                "type": "string",
+                "enum": [
+                  "All Time",
+                  "Past Hour",
+                  "Past Day",
+                  "Past Week",
+                  "Past Month",
+                  "Past Year"
+                ]
+              }
+            },
+            "required": [
+              "seed_type",
+              "seed_value",
+              "source_url",
+              "loaded_url",
+              "scraped_at",
+              "search_type",
+              "search_time_filter"
+            ]
+          },
+          "status": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "has_results": {
+                "const": true
+              }
+            },
+            "required": [
+              "has_results"
+            ]
+          },
+          "url": {
+            "type": "string"
+          },
+          "text": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "posted_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "metrics": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "upvotes": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "comments": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "shares": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              }
+            },
+            "required": [
+              "upvotes",
+              "comments",
+              "shares"
+            ]
+          },
+          "author": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "url"
+            ]
+          },
+          "post": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "text": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "title": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "posted_at": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "metrics": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "upvotes": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "comments": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "shares": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "upvotes",
+                  "comments",
+                  "shares"
+                ]
+              },
+              "author": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "name",
+                  "url"
+                ]
+              },
+              "space": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            },
+            "required": [
+              "url",
+              "text",
+              "title",
+              "posted_at",
+              "metrics",
+              "author",
+              "space"
+            ]
+          }
+        },
+        "required": [
+          "record_type",
+          "source_context",
+          "status",
+          "url",
+          "text",
+          "title",
+          "posted_at",
+          "metrics",
+          "author",
+          "post"
+        ]
+      },
+      "QuoraPostSearchItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "null"
+          },
+          "url": {
+            "type": "string"
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "text": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "published_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "author": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "null"
+              },
+              "display_name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "display_name",
+              "url"
+            ]
+          },
+          "upvotes": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "comments": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "shares": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "space_name": {
+            "type": "string"
+          },
+          "source_position": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          }
+        },
+        "required": [
+          "id",
+          "url",
+          "title",
+          "text",
+          "published_at",
+          "author",
+          "upvotes",
+          "comments",
+          "shares",
+          "space_name",
+          "source_position"
+        ]
+      },
+      "QuoraPostSearchObservation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "query": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "time": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "hour",
+                  "day",
+                  "week",
+                  "month",
+                  "year"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              },
+              "since": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "until": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "publish_time": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "yesterday",
+                  "this-week",
+                  "this-month",
+                  "last-3-months",
+                  "last-6-months",
+                  null
+                ]
+              },
+              "max_age_days": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 36500
+              }
+            },
+            "required": [
+              "query",
+              "time",
+              "limit",
+              "since",
+              "until",
+              "publish_time",
+              "max_age_days"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "$ref": "#/components/schemas/QuoraPostSearchItem"
+            }
+          },
+          "source_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "returned_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "total": {
+            "type": "null"
+          },
+          "next_cursor": {
+            "type": "null"
+          },
+          "complete": {
+            "const": false
+          },
+          "observed_at": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "credits": {
+            "type": "integer",
+            "enum": [
+              0,
+              5
+            ]
+          },
+          "source_actor": {
+            "const": "fatihtahta~quora-scraper"
+          },
+          "source_build": {
+            "const": "0.8.14"
+          },
+          "source_time_filter": {
+            "type": "string",
+            "enum": [
+              "All Time",
+              "Past Hour",
+              "Past Day",
+              "Past Week",
+              "Past Month",
+              "Past Year"
+            ]
+          },
+          "provider_cost_usd": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "provider_cost_basis": {
+            "const": "apify_usage_estimate"
+          },
+          "provider_cost_complete": {
+            "const": false
+          },
+          "_warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "coverage_note": {
+            "type": "string"
+          },
+          "_receipt": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "rows": {
+                "type": "array",
+                "maxItems": 10,
+                "items": {
+                  "$ref": "#/components/schemas/QuoraPostSearchSourceRecord"
+                }
+              }
+            },
+            "required": [
+              "rows"
+            ]
+          },
+          "filtered_out": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "unconfirmed_space_rows_omitted": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "date_filtered_out": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "date_range": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "since": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "until": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "basis": {
+                "const": "observed_at"
+              },
+              "unknown_dates_kept": {
+                "const": true
+              }
+            },
+            "required": [
+              "since",
+              "until",
+              "basis",
+              "unknown_dates_kept"
+            ]
+          }
+        },
+        "required": [
+          "request",
+          "items",
+          "source_count",
+          "returned_count",
+          "total",
+          "next_cursor",
+          "complete",
+          "observed_at",
+          "credits",
+          "source_actor",
+          "source_build",
+          "source_time_filter",
+          "provider_cost_usd",
+          "provider_cost_basis",
+          "provider_cost_complete",
+          "_warnings",
+          "coverage_note",
+          "_receipt",
+          "filtered_out",
+          "unconfirmed_space_rows_omitted",
+          "date_filtered_out",
+          "date_range"
+        ]
       }
     },
     "responses": {
@@ -143571,7 +144161,7 @@
       "get": {
         "operationId": "get_quora_posts",
         "summary": "Quora Posts",
-        "description": "Partial disabled local typed Quora keyword discovery, grounded in pinned 5.0.1 source documentation and entirely synthetic fixtures. The single post-search diagnostic timed out; no usable native response was accepted, and other page-family diagnostics were not submitted. One plain query, limit 1–10, time=all only. Direct URL targets, active time filters, continuation and exact native search rank are unsupported. Each row must match requested contentType/matchedInput and a valid URL family. Visible counters and page IDs stay nullable without slug-derived identities or invented zeroes. Source discovery rank is distinct from emission position. Nonempty source windows cost five credits, including post-date-filtered-empty windows. Empty datasets cannot distinguish absence from source blocking and fail unbilled. No total/complete-result claim. Media, credentials, answer bodies and extra enrichment are omitted. Native acceptance, exact filter/rank/empty parity, sustainable capacity and combined verification remain pending. Legacy normalized-field compatibility remains unverified. Parent cancellation returns 499 and the active source deadline returns 504; interrupted requests refund the full hold on confirmed settlement, and immutable replays repeat no source work. Late source results cannot start a retry or later read. Release remains disabled pending the existing source contracts, capacity and combined acceptance.",
+        "description": "Native Quora post keyword search, limit 1–10/default10, all/hour/day/week/month/year. Only Space-hosted URLs with native Space names return; personal-profile/unknown Space association rows are counted and omitted, without refill. Returns URL, nullable title/search text, author name/link, upvotes/comments/shares and native microsecond publish timestamp. IDs are unknown, never inferred from slugs. Optional search body may be absent or a snippet, never full-post text. Source URL/text/title/author/counter/date aliases and query/type/time traces must agree. Inclusive since/until and documented aliases filter this window; unknown dates stay visible. Relative aliases use observed_at, preserve immutable receipts and replay. A nonempty source window settles five credits even if all rows are filtered; completed empty source zero. Exact pinned single-keyword Post plan at 512 MiB, 40-second Actor/45-second active window, 2-MiB source/output, ten records, provider-required $1 cap setting and published $0.00099/outputRecord. Strict exception applies only verified pinned Profile/Topic/Space/Post shapes; other caps unchanged. Source failures/malformed/error/duplicate/overflow rows fail unbilled; confirmed cancellation 499, deadline 504 and source auth/quota 503 refund fully. No detail/asset fetch, retry, pagination or history/Space-association enrichment. Native six filters/default/empty diagnostics and API/client/SQL tests are separate from source accuracy, sustainable capacity, real Redis and combined hosted acceptance. Gates false; source journal zero/unallocated.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -143579,11 +144169,13 @@
             "name": "query",
             "in": "query",
             "required": true,
-            "example": "learn programming",
+            "example": "Artificial Intelligence",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
             },
-            "description": "One plain keyword query; URL targets are rejected because source URL mode bypasses typed discovery."
+            "description": "Plain keyword query; direct URL targets are unsupported."
           },
           {
             "name": "time",
@@ -143592,11 +144184,17 @@
             "schema": {
               "type": "string",
               "enum": [
-                "all"
+                "all",
+                "hour",
+                "day",
+                "week",
+                "month",
+                "year"
               ],
               "default": "all"
             },
-            "description": "Only all-time discovery; pinned source dateRange does not establish exact native Quora time-filter parity."
+            "description": "Native Quora post keyword-search recency control; forwarded to the source and corroborated by source query/type/time traces.",
+            "example": "all"
           },
           {
             "name": "limit",
@@ -143607,25 +144205,8 @@
               "minimum": 1,
               "maximum": 10,
               "default": 10
-            }
-          },
-          {
-            "name": "since",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
             },
-            "description": "Inclusive UTC post-creation bound, applied only inside this source window; unknown dates retained, filtered-empty windows still cost five credits."
-          },
-          {
-            "name": "until",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Inclusive UTC post-creation bound, applied only inside this source window; unknown dates retained, filtered-empty windows still cost five credits."
+            "example": 2
           },
           {
             "name": "Cache-Control",
@@ -143654,11 +144235,112 @@
               "type": "integer",
               "minimum": 0
             }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "description": "Inclusive publication lower bound; YYYY-MM-DD starts at midnight UTC, or ISO timestamp with timezone and up to six fractional digits. Undated confirmed Space posts stay visible. Only this bounded window is filtered; no refill.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2026-10-01"
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "required": false,
+            "description": "Inclusive upper bound; YYYY-MM-DD includes the entire UTC day through microsecond 999999, or ISO timestamp with timezone and up to six fractional digits. Undated confirmed Space posts stay visible.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2026-10-01"
+          },
+          {
+            "name": "published_after",
+            "in": "query",
+            "required": false,
+            "description": "Alias of since. Multiple absolute aliases must denote the same instant.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "description": "Alias of since. Multiple absolute aliases must denote the same instant.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "description": "Alias of since. Multiple absolute aliases must denote the same instant.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "published_before",
+            "in": "query",
+            "required": false,
+            "description": "Alias of until. Multiple absolute aliases must denote the same instant.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "description": "Alias of until. Multiple absolute aliases must denote the same instant.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "description": "Alias of until. Multiple absolute aliases must denote the same instant.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "publish_time",
+            "in": "query",
+            "required": false,
+            "description": "Relative since alias measured from observed_at; rolling 1/7/30/90/180 days. Intersects absolute since and max_age_days.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "yesterday",
+                "this-week",
+                "this-month",
+                "last-3-months",
+                "last-6-months"
+              ]
+            }
+          },
+          {
+            "name": "max_age_days",
+            "in": "query",
+            "required": false,
+            "description": "Relative since alias, 0–36500 days, allowing decimals. Intersects other lower bounds; relative clock fixed to observed_at for settlement/replay.",
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 36500
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Partial disabled local typed Quora keyword discovery, grounded in pinned 5.0.1 source documentation and entirely synthetic fixtures. The single post-search diagnostic timed out; no usable native response was accepted, and other page-family diagnostics were not submitted. One plain query, limit 1–10, time=all only. Direct URL targets, active time filters, continuation and exact native search rank are unsupported. Each row must match requested contentType/matchedInput and a valid URL family. Visible counters and page IDs stay nullable without slug-derived identities or invented zeroes. Source discovery rank is distinct from emission position. Nonempty source windows cost five credits, including post-date-filtered-empty windows. Empty datasets cannot distinguish absence from source blocking and fail unbilled. No total/complete-result claim. Media, credentials, answer bodies and extra enrichment are omitted. Native acceptance, exact filter/rank/empty parity, sustainable capacity and combined verification remain pending. Legacy normalized-field compatibility remains unverified.",
+            "description": "Validated public profile search window; empty completed windows cost zero.",
             "content": {
               "application/json": {
                 "schema": {
@@ -143670,7 +144352,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/QuoraDiscoveryObservation"
+                          "$ref": "#/components/schemas/QuoraPostSearchObservation"
                         }
                       }
                     }
