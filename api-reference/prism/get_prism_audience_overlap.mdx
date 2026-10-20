@@ -3,7 +3,7 @@ title: "Audience overlap"
 openapi: "GET /v1/prism/audience-overlap"
 ---
 
-<Warning>Implemented locally and disabled. The ScrapeCreators free allowance is exhausted. Source validation, approved capacity and combined REST/MCP/skill verification are required before activation.</Warning>
+<Warning>Enabled in code pending the combined CLI deployment and hosted acceptance. Native standard and deep samples, REST/MCP/Python clients and local SQL settlement are verified. Work uses the existing non-refilling shared ScrapeCreators 100-request pool; missing or exhausted capacity fails closed.</Warning>
 
 Supply distinct `handle_a` and `handle_b` TikTok handles. `videos_per_creator` selects up to 10 recent videos from one source page (default 5). Standard depth reads one top-level comment page per video; `depth=deep` reads up to three. This is a bounded sample, not an exhaustive follower or comment collection.
 
@@ -13,6 +13,6 @@ A creator whose comment sample is unavailable causes failure. An observed empty 
 
 `confidence` is `insufficient` for undefined comparisons, `low` for partial samples or fewer than 100 commenters on either side, and otherwise `moderate`. These are versioned heuristics, not calibrated statistical confidence. Commenters overrepresent active fans, source ranking affects selection, and bots are not reliably identified. Observed shared IDs do not make sampled Jaccard a lower bound on full-audience Jaccard.
 
-The response includes per-video page outcomes and `methodology_version=commenter-sample-1.0.0`. New work stops at the shared deadline or a provider-capacity failure. Native cursors are never replaced with guessed row offsets.
+The response includes per-video page outcomes and `methodology_version=commenter-sample-1.0.0`. New work stops at the shared deadline or a provider-capacity failure. Native `has_more` and advancing cursors control continuation; a nonzero cursor on a final page does not trigger another read. Native cursors are never replaced with guessed row offsets. Cancellation bounds quota reservation, transport and response reads; late cancelled reservations cannot dispatch.
 
 Sources: [profile videos](https://docs.scrapecreators.com/v3/tiktok/profile/videos/) and [comments](https://docs.scrapecreators.com/v1/tiktok/video/comments/).
