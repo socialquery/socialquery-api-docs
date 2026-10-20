@@ -43604,6 +43604,438 @@
             "const": false
           }
         }
+      },
+      "QuoraProfileSearchAuthor": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "avatar_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "followers": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "bio": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "verified": {
+            "type": "null"
+          },
+          "ext": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "credential": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "source_gid": {
+                "type": "string"
+              },
+              "username_basis": {
+                "const": "url_slug"
+              },
+              "follower_count_precision": {
+                "type": "null"
+              },
+              "avatar_fetched": {
+                "const": false
+              },
+              "avatar_placeholder": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "credential",
+              "source_gid",
+              "username_basis",
+              "follower_count_precision",
+              "avatar_fetched",
+              "avatar_placeholder"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "display_name",
+          "url",
+          "avatar_url",
+          "followers",
+          "bio",
+          "verified",
+          "ext"
+        ]
+      },
+      "QuoraProfileSearchItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "author": {
+            "$ref": "#/components/schemas/QuoraProfileSearchAuthor"
+          },
+          "source_position": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          }
+        },
+        "required": [
+          "author",
+          "source_position"
+        ]
+      },
+      "QuoraProfileSearchSourceRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "record_type": {
+            "const": "profile"
+          },
+          "source_context": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "seed_type": {
+                "const": "keyword"
+              },
+              "seed_value": {
+                "type": "string"
+              },
+              "source_url": {
+                "type": "string"
+              },
+              "loaded_url": {
+                "type": "string"
+              },
+              "scraped_at": {
+                "type": "string"
+              },
+              "search_type": {
+                "const": "Profile"
+              },
+              "search_time_filter": {
+                "type": "string",
+                "enum": [
+                  "All Time",
+                  "Past Hour",
+                  "Past Day",
+                  "Past Week",
+                  "Past Month",
+                  "Past Year"
+                ]
+              }
+            },
+            "required": [
+              "seed_type",
+              "seed_value",
+              "source_url",
+              "loaded_url",
+              "scraped_at",
+              "search_type",
+              "search_time_filter"
+            ]
+          },
+          "status": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "has_results": {
+                "const": true
+              }
+            },
+            "required": [
+              "has_results"
+            ]
+          },
+          "url": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "metrics": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "followers": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              }
+            },
+            "required": [
+              "followers"
+            ]
+          },
+          "media": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "profile_image_url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "profile_image_url"
+            ]
+          },
+          "profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "name": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "credential": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "metrics": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "followers": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "followers"
+                ]
+              },
+              "media": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "profile_image_url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "profile_image_url"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "uid",
+              "name",
+              "url",
+              "credential",
+              "metrics",
+              "media"
+            ]
+          }
+        },
+        "required": [
+          "record_type",
+          "source_context",
+          "status",
+          "url",
+          "title",
+          "metrics",
+          "media",
+          "profile"
+        ]
+      },
+      "QuoraProfileSearchObservation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "query": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "time": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "hour",
+                  "day",
+                  "week",
+                  "month",
+                  "year"
+                ]
+              },
+              "limit": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              }
+            },
+            "required": [
+              "query",
+              "time",
+              "limit"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "$ref": "#/components/schemas/QuoraProfileSearchItem"
+            }
+          },
+          "source_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "returned_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "total": {
+            "type": "null"
+          },
+          "next_cursor": {
+            "type": "null"
+          },
+          "complete": {
+            "const": false
+          },
+          "observed_at": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "credits": {
+            "type": "integer",
+            "enum": [
+              0,
+              5
+            ]
+          },
+          "source_actor": {
+            "const": "fatihtahta~quora-scraper"
+          },
+          "source_build": {
+            "const": "0.8.14"
+          },
+          "source_time_filter": {
+            "type": "string",
+            "enum": [
+              "All Time",
+              "Past Hour",
+              "Past Day",
+              "Past Week",
+              "Past Month",
+              "Past Year"
+            ]
+          },
+          "provider_cost_usd": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "provider_cost_basis": {
+            "const": "apify_usage_estimate"
+          },
+          "provider_cost_complete": {
+            "const": false
+          },
+          "_warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "coverage_note": {
+            "type": "string"
+          },
+          "_receipt": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "rows": {
+                "type": "array",
+                "maxItems": 10,
+                "items": {
+                  "$ref": "#/components/schemas/QuoraProfileSearchSourceRecord"
+                }
+              }
+            },
+            "required": [
+              "rows"
+            ]
+          }
+        },
+        "required": [
+          "request",
+          "items",
+          "source_count",
+          "returned_count",
+          "total",
+          "next_cursor",
+          "complete",
+          "observed_at",
+          "credits",
+          "source_actor",
+          "source_build",
+          "source_time_filter",
+          "provider_cost_usd",
+          "provider_cost_basis",
+          "provider_cost_complete",
+          "_warnings",
+          "coverage_note",
+          "_receipt"
+        ]
       }
     },
     "responses": {
@@ -142456,7 +142888,7 @@
       "get": {
         "operationId": "get_quora_profiles",
         "summary": "Quora Profiles",
-        "description": "Partial disabled local typed Quora keyword discovery, grounded in pinned 5.0.1 source documentation and entirely synthetic fixtures. The single post-search diagnostic timed out; no usable native response was accepted, and other page-family diagnostics were not submitted. One plain query, limit 1\u201310, time=all only. Direct URL targets, active time filters, continuation and exact native search rank are unsupported. Each row must match requested contentType/matchedInput and a valid URL family. Visible counters and page IDs stay nullable without slug-derived identities or invented zeroes. Source discovery rank is distinct from emission position. Nonempty source windows cost five credits, including post-date-filtered-empty windows. Empty datasets cannot distinguish absence from source blocking and fail unbilled. No total/complete-result claim. Media, credentials, answer bodies and extra enrichment are omitted. Native acceptance, exact filter/rank/empty parity, sustainable capacity and combined verification remain pending. Legacy normalized-field compatibility remains unverified. Parent cancellation returns 499 and the active source deadline returns 504; interrupted requests refund the full hold on confirmed settlement, and immutable replays repeat no source work. Late source results cannot start a retry or later read. Release remains disabled pending the existing source contracts, capacity and combined acceptance.",
+        "description": "Public Quora profile keyword search, limit 1\u201310 (default 10), with native all/hour/day/week/month/year search freshness controls. One pinned fatihtahta Actor 0.8.14 run; no URL targets, extra profile/answer enrichment, asset fetch, retry or pagination. Native source query/type/time traces, profile UID/GID/link/name and follower/avatar aliases are checked. Returns display name, native profile link, public credential, follower observation and unfetched avatar metadata. Search freshness is not profile creation or latest activity. Five-credit hold/nonempty charge; a completed empty source window refunds all five without proving global absence. Source errors/malformed rows, mismatched traces, duplicates and overflow fail unbilled. Forty-five-second active deadline covers reservation, transport/body and projection; caller cancellation 499, deadline 504 and source auth/quota 503 fully refund on confirmed settlement. Typed receipts are reconstructed for settlement and exact replay is free. Native all six filters, default ten-row and no-match captures verified; public source accuracy/identity ownership, sustainable capacity, real Redis and combined hosted acceptance remain separate. Source requires a $1 cap setting but requests at most ten saved records at published $0.00099 per record; all other Actor caps unchanged. Every activation gate false and source journal zero/unallocated.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -142464,11 +142896,13 @@
             "name": "query",
             "in": "query",
             "required": true,
-            "example": "learn programming",
+            "example": "Andrew Ng",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
             },
-            "description": "One plain keyword query; URL targets are rejected because source URL mode bypasses typed discovery."
+            "description": "Plain keyword or name; direct URL targets are unsupported."
           },
           {
             "name": "time",
@@ -142477,11 +142911,17 @@
             "schema": {
               "type": "string",
               "enum": [
-                "all"
+                "all",
+                "hour",
+                "day",
+                "week",
+                "month",
+                "year"
               ],
               "default": "all"
             },
-            "description": "Only all-time discovery; pinned source dateRange does not establish exact native Quora time-filter parity."
+            "description": "Native Quora keyword-search freshness control, not a profile creation-date filter.",
+            "example": "all"
           },
           {
             "name": "limit",
@@ -142492,7 +142932,8 @@
               "minimum": 1,
               "maximum": 10,
               "default": 10
-            }
+            },
+            "example": 2
           },
           {
             "name": "Cache-Control",
@@ -142525,7 +142966,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Partial disabled local typed Quora keyword discovery, grounded in pinned 5.0.1 source documentation and entirely synthetic fixtures. The single post-search diagnostic timed out; no usable native response was accepted, and other page-family diagnostics were not submitted. One plain query, limit 1\u201310, time=all only. Direct URL targets, active time filters, continuation and exact native search rank are unsupported. Each row must match requested contentType/matchedInput and a valid URL family. Visible counters and page IDs stay nullable without slug-derived identities or invented zeroes. Source discovery rank is distinct from emission position. Nonempty source windows cost five credits, including post-date-filtered-empty windows. Empty datasets cannot distinguish absence from source blocking and fail unbilled. No total/complete-result claim. Media, credentials, answer bodies and extra enrichment are omitted. Native acceptance, exact filter/rank/empty parity, sustainable capacity and combined verification remain pending. Legacy normalized-field compatibility remains unverified.",
+            "description": "Validated public profile search window; empty completed windows cost zero.",
             "content": {
               "application/json": {
                 "schema": {
@@ -142537,7 +142978,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/QuoraDiscoveryObservation"
+                          "$ref": "#/components/schemas/QuoraProfileSearchObservation"
                         }
                       }
                     }
