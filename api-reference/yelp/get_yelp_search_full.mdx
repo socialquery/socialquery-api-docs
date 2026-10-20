@@ -3,4 +3,14 @@ title: "Yelp Search Full"
 openapi: "GET /yelp/search/full"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>This adapter is staged locally and disabled pending combined production verification. A saved live first-page fixture passes; sorted searches and continuation still need live checks.</Warning>
+
+Search cards preserve native business IDs, canonical Yelp links, categories, ratings, review counts, price-level strings, neighborhoods, source status text, phone, thumbnail and service options when present. Unknown totals, addresses, coordinates and websites remain null. This endpoint returns the source's search-card fields; it does not make an additional detail request for every business.
+
+`ads=true` includes sponsored placements first and labels them explicitly. A business appearing as both an ad and an organic result remains two placements. Tracking redirects, provider URLs and action buttons are not exposed or fetched.
+
+Pass `next_cursor` back with the same query, location, sort and ads options. Cursors are signed, expire after one hour, and follow native ten-result offsets up to 100 pages. `truncated=true` signals the adapter's page ceiling. Raw numeric offsets are not accepted. Live search pagination is not an atomic snapshot; repeated adjacent-page businesses and inconsistent source filters fail instead of silently duplicating rows.
+
+Nonempty results cost one credit. Observed empty results cost zero. A nonzero reported total with no organic rows is an upstream error and does not retain a charge.
+
+Source: [SerpApi Yelp search](https://serpapi.com/yelp-search-api).

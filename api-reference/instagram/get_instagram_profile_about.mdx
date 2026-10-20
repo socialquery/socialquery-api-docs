@@ -4,3 +4,8 @@ openapi: "GET /instagram/profile/about"
 ---
 
 <Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+
+
+<Warning>Local adapter only; activation awaits the combined source and billing audit. Public email, phone and business category are unavailable from this source. Null does not mean the account has no published contact details.</Warning>
+
+The adapter joins profile and transparency responses only when account IDs and usernames match. Join month and country are source-reported, never inferred. Private accounts and mismatched responses fail without a successful charge.

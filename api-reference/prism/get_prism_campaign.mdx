@@ -3,4 +3,14 @@ title: "Prism Campaign"
 openapi: "GET /prism/campaign"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Implemented locally and disabled pending source capacity and combined verification. Unavailable calls return HTTP 503 without consuming credits.</Note>
+
+Compares indexed mention volume before, during and after a campaign, alongside separate engagement samples from TikTok, Instagram, YouTube, Reddit and X. Supply exactly one `hashtag` or `phrase`. Dates are UTC; the during window includes both start and end. `pre_days` defaults to 14 (1–90); `post_days` defaults to 14 (0–90). The campaign itself is bounded to 366 calendar days.
+
+Volume lift requires every daily bucket and a positive baseline. Missing buckets are unknown, never zero. Sustained activity means the post-window mean reaches the pre-window mean; it remains unknown until the full post window has elapsed and has complete counts. Today’s index may still be incomplete. These comparisons do not prove campaign causality.
+
+Per-platform engagement uses all returned dated source rows, with nullable metrics. It is a bounded search sample, not total campaign reach. Reddit votes and video views are not treated as likes. Up to 20 during-window TikTok/YouTube amplifiers are ranked by available engagement; cross-platform metric differences remain visible. `include=amplifier_dates` uses already hydrated native YouTube dates.
+
+Optional brand judgments produce a separate `top_amplifiers_about_brand` list. Original ranking remains unchanged. Unjudged posts and exact supporting quotations are explicit.
+
+The request holds 35 credits. Failure of any requested volume window or all engagement sources charges **18 credits and refunds 17**. Individual platform or optional model failures do not independently change the charge. If every source fails, the normal full refund applies.

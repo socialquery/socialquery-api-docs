@@ -1,6 +1,12 @@
 ---
-title: "Instagram Search Location"
-openapi: "GET /instagram/search/location"
+title: "Location search"
+openapi: "GET /v1/instagram/search/location"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Staged locally and disabled. Native responses, existing key scopes and free-credit eligibility require combined verification. TikHub remains free-only with its unchanged shared request ceiling.</Warning>
+
+Supply `query` to search one native location window. Place identity is `location.pk`, suitable for the location-post endpoint. `facebook_places_id` is a separate ID, never substituted for it. Coordinates, address and subtitle are null when absent; invalid coordinates, duplicate IDs and mismatched source request echoes fail the response. There is no invented total or cursor.
+
+The adapter checks a strict `data.items[].location` contract. This native field shape still needs a live provider fixture; synthetic contract tests are not provider verification. Five credits for a nonempty window, zero for an observed empty window.
+
+Provider contract: [TikHub OpenAPI](https://api.tikhub.io/openapi.json). No credentials, allowance or paid plan was added.

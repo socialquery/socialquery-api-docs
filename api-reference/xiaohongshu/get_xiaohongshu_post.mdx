@@ -1,6 +1,20 @@
 ---
-title: "Xiaohongshu Post"
+title: "Read a Xiaohongshu note"
 openapi: "GET /xiaohongshu/post"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial local implementation, disabled pending remaining source contracts and combined production acceptance. Unavailable requests return 503 before credit holds or source work.</Note>
+
+Supply one native note id or unsigned canonical explore/discovery URL. Source note id, URL, input echo and detail mode must agree. Share links, signed query inputs, batch and enrichment controls remain unavailable. This single-note operation holds and settles five credits, regardless of image count or video metadata. Row limits, dates and continuation are rejected. Source errors, empty datasets, wrong identity and over-cap results fail and refund fully; they never establish confirmed absence. Exact success/failure replay is immutable and free.
+
+Image notes expose a source cover and ordered image-URL observations on the single observed HTTPS `sns-i11.rednotecdn.com/notes_pre_post/` family, with no query or the exact image-format transform. Missing/empty/cover-only/partial arrays, repeated entries and source count differences remain explicit. Matching counts do not prove complete galleries. Image URLs are never fetched and image entries add no charge.
+
+Direct video notes now expose `media.type=video_file`, one source MP4 URL, `duration_seconds`, `width` and `height`. The parser accepts only the observed query-free HTTPS `sns-v11.rednotecdn.com/stream/1/110/258/` MP4 family. Unknown origins/paths, credentials, ports, fragments, path encodings and query tokens fail. Source duration/dimensions retain their declared units, with no inferred conversion or image/video count equivalence. Missing URL remains unknown. `urls_fetched`, `download_verified`, `playback_verified`, `dimensions_verified` and `duration_verified` remain false. The runtime never opens a media URL or adds a media charge. Video media in search/creator lists, avatars, subtitles, contacts and full creator enrichment remain omitted; signed note access tokens never enter selected output or receipts.
+
+One five-video native search and an owned direct video lookup completed on 19 October using pinned memo23 build `0.1.10`. The direct detail source reported a 152-second 720×1280 video and 87 characters of body text; its search summary had 56. Both native identity/detail traces agree. The source documentation advertises full-note text, images or video without a caller access token, but `source_detail=true` and greater text length are not independent completeness proof. `text_completeness_verified` stays false; no `text_truncated=false` claim is fabricated. Views remain null and source verification/counters are observations.
+
+A separate one-request native video check used no custom headers/authentication/cookies, no redirects, a twelve-second timeout and a planned 64-byte MP4 signature read. It failed before an HTTP response or any bytes. No full video was downloaded and no retry was made. The reference's header-free download behavior therefore remains unverified. This is a concrete blocker to full endpoint completion, alongside other native CDN/negative/text/legacy contracts.
+
+Both Actor runs had one submission, 50-second Actor/55-second request bounds, 256 MiB and separate $0.08/$0.04 caps. One later read per run reported $0.02 for the search and $0.03 for direct detail, $0.05 total estimates rather than a final invoice or current balance. Runtime source/output/receipt bounds are unchanged. All shared and per-operation release flags remain false; the runtime journal stays zero/unallocated. No credential change, purchase/top-up/subscription, allowance reset/allocation, hosted DB/Redis change, build or deployment occurred.
+
+Two unmodified native captures and redacted technical fixtures pass offline schemas and canonical settlement at their original scrape clocks. Actual authenticated API, both MCP clients, Python and disposable SQL verify video metadata, unchanged five-credit holds, insufficient-budget rejection, malformed URL/metadata/owner full refunds and immutable free replay using intercepted source transport. Their refreshed scrape clocks and source failures are simulations; they do not establish live hosted behavior or sustainable shared capacity.

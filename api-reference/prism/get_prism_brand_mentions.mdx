@@ -1,6 +1,8 @@
 ---
-title: "Prism Brand Mentions"
+title: "Brand Mentions"
 openapi: "GET /prism/brand-mentions"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally. Production remains disabled until combined verification.</Warning>
+
+Implemented locally; production disabled until combined verification. Fetches DataForSEO content-analysis summary, phrase trends and up to 20 recent citations concurrently. Summary totals remain all-time and carry a censoring flag at 4,000,000. Trends use date_from/date_to (default last 30 days through today; at most 10 years) and day/week/month buckets. Missing buckets are not filled with zeros; window_mentions sums known returned buckets only. Recent citations are bounded by index fetch_time, not publication time. OLS uses actual bucket dates; direction needs at least three observations and an absolute slope greater than twice its standard error. This is a descriptive noise filter, not a forecast or significance claim. Native sentiment counts/probabilities retain provenance. Optional Groq labels judge each bounded citation sample for brand relevance, sentiment level 0–4, sarcasm, aspect and first-hand language with exact supporting quotes. Counts and namesake exclusions are recomputed locally at about_brand >=0.5; source totals stay unchanged. include=digest adds at most five short model-generated items with exact citation evidence. Analysis failure leaves explicit warnings without changing the data charge. Three data legs determine price: 50 credits with two or three successes, 25 with one, full refund if all fail. JSON only. Provider capacity, semantic output review, live source fields and REST/MCP/skill settlement remain to verify together.

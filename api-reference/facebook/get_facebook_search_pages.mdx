@@ -3,4 +3,14 @@ title: "Facebook Search Pages"
 openapi: "GET /facebook/search/pages"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local adapter; disabled pending native-source, capacity and combined client/ledger verification. Unavailable requests return 503 without consuming credits.</Warning>
+
+Search public Facebook pages using `query` (1–200 characters). The staged adapter returns at most seven native search cards through pinned Apify build `0.0.337`. It explicitly selects the Facebook search mode; it does not fall back to Google discovery.
+
+Only the first result window is implemented. `cursor`, numeric `location_uid` and other filters return 422 before a credit hold. `total`, `next_cursor` and `source_has_more` remain null, and `window_complete` remains false. These fields do not assert that no further matches exist.
+
+Authors carry observed IDs, names, public profile links, optional image links and nullable verification flags. Descriptions/bios are source text. Unknown fields and follower counts stay null. A `pfbid` remains opaque; no identity match to a real-world person is asserted. Duplicate native IDs collapse only when the projected evidence agrees; conflicting identities and error rows fail closed.
+
+A nonempty window costs one credit; a successful empty window costs zero. Provider usage is recorded separately. Runs are bounded to 40 seconds inside a 45-second request budget, seven source rows, 2 MiB responses and $0.10 maximum Actor charge. The audit budget is unallocated. One three-card native diagnostic per search mode passed identity/optional-field projection and canonical settlement on 19 October 2026; native continuation, numeric location filters, ranking, empty/error breadth and sustainable capacity remain unverified. Caller cancellation returns 499 and deadline expiry 504, with full customer refunds; source authentication/quota failures return 503. The active 45-second window covers allowance reservation, source transport, body reads and projection. Late work cannot produce a billable result; an already accepted Actor may still consume its original source cap.
+
+[Upstream input contract](https://apify.com/apify/facebook-search-scraper/input-schema) · [Upstream output contract](https://apify.com/apify/facebook-search-scraper/output-schema)

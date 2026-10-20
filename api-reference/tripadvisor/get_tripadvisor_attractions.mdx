@@ -3,4 +3,14 @@ title: "Tripadvisor Attractions"
 openapi: "GET /tripadvisor/attractions"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial adapter staged locally and disabled. A three-result native diagnostic verified the category and source shape; advanced filters, native empty/error behavior, sustained capacity and combined billing acceptance remain open.</Note>
+
+Use keyword `q` and optional `depth` 1–30 (default 30). Optional neutral filters accept only `any`. Explicit ranking, prices/currency, language, availability, booking and active filters are unavailable and reject before a credit hold.
+
+This returns one native TripAdvisor search window in source position order. Text queries are discovery keywords rather than a verified geographic boundary. Attractions and bookable experiences keep separate types; review scores never become hotel star classifications. Metadata-only records retain their native IDs/types with unknown names and links. Other missing detail fields stay null. Images are metadata and are not fetched.
+
+Source continuation links are validated but never followed or exposed. Later results remain truncated; no complete destination inventory or booking claim. A nonempty validated window settles one credit. An explicit successful empty array without continuation settles zero; source failures never establish absence.
+
+The existing SerpApi free plan is checked before each data query. Credentials, account quota and provider links are omitted. All activation gates remain false and the new runtime capacity journal is zero/unallocated.
+
+Source execution has a 40-second budget including capacity reservation, with at most 10 seconds for the account check and 30 for the search. Stalled source work or cleanup cannot extend that budget. No automatic retry or fallback occurs. These bounds have local tests; deployed timeout and disconnect acceptance remain pending.

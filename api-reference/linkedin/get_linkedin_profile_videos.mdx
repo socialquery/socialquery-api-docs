@@ -3,4 +3,8 @@ title: "LinkedIn Profile Videos"
 openapi: "GET /linkedin/profile/videos"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Staged locally and disabled. Source, contract and capacity checks remain open. Unavailable calls return HTTP 503 without consuming credits.</Note>
+
+Local typed video-page adapter, disabled pending native source, capacity and combined verification. Returns native video IDs, nullable titles, publication dates, durations, thumbnails and counters. since/until apply inclusive UTC instants to the selected native page; they do not exhaust history or stop continuation after an empty filtered page. A row with no timestamp cannot satisfy a date-filtered request and causes an unbillable error. Optional urn is corroborated against the profile URL. A validated native page costs 5 credits, including empty or fully filtered pages; source/identity failures receive the normal full refund. Media links are temporary source URLs, not a playback/download guarantee.
+
+Pagination uses page 1–100, limit 1–10 and a returned HMAC-authenticated one-hour cursor bound to the operation, identity, filters, page size and hydration choice. Native page-size clamping is explicit. At page 100, source_has_more can be true while pagination_truncated=true and next_cursor=null. Source errors are never converted to empty results. Requests use a 55-second total deadline, 1 MiB per response and at most 12 calls. Provider capacity remains unallocated.

@@ -3,8 +3,10 @@ title: Credits
 description: Estimate a workload and reconcile its actual credit usage.
 ---
 
-Signup adds 100 trial credits. Check the operation reference for the charge applied to a successful live request. Qualifying cache hits consume no credits, and failed provider calls do not leave a charge.
+New accounts start with zero credits. Purchase a credit pack to fund API requests. Check the operation reference for the charge applied to a successful live request. Qualifying cache hits consume no credits, and failed provider calls do not leave a charge.
 
-When the balance is insufficient, HTTP 402 is returned before contacting the source. Use `GET /v1/credits/balance` to inspect available credits and the dashboard ledger to review their movements.
+For an operation with a configured adapter, an insufficient balance returns HTTP 402 before contacting the source. An operation without a live adapter returns zero-credit HTTP 503 before reserving credits, even when the account has no balance. Use `GET /v1/credits/balance` to inspect available credits and the dashboard ledger to review their movements.
 
 The pricing page describes one-time credit packs. Check the dashboard for current checkout availability; viewing a pack does not create a purchase, subscription, or automatic recharge.
+
+LinkedIn `profile/all` supports exactly one `url` or a `urls` CSV list of up to ten entries. The local disabled batch collapses canonical duplicates before reserving five credits per unique input, settles five per returned profile, and refunds only explicit identity-correlated native missing outcomes. All explicitly missing returns free 404; omitted/malformed/error outcomes fail and fully refund. Batch provider usage is reported once, without invented per-profile cost allocation. Clients enforce the maximum unique-input hold before dispatch. Remaining profile field parity and hosted capacity/acceptance are unverified.

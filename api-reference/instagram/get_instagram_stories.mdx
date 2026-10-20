@@ -3,4 +3,6 @@ title: "Instagram Stories"
 openapi: "GET /instagram/stories"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally and disabled. This is staged documentation for the combined release, not production verification.</Warning>
+
+Preview: disabled local TikHub adapter awaiting combined verification of Instagram v3 scope, native shape and free-credit eligibility. Returns the current public story tray for a handle or user_id. No private/archived access or engagement insights. Expired dated stories are omitted; since/until and supported aliases filter dated rows and retain undated rows. Returns nullable metadata and source-provided image/video variants, largest known dimensions first. Five credits for a nonempty returned list; empty results and failures are free. Temporary media URLs are not cached or fetched by this operation.

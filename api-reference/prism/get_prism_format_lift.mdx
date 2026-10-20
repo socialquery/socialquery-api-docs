@@ -1,6 +1,8 @@
 ---
-title: "Prism Format Lift"
+title: "Format lift"
 openapi: "GET /prism/format-lift"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally. Production remains disabled until combined verification.</Warning>
+
+Implemented locally for TikTok, YouTube and Instagram; disabled until combined verification. Classifies up to 30 recent public posts from one source page using only caption/title/description text. TikTok excludes pins. Instagram uses the native profile grid, requires explicit pinned_for_users metadata and excludes every reported pin; missing pin information fails the request. YouTube uses its uploads playlist. Video posts use public views; source-confirmed Instagram photos/carousels use likes. Missing video views never fall back to likes. A baseline contains only mature, same-format posts with the same metric and excludes the post being scored. At least eight other eligible posts are required. Bucket medians require eight eligible posts; mixed Instagram samples expose separate views and likes buckets. Posts under 48 hours, missing dates/counts and zero baselines have null ratios. Model labels require exact caption quotations and do not verify video content. Nonempty classified samples cost 4 credits even when ratios are unavailable; observed empty samples cost zero. Provider or classifier failure fails the request for a full refund. No causal performance or exhaustive-history claim. Native live fields, pin handling, classifier quality, existing capacities and combined settlement remain pending.

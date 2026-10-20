@@ -3,4 +3,12 @@ title: "LinkedIn Search Hashtag"
 openapi: "GET /linkedin/search/hashtag"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial adapter staged locally and disabled. A three-post native diagnostic verified literal #OpenAI, query echo, native identifiers, timestamps and source counters. Broader native behavior and combined verification remain open.</Note>
+
+Supply one hashtag in `query`, with or without `#`. Literal matching uses NFC and case-insensitive text boundaries; fuzzy plain-word hits, longer tag prefixes and URL fragments are omitted. `sort_by` accepts `relevance` or `recent`; `oldest`, continuation and extra filters are unavailable.
+
+The local plan reads at most twenty source posts. Inclusive `since`/`until` dates use YYYY-MM-DD and filter only this window; undated literal matches remain. Recent sorting orders dated matches within the bounded window, with undated last. Dataset emission positions are retained; LinkedIn search rank and global newest/full-history coverage are unknown.
+
+Activity IDs and native ugcPost/share IDs remain distinct. Native engagement IDs must corroborate one of those actual identities. Opaque actor IDs and numeric native urn-field observations do not become inferred member IDs. Explicit hidden counters are removed from both response and receipt. Other counters retain source observations with unverified visibility/precision. Media, linked articles, nested reposts, profile hydration and extra comments/reactions are not projected.
+
+A nonempty source window settles ten credits even if literal/date filtering returns no rows. Empty source datasets fail without net customer charge until native absence evidence is corroborated. Existing paid Apify credits are authorized; all runtime flags remain false and the new capacity journal is zero/unallocated.

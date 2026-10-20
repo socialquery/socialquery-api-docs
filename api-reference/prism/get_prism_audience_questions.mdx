@@ -3,4 +3,10 @@ title: "Prism Audience Questions"
 openapi: "GET /prism/audience-questions"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Implemented locally and disabled pending combined source, analysis and settlement verification. Unavailable requests return HTTP 503 without consuming credits.</Note>
+
+Collect public audience questions from Reddit, YouTube, web search and KnowledgeiN. Source URLs and exact supporting quotes remain attached to each question. Duplicate question text merges evidence; KnowledgeiN answer rows collapse by the native question ID. AI detection can recognize indirect questions without punctuation. When it fails, the response declares its punctuation-only fallback. Failed clustering returns one ungrouped cluster and retains the evidence.
+
+The request holds 30 credits. Fewer than half of selected search legs succeeding costs 15; all search legs failing refunds the full hold. Successful empty searches count as completed searches. Comment and analysis failures are explicit but do not change this search coverage rule.
+
+Sampling is bounded: one search page, up to 25 Reddit/YouTube titles, 10 web results, and currently at most ten observed KnowledgeiN rows. Up to five top-level comments per selected thread and 120 text candidates are considered. Source totals and exhaustive coverage are not inferred. Dated candidates are filtered locally; unknown dates remain unknown. Web uses native recency search. Counts and cluster evidence are computed in code, never supplied by a model.

@@ -3,4 +3,14 @@ title: "Prism Investigate"
 openapi: "GET /prism/investigate"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Implemented locally and disabled pending source capacity and combined verification. Unavailable calls return HTTP 503 without consuming credits.</Note>
+
+Pass a plain-text `goal` (1–500 characters), `budget` (1–200; default 40), and `max_steps` (1–12; default 8). The walker chooses among TikTok video search, Instagram native account search, indexed Instagram reel search, and public profiles or post comments found earlier. It cannot invent a follow-up handle or URL, repeat an attempted operation, contact anyone, or perform writes.
+
+The result contains `trail`, `results`, `stopped_because`, `credits_used`, and `credits_refunded`. Each trail step records its exact operation, source scope, outcome and charge. A failed step preserves earlier evidence. Stop reasons are `goal_met`, `budget`, `step_limit`, and `blocked`. At the read cap a final model decision may finish, but cannot fetch another page.
+
+`goal_met` requires a search, a successful follow-up, a model confidence of at least 0.8, and checked verbatim excerpts including follow-up evidence. It remains a model assessment for your review, not proof of complete or accurate research. No inferred lead labels are added. An empty comment page does not prove the post has no comments.
+
+The request holds the complete budget. Usable search/profile pages cost 1 credit; nonempty TikTok comment pages cost 1 and Instagram comment pages cost 5. Failed reads, empty comment pages, and model decisions are free. Unused credits are refunded. Set `X-Max-Credits` to cover the hold, not an estimated final charge. Responses are not cached; the public playground uses samples only.
+
+Collection is limited to first pages and a 55-second total deadline. Text is capped at 1,200 characters per row; the planner sees at most 80 recent rows and 200 affordable observed candidates. Instagram native search supplies accounts; indexed reel search is explicitly separate. These samples are not exhaustive platform searches. Source fields such as avatars, external contact fields and raw payloads are excluded from planner input.

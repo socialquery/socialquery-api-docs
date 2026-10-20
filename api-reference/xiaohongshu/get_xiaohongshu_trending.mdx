@@ -1,6 +1,18 @@
 ---
-title: "Xiaohongshu Trending"
+title: "Read the Xiaohongshu hot board"
 openapi: "GET /xiaohongshu/trending"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Implemented locally and disabled pending sustainable capacity and combined production acceptance. Unavailable requests return 503 before credit holds or source work.</Note>
+
+Returns one ranked hot-board snapshot. `limit` accepts 1–20 topics and defaults to 10. Smaller limits select the ranked prefix of that source snapshot. There are no date/search filters, cursor, next page or refill. A later call can observe a changed board.
+
+Each returned topic includes its source-list id, title, contiguous source rank, heat value/text, label and source scrape time. Heat values are source observations; exact search volume, unique viewers, native board update time and independently verified current-board freshness remain unknown. This bounded snapshot does not claim to enumerate the entire board. Covers and unrelated source fields are omitted and never fetched.
+
+The request holds `limit × 5` credits: 50 by default and at most 100. Settlement charges five credits per topic returned and refunds unused holds. The source minimum of five rows never increases the customer limit or adds customer charges. A raw empty/error dataset, duplicate topic id, inconsistent rank/list/heat or stale source row fails unbilled; an unavailable source does not establish an empty board. Successful idempotent replays preserve the original payload and cost zero additional credits.
+
+The pinned source run is bounded at $0.08, 50 seconds, 256 MiB, a 55-second common deadline and 2-MiB source bodies. Its cost estimate remains separate from customer credits and final invoices. No retry or refill starts another run.
+
+One October 19 native run returned twenty unique hot-list topics with contiguous ranks. Its updated usage estimate was $0.065, including twenty topic charges and startup, below the $0.08 cap. Three OpenAPI copies and independent settlement checks accept both original and sanitized technical captures. Local authenticated API, both MCP clients, Python and disposable SQL verify all limits, exact holds/refunds, malformed-source rejection and immutable success/failure replay. Smaller source windows, error variants and refreshed transport clocks in these tests are simulations; there was one new native run.
+
+Trending has a separate activation gate. Search, profile posts and direct-note contracts remain partial. All operation/shared release flags remain false and the runtime journal stays zero/unallocated. Sustainable capacity, broader native operation and combined hosted client/ledger acceptance remain pending. No deployment occurred.

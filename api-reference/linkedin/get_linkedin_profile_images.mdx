@@ -3,4 +3,8 @@ title: "LinkedIn Profile Images"
 openapi: "GET /linkedin/profile/images"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Staged locally and disabled. Source, contract and capacity checks remain open. Unavailable calls return HTTP 503 without consuming credits.</Note>
+
+Partial local typed adapter, disabled pending native source, capacity and combined verification. Returns one bounded native page of image posts for a canonical public LinkedIn profile URL. Preserves source post IDs, activity URNs, asset dimensions and signed media links. Documented source images have no publication timestamps; since/until return 422. Unknown dates and metrics remain null. Optional urn is corroborated with a separate profile lookup. A validated native page costs 5 credits, including empty results; source/identity failures receive the normal full refund.
+
+Pagination uses page 1–100, limit 1–10 and a returned HMAC-authenticated one-hour cursor bound to the operation, identity, filters, page size and hydration choice. Native page-size clamping is explicit. At page 100, source_has_more can be true while pagination_truncated=true and next_cursor=null. Source errors are never converted to empty results. Requests use a 55-second total deadline, 1 MiB per response and at most 12 calls. Provider capacity remains unallocated.

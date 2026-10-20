@@ -3,4 +3,6 @@ title: "Prism Creator Card"
 openapi: "GET /prism/creator-card"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Local batch implementation. This operation remains disabled in production until the combined release audit passes.</Warning>
+
+Preview: local creator-card adapter is implemented but disabled pending combined production verification. Looks up the selected public profiles with explicit missing/error legs. Five credits for up to four distinct supported platforms, plus one each beyond four. Any found profile uses the full flat price; all confirmed misses and all-source failures are free. Known follower counts are summed without audience deduplication. Optional public-text identity assessment degrades to null verdicts when inference is unavailable. Unknown platforms are ignored; select at least one known platform.

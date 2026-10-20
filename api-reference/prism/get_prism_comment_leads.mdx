@@ -3,4 +3,12 @@ title: "Prism Comment Leads"
 openapi: "GET /prism/comment-leads"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>This local partial adapter remains disabled. Production returns HTTP 503 without consuming credits. Native pagination, label quality, exact reference billing parity and combined source/client/ledger checks remain pending.</Warning>
+
+Search TikTok posts, gate their relevance to an offer, then read comments under the busiest eligible posts. Leads retain native IDs, text, public usernames, display names and exact quotes. Unknown comment counts remain unknown and are skipped. Missing post judgments fall back to busiest with `post_gate_unavailable`. Unlabelled comments are never leads or label charges.
+
+Buyers require purchase intent and offer fit of at least 0.5, with spam below 0.5. `include=askers` adds genuine questions meeting the fit/spam thresholds. Scores are uncalibrated automated estimates for human review. Nothing is contacted.
+
+Default hold: **37 credits**; maximum: **243**. Completed logical windows cost one per started 30 unique searched posts, one per started 50 unique identifiable comments per opened post, and one per started 25 successfully labelled comments per post. A successful empty search/comment read retains one collection credit; failed/deferred reads retain none. Post judgments are free. Unused credits refund. Logical windows differ from native variable-size pages; both counts are explicit in `economics`. Duplicates do not inflate windows. The open-all estimate assumes successful collection and labels from reported counts, excluding unknown counts.
+
+Reads follow returned cursors, bounded to nine search pages, ten comment pages per post, four concurrent comment reads, 35 seconds collection, 55 seconds overall, 4 MiB source responses and a 1.2 MB receipt. Empty/partial pages do not prove global absence. Only public offer/query/snippet text and opaque IDs go to Groq; failed batches remain unlabelled. Source/model costs are incomplete estimates separate from customer settlement. No cache, outreach or recurring task is created.

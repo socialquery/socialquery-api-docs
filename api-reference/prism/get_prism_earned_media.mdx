@@ -1,6 +1,8 @@
 ---
-title: "Prism Earned Media"
+title: "Earned media"
 openapi: "GET /prism/earned-media"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally. Production remains disabled until combined verification.</Warning>
+
+Implemented locally; disabled until combined verification. Collects per entity up to 20 indexed-news citations from DataForSEO, 20 Hacker News stories and 10 basic Tavily news results. URL deduplication removes fragments and tracking parameters; the feed keeps at most 20 clips ordered by known publication time, native domain rank, then URL. The default window is the last 30 days. Indexed news uses fetch_time; HN uses story submission time; fresh-web uses publication time and drops undated results. Source observations retain their own timestamps. Only indexed news supplies domain rank; a positive min_domain_rank excludes unknown ranks unless the same URL has a qualifying news observation. Optional Groq mention labels distinguish the requested brand from namesakes using exact quotations from bounded public snippets. Raw counts remain unchanged; about_brand >=0.5 contributes to labeled counts. include=digest requests up to five evidence-linked summary items. Optional competitor runs the same three searches; coverage gaps are withheld unless both sides have all sources, and labeled gaps also require every returned clip to be judged. These are bounded sample comparisons, not whole-web share of voice. Price: 25 credits, or 13 if either requested indexed-news spine fails (12 refunded); all data sources failing refunds everything. Enrichment or model failure does not change the data charge. JSON only. Live payloads, model quality, allowances and production REST/MCP/skill settlement remain pending.

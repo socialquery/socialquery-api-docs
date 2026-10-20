@@ -3,4 +3,20 @@ title: "Yelp Search Suggestions"
 openapi: "GET /yelp/search/suggestions"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local implementation. Disabled until credential, existing free capacity, native response and combined billing/client verification pass.</Warning>
+
+Partial local coordinate-only autocomplete, disabled pending an intended-origin Yelp credential, verified existing free capacity, native response and combined billing/client acceptance. query is a nonempty search prefix up to 300 characters. location must explicitly be latitude,longitude with valid signed decimal coordinates; free-text locations, locale, limit and paging are unsupported and reject before hold/source work. Preserves the three documented groups terms, businesses and categories, each in its own source order. No common rank, inferred business URL, enrichment or complete-directory claim. One fixed-origin request, no retry/fallback/geocoding, ten-second overall deadline including reservation, 128 KiB source body and fifty rows per group. One-credit hold; validated nonempty window costs one, all three explicit empty arrays cost zero. Source errors and missing groups never establish absence. Provider monetary cost stays unknown. Runtime free-capacity gate is false and the journal zero/unallocated; no new allowance or paid fallback.
+
+Supported local request:
+
+```text
+GET /v1/yelp/search/suggestions?query=Piz&location=40.7128,-74.006
+```
+
+`terms` contains keyword text; `businesses` contains native ID and name; `categories` contains alias and title. `source_position` applies within each group. Matching text across groups stays distinct. Unknown extension fields are discarded. No business details or URLs are fetched or invented.
+
+The native API has no query/location echo. `_receipt` binds the local request and independently cloned suggestion groups for canonical billing; it is not native query corroboration. `observed_at` is local fetch completion time, not source freshness. `total` and `next_cursor` remain null and `complete` false. Edited, inconsistent or stale receipts fail settlement. Public provider cost is null; the legacy numeric route telemetry uses a zero lower bound, which does not certify no spend.
+
+Dedicated `YELP_API_KEY` is only sent in the Authorization header to `https://api.yelp.com/v3/autocomplete`. No key, account, trial, subscription or runtime budget was provisioned for this stage. Commercial access terms and an eligible existing free allowance still require verification before activation. No cached response or SSE.
+
+Source contract: [Yelp Autocomplete](https://docs.developer.yelp.com/reference/v3_autocomplete). Documentation examples and synthetic tests are not native acceptance.

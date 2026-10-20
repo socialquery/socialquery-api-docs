@@ -3,4 +3,22 @@ title: "LinkedIn Search Schools"
 openapi: "GET /linkedin/search/schools"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local index discovery. Disabled until source capacity, native LinkedIn parity and combined billing/client acceptance pass.</Warning>
+
+Partial local indexed school-root URL discovery, disabled pending native LinkedIn parity, sustained free capacity and combined acceptance. query is a plain school phrase up to 200 characters, quoted in one fixed English/US Google first-window request; only optional page=1 is supported. Native LinkedIn search/order/IDs/details, later pages, cursors and other filters are unavailable. Canonical HTTPS LinkedIn /school/ roots are retained; country hosts normalize to www, safe tracking is removed and repeated exact URLs keep their first native index position. Nested posts/people, company pages, redirects and external URLs are excluded. School names, URNs, IDs, logos, follower/student counts and location remain null. Search titles/snippets stay separate inert index evidence and are not verified school facts. One existing-free-plan check precedes one data query after a zero/unallocated runtime journal; paid/exhausted/unknown accounts fail before the query. One-credit hold; every valid nonempty source window costs one, including zero usable candidates; only explicit fully empty index evidence costs zero. No page/detail/media fetch, cached response, SSE, model, retry or fallback. Twenty source-row ceiling, one MiB source bodies and forty-second overall timeout including reservation. Observation time is local completion; source freshness, completeness, native rank, school total and further results remain unknown. Monetary cost stays null, not an inferred invoice.
+
+Supported local request:
+
+```text
+GET /v1/linkedin/search/schools?query=Stanford&page=1
+```
+
+`items[].school.url` and `slug` identify the discovered page path. `search_hit.position` preserves the first source index position; it is not LinkedIn search rank. `search_hit.title` and `snippet` are evidence only. No index text is promoted to a verified school name or metric. Slug aliases and case variants are not silently merged.
+
+A nonempty source window containing only nested or unrelated results produces `no_root_candidates_in_window`, retaining one credit and asserting no absence. Explicit fully empty index evidence produces `empty_index_window`, refunding the hold. `total` and `next_cursor` remain null and `complete` false. An independent normalized receipt reconstructs selection, ordering, counts and 1/0 billing; edited or stale receipts fail settlement.
+
+The one recorded existing-free-plan diagnostic returned ten indexed hits: six unique canonical school roots, two nested hits excluded and two country-host duplicates collapsed. That verifies this bounded index mapping only. Wider source/error/empty contracts, current sustainable allowance, native school search/details and authenticated REST/MCP/Python/ledger acceptance remain open. Source prose is redacted in the technical fixture. No school page or media was fetched.
+
+Runtime journal remains zero/unallocated. Free-plan status is checked before any future data query and is not returned as account quota. Provider monetary cost stays unknown; legacy numeric telemetry zero is a lower bound. No credential, subscription, paid fallback or new allowance is created.
+
+Source contract: [SerpApi Google Search](https://serpapi.com/search-api).

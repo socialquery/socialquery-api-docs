@@ -3,4 +3,6 @@ title: "LinkedIn Profile Contact"
 openapi: "GET /linkedin/profile/contact"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Staged locally and disabled. Source, contract and capacity checks remain open. Unavailable calls return HTTP 503 without consuming credits.</Note>
+
+Partial local typed adapter, disabled pending native source, contact subfield schemas, capacity and combined verification. Checks the canonical profile URL against the native username and profile URN. Returns visible first/last name, nullable address/email and typed HTTPS website links. Native empty phone/messenger arrays remain empty; nonempty undocumented structures and birthdays stay null with explicit warnings. Null/empty values do not establish absence or complete contact discovery. Five credits for a validated source response; failures receive the normal full refund.

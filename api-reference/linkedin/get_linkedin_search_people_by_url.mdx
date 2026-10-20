@@ -1,6 +1,14 @@
 ---
-title: "LinkedIn Search People By Url"
+title: "LinkedIn People Search by URL"
 openapi: "GET /linkedin/search/people/by-url"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This partial local adapter remains disabled. Unavailable requests return HTTP 503 without consuming customer credits. Native source recovery and acceptance are pending.</Note>
+
+Supply an encoded HTTPS `linkedin.com/search/results/people/` URL containing `keywords`. Optional `page=1` and recognized UI `origin` values are accepted; origin metadata is omitted from the canonical query. Facets, advanced filters, deep pages, duplicate query parameters, credentials, fragments and unrecognized options reject before a hold. Control characters are rejected before keyword trimming.
+
+The URL is decoded locally. Only keywords, page 1 and a ten-row limit are sent to the fixed existing RapidAPI search endpoint. The supplied LinkedIn URL is never fetched. Documented source IDs, public names, profile URLs, headlines and locations become typed author observations. Names are not split; unknown avatar, follower/following counts and verification remain null. No profile enrichment is performed.
+
+A nonempty window costs **10 customer credits**; an explicitly empty valid window costs zero. This is a first-window partial contract. Native `source_has_more` is retained and remaining coverage is marked as truncated, with no usable continuation cursor. `total` remains null and `complete` remains false.
+
+The source's recorded maintenance, full search-URL filter parity, native ranking/association/empty acceptance and sustainable free capacity remain gaps. Runtime capacity is zero/unallocated. Source cost stays unknown/incomplete, and combined REST/MCP/Python/ledger checks are pending. No native provider request, key or allowance change, deployment or publication occurred for this addition.

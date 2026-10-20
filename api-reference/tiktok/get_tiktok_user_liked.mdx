@@ -3,4 +3,14 @@ title: "TikTok User Liked"
 openapi: "GET /tiktok/user/liked"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>This adapter is implemented locally and disabled pending the combined release audit. A configured key and passing contract tests do not establish production readiness.</Warning>
+
+Supply `handle` or numeric `user_id`. Each result belongs to the creator of the liked video, not necessarily the account whose likes you requested. The account must explicitly expose a public liked-video list. Private lists return 404; missing privacy evidence fails closed.
+
+Each completed native page costs **1 credit**, including an empty page or a page emptied by date filters. Failures receive no successful charge. Pages contain at most 30 videos. The existing EnsembleData trial reservation journal applies; no allowance is reset for this adapter.
+
+`since` and `until` filter video publication time, not the time it was liked. Date-only `until` includes the full UTC day; undated rows remain. The documented date aliases are accepted, and conflicting aliases are rejected. `publish_time` uses rolling 1/7/30/90/180-day windows. A filtered-empty page can still have a continuation.
+
+Return `next_cursor` unchanged with the same identity and filters. Signed cursors retain the original relative-date anchor and expire one hour after the first page. At the 30-page safety ceiling, `source_has_more` can remain true while `next_cursor` is null; this is not a complete-history claim. Native media URLs may expire, and download availability is not verified.
+
+[EnsembleData native source contract](https://ensembledata.com/apis/docs) · [ScrapeCreators account lookup](https://docs.scrapecreators.com/v1/tiktok/profile)

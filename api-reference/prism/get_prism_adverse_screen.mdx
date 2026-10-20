@@ -3,4 +3,16 @@ title: "Prism Adverse Screen"
 openapi: "GET /prism/adverse-screen"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local implementation. Disabled until the combined source, model-quality, billing and client audit passes.</Warning>
+
+Partial local implementation, disabled pending native source/model quality, capacity and combined acceptance. Reviews caption text from one explicitly supplied public Threads profile; requires explicit limit 1–5 and a nonempty categories subset violence_or_threats,hate_or_harassment,reputational_other. Other platforms, identity name/employer/city hints, screen_unconfirmed=true and other/default categories reject before hold. One native profile and one feed of at most 30 rows; explicit public and matching account/post author IDs required. Quoted/reposted or unknown share context is excluded, as are undated and empty captions. since is an inclusive UTC day filter on this window; selected dated rows are sorted locally without claiming global newest order or complete history. One optional xAI Chat structured request receives only post IDs, categories and selected public caption text. Every post/category is review, no_flag or uncertain; review needs exact same-caption quotes and ordinal severity. No calibrated probability, factual allegation, person identity/risk or eligibility verdict. Source/model errors never become a clean-person or absence claim. Provisional local hold is 25; retain 25 only when all nonempty selected captions have valid judgments, otherwise zero, including empty/unavailable analysis. Exact reference partial refund and full category/platform/identity contracts are unverified. No response cache or SSE. Source/model runtime journals remain zero/unallocated; this adds no allowance.
+
+Supported local request:
+
+```text
+GET /v1/prism/adverse-screen?threads=example&limit=2&categories=violence_or_threats,reputational_other
+```
+
+The result preserves every selected caption and distinguishes `review`, `no_flag` and `uncertain` judgments. `flags` cites the source post URL and exact caption quotes; category counts are computed from validated judgments. If analysis is unavailable, judgments and category counts are null and all 25 reserved credits are refunded. An observed empty or unreviewable page returns `no_screenable_posts` at zero credits. These outcomes do not establish that a person has no adverse history.
+
+No profile discovery, name/employer/location matching, image/audio analysis, inferred criminal history, protected traits, calibrated probabilities or eligibility decision is produced. Captions and requested categories are untrusted data, not instructions. Names, bios, contact enrichment, avatars and media URLs are excluded from model input. Native response and judgment quality have not been verified; tests use documentation-shaped synthetic data and mocked xAI responses. Source cost stays unknown; model-reported usage is retained even when its output fails validation. Billing and exact full-reference partial-refund parity remain provisional.

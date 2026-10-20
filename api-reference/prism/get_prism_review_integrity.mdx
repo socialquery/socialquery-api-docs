@@ -3,4 +3,16 @@ title: "Prism Review Integrity"
 openapi: "GET /prism/review-integrity"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This partial Trustpilot-only adapter is staged locally and disabled. A native twenty-review/company/status diagnostic succeeded. Production remains on 2026-10-11.120 pending the combined audit.</Note>
+
+Use `sources=trustpilot` and `query` as one bare public company domain, for example `apify.com`. This anchors a company profile directly. Name/product/SKU/ASIN/GID resolution, country filters, omitted/default sources and other source selections reject before reservation. Native company domain/ID and review/status totals must agree; ownership and brand-to-product identity are not independently verified.
+
+The source reads at most twenty reviews with most-recent/all-language input and deep paging disabled. Reported company histogram, native TrustScore/displayed stars and recent sample remain distinct. Missing histogram/score/dates/verification stay null. Publication retains day precision and source emission positions do not verify timestamp ordering or global rank. The sample is nonrandom and is included in the corpus; it is not an independent comparison group.
+
+`methodology_version=socialquery-trustpilot-descriptive-1.0.0` publishes descriptive frequency statistics: mean is sum(star × frequency)/n, population variance is sum(frequency × (star − mean)²)/n, and frequency sample variance divides the squared deviations by n−1 when n exceeds one. Zero-size means/variances are null. Frequencies are normalized before multiplication and results rounded to eight decimal places. Day/verification counts describe only this bounded sample. Invitation labels or false/unknown source verification do not establish verified purchases or fake reviews.
+
+`grade=null` and `status=insufficient_evidence` are deliberate. Cross-source divergence, web bimodality, forum-tone contrast, spam-domain clustering and reviewer history are unavailable. This partial source does not support a Welch test, p-value, A–F grade or authenticity conclusion. No model runs. Raw review text remains inert data; reviewer identities, contacts, replies, media and extra source fields are omitted from output and independently cloned receipts.
+
+Nonempty validated company evidence holds/settles thirty credits. Only consistent explicit zero company/status totals with no reviews settle zero. Malformed, failed, blocked and ambiguous empty responses fail without net charge or absence inference. The runtime reuses pinned Kestrel 1.0.8 with its own zero/unallocated reservation, a $0.04 run cap, forty-second Actor timeout, 512 MiB memory, forty-five-second shared deadline including reservation, 1 MiB source bodies and 2 MiB output. Receipts expire after ten minutes. No retry, fallback, model, continuation or complete-history claim. All activation gates remain false. Full source/formula/field/refund parity, native empty/error acceptance, sustainable capacity and combined REST/MCP/Python/ledger verification remain gaps.
+
+Company `reported_review_count` is the corpus/histogram total. Source `reported_review_count` is the public listing/status total bound to native `review_count_filtered`; it can differ without an inferred language/filter/moderation/removal cause. A zero listing alone cannot establish an empty corpus.

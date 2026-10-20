@@ -3,4 +3,33 @@ title: "LinkedIn Profile Complete"
 openapi: "GET /linkedin/profile/complete"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This partial local adapter remains disabled. An unavailable request returns HTTP 503 without consuming customer credits.</Note>
+
+Supply one canonical HTTPS LinkedIn `/in/` profile URL. The pinned HarvestAPI build `0.0.138` observes one public profile in explicit **no-email mode**. Main experience, education and skill arrays remain required. Dates retain native year/month and display precision without invented days. `complete` stays false and no complete history is claimed.
+
+Received recommendations select source text, recommender name, public profile link and headline, plus `source_date_display`. `published_at` and `relationship` stay null: the source label does not independently verify a publication timestamp or current relationship. Pictures, email fields and arbitrary source fields are omitted. Given recommendations remain unavailable/null. Explicit empty arrays describe the observed window; missing arrays remain unknown. Unknown shapes remain counted but unprojected, and malformed recognized rows fail.
+
+The additional native profile returned **eight role rows and a source experience total of six**. Both are retained: `source_count` is the actual row count, `source_total` is the source total, and `status=count_mismatch` discloses a smaller total. A larger total sets `truncated`. No rows are deduplicated or discarded to force agreement. This discrepancy prevents any complete-career claim. Other malformed/contradictory section totals still fail.
+
+Author verification, follower/following counts, numeric member ID, skill assessments and endorsements remain null. Given recommendations and legacy packed-record compatibility remain incomplete.
+
+The flat hold and validated success charge remain **10 customer credits**, with no per-section surcharge. Independent canonical receipts bind the source-selected values, counts, identity, price and freshness; output mutation cannot alter its evidence by reference. Invalid source/identity responses are unbilled, and actual local SQL verifies full refunds. Replays are free and make no source request.
+
+One additional native diagnostic on 18 October Pacific returned seven received recommendations, two certifications, two projects, one publication and two language entries. It used one profile, a **$0.02 cap**, forty-second Actor/forty-five-second request and 2 MiB source limit. Usage initially reported zero and one later read reported **$0.004**, with one profile event and zero email events. This is an incomplete provider usage estimate, not a final invoice or account balance. No resubmission occurred.
+
+The saved unmodified native payload passes both projectors and all three local schemas offline. A separately sanitized technical fixture supplies actual authenticated API, app/stdio MCP, Python and disposable-SQL tests, including 5/10-credit settlement, count mismatches, refunds, replay, auth/scope and disabled gates. These synthetic-transport checks do not certify hosted Redis, sustained capacity or production activation.
+
+All activation flags remain false and runtime journals zero/unallocated. Broader native empty/error/private-profile, remaining field contracts, sustainable existing-credit capacity and combined deployed acceptance remain pending. Documentation is local; no build, deployment or publication occurred.
+
+
+Profile execution uses one active **45-second deadline** for source-allowance reservation, provider work and final projection. A stalled allowance check or injected source promise that ignores cancellation cannot keep the caller waiting past that window; late results/rejections do not dispatch more work or become billable data. Reservation latency reduces the Actor's remaining time. Cancellation reaches the Actor transport and body readers, including blocked reads whose cancellation promise never resolves. No subsequent polling, dataset request or automatic Actor resubmission starts after cancellation. Authentication and credit settlement retain their existing API processing rules.
+
+A detected cancelled source wait returns sanitized `REQUEST_CANCELLED` / HTTP **499**; deadline expiry returns `UPSTREAM_TIMEOUT` / **504**. Customer holds receive a full refund when settlement is confirmed, and failed idempotent replay does not call the source again. These behaviors are verified with controlled signals and disposable local SQL. Hosted disconnect delivery, real Redis and sustained capacity remain unverified; the endpoint remains disabled.
+
+Cancellation stops local waiting and further dispatch; an Actor already accepted upstream may still finish under its original time/cost cap. Its outcome or cost can remain unknown. No automatic retry or allowance rollback is performed. This work used synthetic transport and existing fixtures, with no native provider call, additional spend, key change, build or deployment.
+
+Raw Unicode profile identifiers and their canonical uppercase UTF-8 percent encoding now identify the same member across caller input, source URL and query echoes. Identifiers allow letters, combining marks, numbers, hyphens and underscores, with at most 100 decoded code points. Encoded ASCII, partial/mixed encoding, invalid UTF-8, separators, controls and symbols reject before spending. Equivalent host/trailing-slash variants also canonicalize. Case and Unicode composition remain distinct: no case-folding or Unicode normalization is applied. Declared source usernames retain their original accepted spelling. Exact request replays are free; changing wire parameters under the same idempotency key still conflicts, even for equivalent URLs.
+
+Two native accented-name lookups completed in one no-email Actor run capped at $0.02. One later read-only check reported **$0.008**, two profile events and zero email events. Both unmodified rows pass offline complete/all/position projection and their observed interest tabs, using raw and encoded inputs; source order is restored in a deduplicated batch. No native Groups tab was present. Other identity forms and failure variants use synthetic contract tests; these do not establish maximum-size native capacity or production readiness.
+
+The shipped app/stdio MCP and Python clients now admit the API’s **4 MiB** profile-data limit plus **8 KiB** for its response envelope. Other routes retain their 4 MiB client limit. Oversized responses still fail without retry; JavaScript stream cancellation does not wait for an uncooperative source. Synthetic authenticated API/SQL acceptance verifies a valid all-profile batch above 4 MiB through all three clients, with unchanged charges and free replay. This verifies local response handling, not native maximum-size or hosted capacity.

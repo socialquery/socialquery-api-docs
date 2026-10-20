@@ -1,6 +1,18 @@
 ---
-title: "Tripadvisor Cruise Reviews"
+title: "TripAdvisor Cruise Reviews"
 openapi: "GET /tripadvisor/cruise/reviews"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This partial cruise-review adapter is staged locally and disabled. Three native reviews were accepted. Production remains on 2026-10-11.120.</Note>
+
+Supply one canonical `Cruise_Review-dNUMERIC_ID-Reviews-SLUG` path or full public TripAdvisor URL, optionally ending in `.html`. `depth` is 1–20, default 20. Explicit `judgments=off` or `label=none` is required: default AI labels, reports, relevance fit, evidence labels and dry-run label estimates are unavailable. Native ship ID, detail URL, review ID and review URL must agree.
+
+Only US UI labels (`language=en_US`) are supported. The source reads original-language review text with translation off; this locale does not filter review language. Inclusive `since`/`until` YYYY-MM-DD dates filter publication dates in the returned window without refill. Undated reviews remain, and the source window still costs one credit when every dated row is filtered out.
+
+Publication and creation dates are kept separately as date-precision fields. One native review had different dates. Native Most recent is documented creation-date order; output retains emission positions without a globally latest-publication or exact-rank claim. `published_at` stays null. The source travel-date string does not establish an exact travel day; the source crawl wall clock has no verified timezone. Ship page totals and rating breakdowns are source observations, not totals for local filters or sums across review rows.
+
+Review text/title, source rating and subratings, public display name, helpful-vote count and cruise labels are allowlisted. Native IDs and date precision are retained. Reviewer profile/location/contact/contribution enrichment, photo URLs and management replies are omitted; unknown attachments/responses remain null. Review text stays inert untrusted data. Raw source prose remains private; the technical fixture replaces title/body/reviewer text.
+
+Every validated nonempty source window holds and settles one customer credit. Raw empty/error datasets, mismatched identities, duplicates and inconsistent ship metadata fail unbilled; no missing-review or empty-ship inference is made. Native empty/error behavior, complete reference fields and default-label/refund parity remain pending. No continuation or complete-history guarantee.
+
+One pinned Actor is bounded at $0.03, forty seconds, 512 MiB, a 45-second common deadline including reservation, 2-MiB source bodies, 4-MiB output and ten-minute independent canonical receipts. No source resubmission, model/media/profile fetch or fallback. Usage is an incomplete Apify estimate, not an invoice. The runtime journal is zero/unallocated, all activation gates remain false, and broader native contracts, sustainable capacity and combined REST/MCP/Python/ledger acceptance remain pending.

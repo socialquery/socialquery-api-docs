@@ -1,6 +1,32 @@
 ---
-title: "Prism Jobs"
+title: "Submit a background batch"
 openapi: "POST /prism/jobs"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally and disabled. Migration, scheduler activation, provider capacity, and combined production verification are still pending.</Warning>
+
+Local implementation, disabled pending combined release verification. Durable API-key-owned profile and post-stat batches use existing provider adapters and allowances. No production readiness is claimed. Submit 1–5,000 items in a JSON body up to 3 MiB. Every item validates before any credit hold; invalid items identify their zero-based index. Profiles cost 1 credit per successful row (LinkedIn 5); post stats cost 1 (Instagram 2, LinkedIn 5). All potential row charges are reserved atomically with job creation; submission returns 202 with credits_used=0 and X-Credits-Reserved. Stable Idempotency-Key values return the original job; different canonical job inputs conflict. The creating key must grant both /v1/prism/jobs and the underlying batch endpoint, or *. Ten active jobs per account. Posts enrichment and since/stop_at_id remain unsupported and return 400 before reservation. Optional signed completion callbacks are implemented locally behind a separate disabled gate, as described below. No automatic provider retry after uncertain execution.
+
+The nine summary fields are `total`, `succeeded`, `not_found`, `errors`, `unsupported`, `deferred`, `credits_used`, `processed`, and `remaining`. These are local contract names; exact upstream parity has not been certified.
+
+The REST body limit is 3 MiB. MCP additionally enforces its existing 16,000-character per-parameter limit; split large item arrays or use REST/Python. No client automatically polls or resubmits deferred rows.
+
+## Completion callbacks
+
+On submission, optionally include `"webhook": {"url": "https://hooks.example.com/events"}`. Only the URL field is accepted. The URL must be an ASCII HTTPS DNS name, without credentials, an explicit port or fragment, and fit 2,048 characters. URL validation runs before the reservation; submission does not perform DNS or HTTP work. The destination is immutable and participates in idempotency fingerprints. Exact replays keep the original job and do not create another callback.
+
+The initial successful `202` returns `data.webhook_secret` once. Save that value securely. Replays, list/detail reads and callback bodies omit it. A lost initial response cannot recover the secret through replay; poll the job instead. The server retains the secret in a server-only table until a delivery claim or suppression, then erases it. Pending callback records follow the existing seven-day job retention.
+
+After every chunk settles and the job has no held credits, a worker can claim one terminal-summary callback. Its `PrismJobCompletionEvent` payload contains a schema version, stable event ID, completed/failed event type, terminal time, job metadata, settled summary and relative results URL. Results, source prose, contact fields, creating-key identifiers, callback URL and secret are omitted. Read results with the creating API key. A completed job may contain failed, unsupported, missing or deferred rows; inspect its summary rather than treating completion as all-row success. Successful and failed jobs can emit events; callback outcome never changes their settled credits and adds no customer charge.
+
+Verify `X-SocialQuery-Signature` as `v1=` followed by the lowercase hex HMAC-SHA256 of `X-SocialQuery-Timestamp + "." + raw_body`, using the **whole returned secret string as the UTF-8 key**. Verify the exact body bytes with a constant-time comparison, reject stale timestamps using a short receiver-defined tolerance (for example five minutes), and deduplicate `X-SocialQuery-Event-Id`. The timestamp is seconds since the Unix epoch. The body and header event IDs agree.
+
+The worker rechecks the creating key's active state and jobs/child scopes when claiming delivery. Revocation, expiry, removed scopes or expired jobs suppress it. DNS is checked at delivery, and every answer must be public; private, reserved, mixed-public/private and unsupported address forms reject. The HTTPS connection uses one validated pinned address while verifying the original hostname certificate. It sends no API key, authorization cookie or signing secret. It follows no redirect, reuses no connection and reads no receiver body; only response status headers are used.
+
+Delivery has one attempt with a ten-second DNS/HTTPS deadline, inside a twenty-second claim/delivery/recording budget. A callback tick performs no child-provider work. Late DNS or claim completion cannot start a new HTTP request. Every non-2xx status, including redirects and rate limits, is terminal. Timeouts, network uncertainty, lost acknowledgments or a crashed worker are never retried automatically; a consumed claim cannot be sent again. This is **at most one attempt**, not a guarantee that the receiver processes an event exactly once. Polling remains available.
+
+`webhook_delivery` is null for jobs without callbacks. Otherwise key-owned submission/read views expose `status` (`pending`, `sending`, `delivered`, `failed`, `unknown`, `suppressed`), `attempted_at`, `finished_at`, `http_status` and a bounded outcome code. These expose no URL or secret. `attempted_at` records claim/processing time, including suppressed callbacks. A `sending` claim abandoned for more than one minute becomes `unknown / worker_interrupted`, with no redispatch; late updates are fenced.
+
+The additive `20261019063536_prism_job_completion_webhooks.sql` migration is staged locally and must follow the original batch-jobs migration before release. Jobs, worker and webhook gates remain false; no scheduler configuration or deployment changed. Local acceptance uses a disposable PostgreSQL cluster and synthetic DNS/HTTPS/provider boundaries. Public DNS/TLS, receiver processing, hosted permissions, migration and scheduler lifecycle still require combined release acceptance. Posts enrichment and since/stop_at_id remain separate submission-contract gaps.
+
+Explorer quotes use the same validated job plan as submission: the maximum row reservation, with no callback surcharge. The zero-credit 202 envelope is distinct from that reservation. Malformed JSON items, unsafe callback URLs and unsupported enrichment options fail pricing validation. Free GET list/detail quotes remain zero. This server-action behavior is verified locally with synthetic authentication; no browser/hosted activation is claimed.

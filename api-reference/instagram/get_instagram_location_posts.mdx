@@ -1,6 +1,10 @@
 ---
-title: "Instagram Location Posts"
+title: "Location posts"
 openapi: "GET /instagram/location/posts"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local implementation. Production remains disabled; native fixture, cursor behavior, and free-tier eligibility require combined verification.</Warning>
+
+Local partial implementation, disabled pending combined source and production verification. Reads one recent TikHub v3 Instagram location grid, up to 50 posts, preserving source order. Use location.pk from location search. Signed one-hour cursors bind location and date filters. since/until are inclusive UTC YYYY-MM-DD publication-date filters; they never terminate paging early because grid order and publication order can differ. An empty filtered page may still have has_more=true. Five credits for an observed nonempty source page, even if every row is filtered out; zero for an observed empty terminal page. Unknown counters/names remain null, including photo views. No complete-history claim. safe_url=true is rejected before billing; media proxying remains unsupported. Carousel children retain native order, IDs and image/video variants; incomplete or inconsistent child lists fail closed. Native cursor contracts and free-tier eligibility are unverified.
+
+Keep the same location and date filters when passing a returned cursor. Continue even when the filtered items array is empty, while `has_more` is true. Source media URLs can expire and are not playback-verified.

@@ -1,6 +1,16 @@
 ---
-title: "Prism Org Radar"
-openapi: "GET /prism/org-radar"
+title: "Organization radar"
+openapi: "GET /v1/prism/org-radar"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally and disabled pending combined source, credit and client verification. This is not yet a production-ready route.</Warning>
+
+Pass `org` as a GitHub organization login or its canonical HTTPS URL. `repos` selects 1–10 repositories (default 5). `sort` accepts `stars`, `updated`, or `pushed`.
+
+The adapter walks the complete public repository list before ranking. Forks and archived repositories are excluded. If the walk exceeds 30 pages, a source deadline, or GitHub's rate limit, the critical listing fails; it never presents a partial list as the global top repositories. Pagination is not an atomic snapshot, and repeated repository IDs trigger failure.
+
+`include` is a comma-separated subset of `dossiers,rollup`. Dropping `dossiers` skips those requests and lowers the maximum charge to 1 credit. The rollup covers all eligible public repositories, while `repositories` contains the selected top set. Each successful dossier includes up to five open issues ranked by comment count and five latest published releases. `open_issues_and_prs` includes pull requests; the issue summaries exclude them.
+
+The maximum hold is **1 + 5 × repos** when dossiers are requested (26 by default, 51 maximum). The final charge is 1 plus 5 for each successful dossier. Failed and deferred dossiers cost zero. An empty but successfully resolved organization costs 1. Unknown organizations or incomplete critical listings fail without a successful charge.
+
+Source: [GitHub repository API](https://docs.github.com/en/rest/repos/repos#list-organization-repositories). Only public unauthenticated requests are used; no new credential is required. Sustainable public API capacity and real source response contracts still require combined verification.

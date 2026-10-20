@@ -3,4 +3,8 @@ title: "LinkedIn Company People"
 openapi: "GET /linkedin/company/people"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Staged locally and disabled. Source, contract and capacity checks remain open. Unavailable calls return HTTP 503 without consuming credits.</Note>
+
+Partial local typed employee-page adapter, disabled pending employment-membership semantics, native source, capacity and combined verification. Requires numeric company_id. Preserves native member identity, nullable headline/location and an optional core public-profile projection with include=profile. Does not infer exact headcount, exhaustive employee coverage or profile verification. Every hydration checks the observed canonical member URL. A validated page, including an empty native page, costs 10 credits; any source/hydration failure receives the normal full refund.
+
+Pagination uses page 1–100, limit 1–10 and a returned HMAC-authenticated one-hour cursor bound to the operation, identity, filters, page size and hydration choice. Native page-size clamping is explicit. At page 100, source_has_more can be true while pagination_truncated=true and next_cursor=null. Source errors are never converted to empty results. Requests use a 55-second total deadline, 1 MiB per response and at most 12 calls. Provider capacity remains unallocated.

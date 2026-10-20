@@ -3,4 +3,14 @@ title: "Instagram Profile Posts Full"
 openapi: "GET /instagram/profile/posts/full"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>This local adapter is disabled. HikerAPI activation, approved capacity, a corroborated native mobile fixture and the combined release audit are still required. Its mocked enrichment tests do not establish production readiness.</Warning>
+
+Use `handle` or numeric `user_id`. The critical account and standard-list sources must establish a public matching account. A second source contributes a share count only when its media ID and shortcode match a standard item. Missing shares and all save counts remain null. `shares_coverage` is the fraction of returned posts with a real share number, including zero.
+
+Each standard page costs **1 credit**, plus **4 credits** if the enrichment page succeeds, even when matching coverage is low. An enrichment failure or exhausted enrichment cursor returns the standard items for 1 credit. A critical account/list failure returns no partial success.
+
+Omit `limit` for one native page (5-credit hold). With `limit=1–50`, the adapter walks up to ten pages within 50 seconds, holds **50 credits**, and settles only actual page charges. If that bound cannot satisfy the limit and the source has more data, the request fails without a partial-success charge. When the final page is trimmed, `dropped` and a warning report omitted rows; the next cursor starts after that consumed page.
+
+Signed cursors preserve both sources' independent positions, bind the account and feed, and expire one hour after the first page. Independent source windows may differ. Reel captions, pinned reels and media URLs may be absent; inferred metrics remain null. Media URLs can expire.
+
+The post enrichment uses HikerAPI's current `/g2/user/medias` contract, not deprecated v1/v2 post-list routes. The reel enrichment uses `/v2/user/clips`. Raw mobile `reshare_count` behavior still needs a real matching fixture before activation.

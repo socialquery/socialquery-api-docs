@@ -3,4 +3,16 @@ title: "Quora Profiles"
 openapi: "GET /quora/profiles"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial typed keyword adapter staged locally and disabled. All source fixtures are synthetic. The single post-search diagnostic timed out without accepted data; the guard did not submit profile/topic/space diagnostics. Native response and source availability remain unverified.</Note>
+
+Supply one plain `query`, `limit` from 1–10 (default 10), and optional `time=all`. The pinned source has an explicit `profile` page-family mode, and each row must corroborate its `contentType` and `matchedInput`. Direct URL targets are rejected because the source opens URLs without applying the selected page type. Active time filters and continuation remain unsupported.
+
+Only fields documented for this page family are projected. Native IDs, page URLs, source counters and page creation times remain distinct observations with unknown exact counter precision. Missing IDs stay null; no slug-derived IDs or invented zero counters. Profile creation never becomes latest activity. Source discovery rank and dataset emission position are retained separately, with no exact native search-rank, native page-size, total, complete-result or keyword-to-person identity claim.
+
+Post-only `since` and `until` filters apply inclusive UTC bounds within the returned window, retain unknown dates and never refill. Date-only `until` includes that whole UTC day. A validated nonempty source window costs five credits even if date filtering leaves zero. Empty/error source datasets fail without net customer charge because blocked/private/failed pages may be skipped by the Actor.
+
+Images/media, author credentials, answer bodies, contacts and related-entity descriptions are omitted from both output and independent canonical receipt. Runtime uses one pinned Actor capped at $0.03, ten saved rows, 50 seconds, 256 MiB and a 55-second total deadline. All activation flags remain false, the shared runtime journal stays zero/unallocated, and exact reference time/filter/rank/empty parity, sustainable capacity and combined verification remain pending.
+
+Legacy normalized-field compatibility remains unverified; the typed page observations are a local partial contract.
+
+Cancellation returns `499 REQUEST_CANCELLED`; expiry of the active source window returns `504 UPSTREAM_TIMEOUT`. The full customer hold is refunded on confirmed settlement. Reservation, source work, fetch and body reads share the same deadline, even when a dependency ignores cancellation or cleanup stalls. Late work starts no later read or retry. A completed success/failure replay keeps its payload and performs no new source or ledger work. Already accepted upstream work may still consume its original capped allowance; cancellation does not guarantee a remote stop or allowance rollback. These lifecycle checks use fixture transport and disposable SQL; the native contract gaps and disabled release state above are unchanged.

@@ -1,6 +1,20 @@
 ---
-title: "Xiaohongshu Profile Posts"
+title: "List Xiaohongshu creator notes"
 openapi: "GET /xiaohongshu/profile/posts"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial local implementation, disabled pending remaining source contracts and combined production acceptance. Unavailable requests return 503 before credit holds or source work.</Note>
+
+Supply a native 24-character lowercase hex creator id or matching canonical HTTPS profile URL. The source must return one matching creator anchor and notes whose creator and author ids agree. The anchor is used for identity proof and is not a returned or billable note. RedNote display ids are labels, not lookup keys.
+
+List limits are 1–20, default 10. The hold is `limit × 5` credits (default 50, maximum 100), settled to `returned_count × 5`. The upstream minimum of five rows does not increase the customer limit or add charges. Partial results and filtered-out/omitted rows refund unused holds; a locally filtered-empty output costs zero. A raw empty/error dataset remains an unbilled failure and cannot establish no matches. The billing object exposes reserved, charged and refunded credits. Both MCP clients and Python enforce the same complete hold before one deliberate data request.
+
+Inclusive since/until filters apply only to retrieved note windows, retain unknown dates and never refill. No native continuation, complete-set coverage, exact note-search rank or total is claimed.
+
+Counters and source verification flags are observations. Views remain unknown, hashtag/topic arrays are not zipped, and source scrape time is an observation rather than latest activity. Image notes expose validated source cover and ordered gallery URL observations. Search accepts the observed `sns-na-i11.xhscdn.com` asset families; creator notes accept the observed `sns-i11.rednotecdn.com` families. Only the exact observed image-format transform query is retained. Images keep their source positions and repetitions; missing arrays, empty arrays and source-count differences remain distinct. Matching counts do not establish a complete gallery. No image URL is fetched and no image adds customer charges. Video, avatars, signed tokens, subtitles, contacts and full creator enrichment are omitted; canonical links do not establish playback or download availability. Source detail=true is not independent text-completeness proof.
+
+One pinned source run is bounded at 50 seconds, 256 MiB, a 55-second common deadline, 2-MiB source bodies and 4-MiB output. Cost caps remain $0.04 for a note, $0.08 for search/hot lists and $0.10 for creator notes. Allowance checks, injected work, fetches and body reads are bounded even when cancellation is ignored. Source cost estimates remain distinct from customer credits and final invoices.
+
+Billing acceptance reuses saved October 16 native originals and technical fixtures; timestamps are explicitly refreshed only in isolated transport simulations. The local API/SQL, both MCP clients and Python verify holds, returned rows, refunds, immutable free replay and failed-source handling. No new Actor run, key, allowance reset/allocation, hosted database change, build or deployment occurred. All production gates remain false and the source journal stays zero/unallocated. Source filters/empty/video/legacy/freshness parity and sustainable capacity remain open.
+
+The saved October 16 search and creator windows contain ten image notes and 72 gallery entries. Unmodified originals and redacted technical fixtures pass every 1–5-row prefix through all three response schemas and canonical settlement offline, at their original scrape clocks. Current API/client/SQL tests explicitly simulate transport and refresh scrape times; they do not establish current native URL availability. This continuation used no new provider request or spend.

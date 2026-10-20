@@ -1,6 +1,18 @@
 ---
-title: "Aliexpress Product Similar"
+title: "AliExpress Product Similar"
 openapi: "GET /aliexpress/product/similar"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This partial first-window adapter is staged locally and disabled. Two same-host global-ID seeds returned different native lists, but seed echo, recommendation relevance and full reference parity remain unverified. Production stays on 2026-10-11.120.</Note>
+
+Supply a 16-digit global product ID beginning `100500`, or a canonical `https://www.aliexpress.com/item/ID.html` / `https://fr.aliexpress.com/item/ID.html` URL. Both inputs must agree. Regional `32568` aliases are unsupported; one diagnostic using such an ID failed. Query fallback, sort, country/language and cursor inputs reject. Only page 1 and USD card prices are supported. The fixed French source host is not a verified ship-to market or guarantee of EN copy. `ship_to_country` and `content_language` remain unknown.
+
+`page_size` is 1–10, default 10, and limits the output locally. Both native two-row requests exceeded the requested source limit, returning 19 and 14 stored rows. The adapter therefore independently bounds the complete Actor dataset at fifty rows plus one overflow observation and applies its paid-event cap/deadline. Omitted source rows have no continuation; no native page size, total, full feed or more-results claim is made. Different seed lists are observed evidence, not independent relevance validation or source seed echo.
+
+Native IDs, USD price observations, source rating values, sales numbers/strings and display buckets are kept. Zero stars stays separate from an unknown canonical rating. Sales precision is unverified. A source SKU ID does not make the price SKU-specific or establish shipping/stock; category ID arrays do not establish a complete hierarchy. Launch wall clocks have unverified timezone/precision and never become exact creation timestamps. Tracking parameters, opaque recommendation state, compressed SKU-image blobs, rating icons and seller/contact enrichment are omitted from output and independent receipt. Public product image URLs are returned without fetching media. Text is inert untrusted data.
+
+Every valid nonempty source window holds/settles five customer credits. Empty/error/overflow/duplicate/seed-self data fails unbilled without proving no recommendations. Independent canonical settlement reprojects request identity, output limit, selected native rows, counters/flags, timing and usage.
+
+Runtime is one pinned Actor, $0.20 cap, forty seconds, 512 MiB, a 45-second common deadline including reservation, 2-MiB source bodies, 4-MiB output and ten-minute receipts. The source is still requested with pageSize=2, as in the diagnostics, but that input is not a hard row bound. No resubmission, model/media fetch or fallback. Current metadata event prices, charged-event counters and delayed usage estimates did not reconcile linearly in the diagnostics; usage is incomplete, not an invoice. Runtime capacity remains zero/unallocated and all activation gates false. Native broader/empty/error/source-limit/pricing, seed/region/language/paging/refund contracts, sustainable capacity and combined REST/MCP/Python/ledger acceptance remain pending.
+
+Cancellation returns `499 REQUEST_CANCELLED`; expiry of the active source window returns `504 UPSTREAM_TIMEOUT`. The full customer hold is refunded on confirmed settlement. Reservation, source work, fetch and body reads share the same deadline, even when a dependency ignores cancellation or cleanup stalls. Late work starts no later read or retry. A completed success/failure replay keeps its payload and performs no new source or ledger work. Already accepted upstream work may still consume its original capped allowance; cancellation does not guarantee a remote stop or allowance rollback. These lifecycle checks use fixture transport and disposable SQL; the native contract gaps and disabled release state above are unchanged.

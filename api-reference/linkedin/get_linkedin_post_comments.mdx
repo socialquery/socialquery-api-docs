@@ -3,4 +3,14 @@ title: "LinkedIn Post Comments"
 openapi: "GET /linkedin/post/comments"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Local partial adapter; disabled pending native source/URN/continuation contracts, existing free capacity and combined REST/MCP/Python/ledger verification. Unavailable requests consume no credits.</Warning>
+
+Supply a canonical activity or ugcPost URL. `post_type`, when present, must match the URL; the namespaces are not interchangeable. Default `sort_order` is `relevance`; `recent` is accepted. One native page returns at most ten comments and one preview reply per comment, subject to provider clamping. A preview is not certified to be the newest reply. `ext.previous_replies_token` stays null; `native_reply_lookup_urn` is populated only when the source already supplies the supported fsd activity URN.
+
+Return the signed `next_cursor` verbatim with identical URL, sort and date filters, without page. It expires after one hour and preserves native continuation rather than counting returned rows. Repeated IDs/tokens, mismatched pages and expired cursors fail closed. Page 100 exposes truncation.
+
+Native post/comment URNs and IDs must agree. Text, including multiline or explicitly empty text, stays distinct from unknown text. Source creator names are preserved when known; undocumented author IDs/URLs, reaction breakdowns and edited/pinned/submitter flags remain null. Arbitrary source extensions are excluded. The adapter preserves source order and makes no complete-thread or default AI judgment claim.
+
+`since` and `until` accept UTC calendar dates or ISO timestamps ending Z. Bounds are inclusive and apply to top-level returned rows; nested previews are unchanged. Unknown dates stay retained and are counted explicitly. A date-filtered empty page retains native continuation and the five-credit native-window charge. A successful native-empty window is free; failed or malformed responses use full-refund handling.
+
+Uses the existing free RapidAPI LinkedIn plan behind a zero/unallocated journal. One request, a thirty-second deadline and 2 MiB source/final response bounds apply. No retry, extra allowance or response cache is created. Synthetic fixtures are documentation projections, not live source verification.

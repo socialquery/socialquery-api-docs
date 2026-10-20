@@ -1,6 +1,8 @@
 ---
-title: "Prism Truthsocial Pulse"
+title: "Truth Social Pulse"
 openapi: "GET /prism/truthsocial-pulse"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally. Production remains disabled until combined verification.</Warning>
+
+Implemented locally; production remains disabled pending combined verification. Resolves the public Truth Social profile, reads one recent-post page (posts 1–50, default 20), drills up to 10 sampled posts by known likes (drill default 5, 0 skips), and searches at most 20 DataForSEO news-index URLs. Profile failure is critical and refunds the full reservation; post, detail and news failures are explicit partial results. Successful responses cost 20 credits, regardless of optional-leg failures. include accepts posts,news. One-hour request-bound cursors advance past the entire native feed page, capped at 40 pages. All metrics are reproducible from returned evidence: cadence uses the observed date span and warns below 24 hours, total engagement is null if any sampled counter is unknown, news volume means returned deduplicated URLs, and news sentiment is the unique greatest native connotation score (ties/missing scores remain unknown). News sentiment describes the source article sample, never account beliefs. The counter_read label compares sample counts, not reach or impact. Details remain separate snapshots and do not overwrite feed counters. JSON only; combined source, cursor and billing verification is pending.

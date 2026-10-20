@@ -3,4 +3,6 @@ title: "Facebook Profile Reels Full"
 openapi: "GET /facebook/profile/reels/full"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally and disabled. This is staged documentation for the combined release, not production verification.</Warning>
+
+Preview: disabled local adapter awaiting the combined audit and available ScrapeCreators allowance. Collects public reels, then adds counts observed on matching reel permalinks. Grid views remain separately identified as approximate; detail views can be null or differ from the grid. Reserve 5 credits per planned page (ceil(limit/10), maximum 25); unused pages are refunded. Each nonempty page costs 5 if at least one detail lookup succeeds, otherwise 1. Empty pages cost zero. Detail failures retain list values and report engagement_partial. A signed one-hour cursor binds the profile and both source cursor fields. A partially returned page is re-read with its consumed prefix checked, avoiding silent row loss; page changes return CURSOR_STALE. Media URLs are not fetched or certified playable.

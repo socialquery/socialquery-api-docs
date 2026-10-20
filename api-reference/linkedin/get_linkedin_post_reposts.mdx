@@ -3,4 +3,12 @@ title: "LinkedIn Post Reposts"
 openapi: "GET /linkedin/post/reposts"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This partial local adapter remains disabled. Unavailable requests return HTTP 503 without consuming customer credits. Source fixtures are documentation-based examples.</Note>
+
+Supply the actual activity post URL. The adapter reads activity detail and uses its native `shareUrn` to request reposters. It never renames the activity URN or assumes activity and share IDs are equal. Missing or contradictory share evidence fails before the list read. Returned opaque member URNs, source usernames and quote flags/text are typed; unknown counts, verification and numeric member IDs remain null.
+
+Repost timestamps are not documented by this source and remain null. Explicit `since` and `until` values are validated, while undated rows remain in source order. This source cannot establish date ranking or complete repost history. Unsupported date aliases and options reject before a hold.
+
+The customer hold and nonempty-page charge are **5 credits**; an explicitly empty valid page costs zero. Signed one-hour cursors bind post, date filters, source continuation and all previous source row identities. The signed detail proof avoids another detail lookup on continuation. Repeated rows/tokens fail unbilled; they do not establish a complete list. Native pagination, association and repeat-page behavior remain unverified. `total` stays null and `complete` is false.
+
+The existing provider's recorded maintenance, actual free-plan capacity and combined REST/MCP/Python/ledger checks block activation. Runtime capacity is zero/unallocated and source cash cost stays unknown/incomplete. No native request, credential change, allowance reset, deployment or publication occurred for this addition.

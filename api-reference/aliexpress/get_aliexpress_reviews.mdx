@@ -3,4 +3,12 @@ title: "Aliexpress Reviews"
 openapi: "GET /aliexpress/reviews"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial adapter staged locally and disabled. A bounded native three-review diagnostic verified the default source shape; full source and billing acceptance is still pending.</Note>
+
+The local contract accepts one product ID or an agreeing HTTPS item URL, page 1, default ordering, all/image/additional filters, a supported translation language and optional inclusive `since`/`until` dates. Use `judgments=off`; AI labels, reports, fit, country overrides and continuation remain unsupported. Unsupported inputs fail before a credit hold.
+
+At most twenty source reviews are examined. Date filtering retains undated rows and does not refill the window. Publication dates keep day precision; exact timestamps, verified purchase and buyer identity remain unknown. Translation and original text are separate. Source totals describe the product, not the filtered window. Photo URLs are metadata and were not fetched. No whole-history or globally newest-order claim.
+
+A nonempty source window settles five credits even if dates remove all returned reviews. An explicit native `no_reviews` status with zero total is free. Error, not-found and missing status evidence never become empty success. Existing paid Apify credits are authorized; runtime capacity remains unallocated and all activation gates stay false.
+
+Cancellation returns `499 REQUEST_CANCELLED`; expiry of the active source window returns `504 UPSTREAM_TIMEOUT`. The full customer hold is refunded on confirmed settlement. Reservation, source work, fetch and body reads share the same deadline, even when a dependency ignores cancellation or cleanup stalls. Late work starts no later read or retry. A completed success/failure replay keeps its payload and performs no new source or ledger work. Already accepted upstream work may still consume its original capped allowance; cancellation does not guarantee a remote stop or allowance rollback. These lifecycle checks use fixture transport and disposable SQL; the native contract gaps and disabled release state above are unchanged.

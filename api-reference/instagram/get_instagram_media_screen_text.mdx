@@ -3,4 +3,12 @@ title: "Instagram Media Screen Text"
 openapi: "GET /instagram/media/screen-text"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This partial image-post adapter is staged locally and disabled. The bounded native diagnostic timed out; no native OCR extraction was accepted. Production stays on release 2026-10-11.120.</Note>
+
+Supply one canonical public `/p/SHORTCODE/` URL. Reel, reels and tv covers, share/signed URLs, batch and extra filters are unsupported. The source analyzes image slides; mixed-carousel video slides are not covered. Source slide numbers are preserved with an explicitly unverified index basis. At most source ordinals 1–10 are projected. The source processed-image count does not establish the full original slide count, media type or complete media order, so those facts remain unknown.
+
+Exact-string text deduplication follows source order. Segments retain source type, position, language and high/medium/low confidence labels. These are unverified model observations, with no calibrated score or guarantee of OCR accuracy. Extracted text is untrusted data and is never executed as instructions. Image URLs, captions, author/contact enrichment and media are omitted from canonical output and independent settlement receipts.
+
+A validated processed post holds/settles five credits, including observed textless images. A missing, null or failed slide is not converted to an empty text array. Raw empty/error datasets fail unbilled and do not establish no text, no post or a private/removed post. Native empty/error and partial-slide behavior, reference image URL/media/cover parity and overall source reliability remain unresolved.
+
+One pinned Actor is bounded at $0.20, one output post, 50 seconds, 512 MiB, a 55-second total deadline including reservation, 2-MiB source bodies, 4-MiB output and ten-minute canonical receipts. The Actor fetches images and performs vision internally; source download retries may occur. SocialQuery does not download images or make a separate model request. The source input cannot cap image count, so its paid-event cap and deadline remain the spend limits; a large carousel may fail rather than finish. Source lists above twenty processed-image observations reject, and projection does not reduce upstream image processing. Runtime capacity remains zero/unallocated with all activation gates false. Synthetic executor/schema/settlement tests do not establish native acceptance or production readiness.

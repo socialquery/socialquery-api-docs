@@ -3,4 +3,17 @@ title: "Prism Comment Lookup"
 openapi: "POST /prism/comment-lookup"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Local batch implementation. JSON and streaming remain disabled pending the combined release audit.</Warning>
+
+Staged local implementation; disabled for JSON and SSE pending combined native source, client and billing acceptance. Up to 25 exact TikTok/Instagram comment lookups resolve independently. Found TikTok rows cost 2 credits, or 6 with deep_scan; Instagram costs 5 or 15. Invalid, missing, failed and deferred rows cost zero. Maximum hold 100; split larger batches. Three workers stop dispatch after 45 seconds; in-flight source lookups share a 50-second deadline. Whole normalized rows are limited to 64 KiB. JSON includes the common nine-field summary, mapping found rows to summary.ok. SSE uses data-only typed result chunks with key=item, indexed provisional rows, then done with the settled summary. Disconnects stop new work; started source scans can continue until their deadline and settle independently of delivery. Idempotency-Key stores one immutable settled JSON snapshot for 24-hour cross-format replay, scoped to account, API key and canonical body. Replay costs zero; original_summary and retained row prices describe the original execution. Current data.credits_used and summary charge/refund are zero on replay. Hints are original evidence and are not refreshed; a ten-minute source hint can expire before the replay snapshot. Snapshot persistence has one bounded three-second wait for live SSE; uncertain writes retain the pending claim. This is not full reference row, deadline or delivery-refund parity.
+
+Live SSE frames use one JSON data line and a blank line:
+
+```text
+data: {"type":"result","key":"item","value":{"provisional":true,"index":0,"row":{"index":0,"platform":"tiktok","status":"deferred","comment":null,"lookup":null,"credits_used":0,"error_code":"REQUEST_TIME_BUDGET"}}}
+
+data: {"type":"done","summary":{"total":1,"ok":0,"not_found":0,"unsupported":0,"error":0,"deferred":1,"coverage":0,"credits_charged":0,"credits_refunded":2}}
+
+```
+
+A confirmed full refund produces typed `error` then `done`. If settlement cannot be confirmed, `done.summary.credits_charged` and `credits_refunded` are null. A dropped connection alone establishes no billing outcome. Replays preserve the original bounded rows, including stale position hints; they do not refresh source evidence. Native Instagram reply/capacity checks, full native row parity, deployed disconnect handling and real billing acceptance are still required before activation.

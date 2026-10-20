@@ -3,4 +3,16 @@ title: "Prism App Reviews"
 openapi: "GET /prism/app-reviews"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>This locally implemented adapter remains disabled. Source allocation, combined live verification and release are pending. Contract fixtures are synthetic and do not certify production readiness.</Warning>
+
+Supply `google_play_id`, `app_store_id`, or `query`. Explicit IDs anchor their store; a query selects the first ranked native result independently in each requested store. It does not establish cross-store app identity. Use explicit IDs for precision.
+
+The report retains raw canonical reviews, listed ratings, sample means, optional topics, feature requests, UTC daily sentiment and developer-response coverage. Listed aggregates are never replaced with sample means. Apple returns up to 500 reviews; Google up to 600. Extra provider-rounded rows are trimmed. This is a bounded sample, not complete history.
+
+Optional analysis examines at most the first 1,600 characters of each nonempty review. Every quoted passage must match that excerpt. Counts and rating means come from source review IDs, not model totals. Labels merge by exact normalized topic name; differently worded labels may remain separate. If any analysis batch fails or the deadline is reached, analysis is null with a warning and the raw reviews remain available. Omitting both `topics` and `feature_requests` skips inference; the timeline then reports unjudged reviews.
+
+Developer replies are unavailable from the Apple source. A null response array is unknown, not proof of no reply. The response rate uses only known arrays and reports the known/unknown denominator.
+
+**Credits:** 10 for a selected single store, 15 for both. Any completed store (including observed empty) retains the request price. All-store failure refunds all. Optional analysis failure does not change the charge.
+
+Send `Accept: text/event-stream` for `start`, provisional `item` store legs and a settled `complete` event. Only `complete` confirms final credit use. Use JSON with `Idempotency-Key`. A disconnected client prevents new analysis batches; in-flight work is still settled. Provider tasks are persisted and reused on matching retries.

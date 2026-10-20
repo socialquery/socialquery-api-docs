@@ -3,4 +3,14 @@ title: "Prism Crisis Radar"
 openapi: "GET /prism/crisis-radar"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Implemented locally and disabled pending combined native-source, free-capacity, billing and client verification. Unavailable requests return HTTP 503 without consuming credits.</Note>
+
+A baseline costs **15 credits**. It compares `date_to` with the preceding `baseline_days` consecutive UTC days, excluding the evaluated day. The default is seven prior days and a z-score sensitivity of 2. Missing daily volumes fail without a charge; they are never filled with zero. Negative share remains unknown when native polarity counts are missing. An upward jump from a constant baseline is reported explicitly, without an infinite JSON number. A current UTC day is flagged as still in progress.
+
+`confirm` defaults to `false`. With `confirm=true`, the request holds **45 credits**. Only a breach dispatches the confirmation searches: an all-time native sentiment snapshot, anger-ranked web citations, newest Reddit posts, native tweet citations, and one TikTok/Instagram/YouTube search page each. The all-time sentiment snapshot is not treated as day-window sentiment. The cross-platform block reports real source row counts separately from retained dated rows; failures are null, while genuine empty results are zero.
+
+The extra **30 credits** are retained when at least one confirmation source completes, including a genuine empty response. A calm result or all-failed confirmation refunds those 30 credits. A successful partial confirmation has no additional partial discount. Baseline failure uses the normal full refund.
+
+Severity is a declared local advisory heuristic from the observed z-score, source breadth, bounded row count and available anger evidence. It does not verify an incident or an allegation. Optional quoted snippet judgments add `grade_about_brand`, `score_about_brand` and `reports_incident_with_brand` alongside the unchanged raw grade. Missing or invalid judgment preserves the evidence with null scoped fields and a warning.
+
+Collection is bounded to 40 seconds and the request to 55 seconds. The response is limited to 4 MiB. No recurring monitor is created by this endpoint.

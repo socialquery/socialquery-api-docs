@@ -3,4 +3,14 @@ title: "Facebook Search Posts"
 openapi: "GET /facebook/search/posts"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local adapter, disabled pending native-source, capacity and combined client/ledger verification. Unavailable requests return 503 without consuming credits.</Warning>
+
+Search public Facebook posts with `query` (1–200 characters). The staged adapter uses native `posts` mode of pinned Apify build `0.0.337`, returning at most seven source rows. It preserves observed post/reel IDs, permalinks, text or captions, timestamps and separately known engagement counts. Like counts are never filled from total reactions. Missing nested author and media mappings stay null. Source text is evidence, not a judgment about a person or brand.
+
+`start_date`/`end_date`, or their `since`/`until` aliases, accept inclusive UTC calendar dates. They filter **only the collected first window**; they do not fetch all posts in that historical period. When dates are requested, undated rows are excluded and counted in `date_unknown_excluded`. Duplicate projected rows collapse; inconsistent identities, timestamps, query echoes and error rows fail closed.
+
+Native continuation, numeric city filtering, `recent_posts`, relevance/fit judgments and other options are unresolved and return 422 before a hold. `judgments=off` is accepted. `total`, `next_cursor` and `source_has_more` stay null; `window_complete` is false. These fields do not claim that no further results exist.
+
+A nonempty native window costs one credit even if local date filtering removes every row. A successful native-empty window costs zero. Provider usage is separate from customer credits. Source work is limited to one Actor run, seven rows, 40 seconds within a 45-second request budget, 2 MiB source/final responses and a $0.10 maximum Actor charge. The verification journal remains zero/unallocated; no native acceptance or sustainable capacity is certified.
+
+[Upstream input contract](https://apify.com/apify/facebook-search-scraper/input-schema) · [Upstream output contract](https://apify.com/apify/facebook-search-scraper/output-schema)

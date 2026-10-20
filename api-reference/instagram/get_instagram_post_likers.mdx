@@ -1,6 +1,10 @@
 ---
-title: "Instagram Post Likers"
+title: "Post liker sample"
 openapi: "GET /instagram/post/likers"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local implementation, disabled until combined verification. Native source fields, scope and free-credit eligibility remain unverified.</Warning>
+
+Local partial implementation, disabled pending native source, scope, free-credit and combined production verification. Reads the requested post and then one ranked native liker sample through TikHub v3. total is the separate post like count, never items.length. Post shortcode and numeric ID must match; duplicate or unsafe account rows fail closed. Five credits for a nonempty sample, zero for an observed empty sample. If the post reports zero likes, the second source call is skipped, items is empty and sample_observed=false. Counts and samples are sequential observations, not an atomic snapshot. No pagination or exhaustive-list claim. Canonical p/reel/reels/tv URLs are accepted without share redirects or tracking parameters. safe_url=true avatar proxying remains unsupported and returns 422 before billing.
+
+A missing avatar/name/verification value stays null. Source avatar links may expire; no account profile enrichment is performed. `sample_complete` is always false because this is a ranked sample.

@@ -3,4 +3,18 @@ title: "LinkedIn Profile Posts Archive"
 openapi: "GET /linkedin/profile/posts/archive"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial adapter staged locally and disabled. One three-post native diagnostic corroborated profile ownership, identifiers, dates and counters. Deep-history, native empty/error behavior, capacity and combined verification remain open.</Note>
+
+Supply a canonical public LinkedIn `/in/` profile `url` and optional `limit` from 1 to 20 (default 20). One bounded source window is read with source reposts, quote posts, comments and reactions disabled. Continuation tokens and the reference 100-row window are unavailable.
+
+Source `sortBy=date` did not produce chronological dataset emission in the diagnostic. Output sorts known dates descending within the returned window, undated last, and retains original `source_position`. This does not establish globally newest posts, latest public activity or a complete archive. Totals and source continuation remain unknown.
+
+Inclusive `since`/`until` filters use YYYY-MM-DD, apply only to this window and retain undated rows. No refill or unbounded history scan occurs. Native activity and share/ugcPost identities remain separate; numeric native urn-field observations are not inferred member IDs. Explicit hidden counters are removed from the response and receipt; otherwise counts are source observations with unverified visibility/precision. Exact native repost classification, complete media coverage/playback, linked-article body content, profile hydration and extra comments/reactions remain gaps.
+
+Every nonempty source window settles five credits, including date-filtered-empty windows. Empty datasets fail without net customer charge until native absence evidence is corroborated. Existing paid Apify credits are authorized; all runtime flags stay false and the new capacity journal is zero/unallocated.
+
+Selected source attachments are now projected locally: ordered image entries with reported pixel dimensions, video and thumbnail URLs, and separate article-card metadata. Missing image arrays stay null; explicit empty arrays stay empty and repeated entries retain their source positions. Article-preview images are not merged into post galleries. Canonical content media URLs retain gallery order followed by an observed video URL; duration stays unknown.
+
+All URLs are inert observations. The adapter validates exact observed LinkedIn CDN hosts/paths and the opaque signed-query structure without interpreting expiry, fetching binaries, opening article destinations or verifying playback, freshness or complete attachment coverage. Links may expire. Article destinations with authentication, query strings or fragments are outside the currently corroborated contract. Extra source media fields, rich text, nested activities, profile enrichment and complete-history behavior remain unavailable. Customer price stays five credits per nonempty source window, regardless of attachment count, including date-filtered-empty output.
+
+Authenticated local REST, app/package MCP, Python and disposable SQL verify five-credit charges, source-error refunds and free immutable replay. These checks use intercepted transport and synthetic media paths; native empty/error/deep-history, sustainable capacity, real Redis and deployed acceptance remain pending.

@@ -3,4 +3,16 @@ title: "Prism Earliness"
 openapi: "GET /prism/earliness"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This adapter is partial, staged locally and disabled. It supplies only the Google Trends monthly history section. Production remains 2026-10-11.120.</Note>
+
+Send one keyword phrase as `term`; `region` is US or omitted. Comma comparisons, topic IDs, URLs, other markets and extra source controls reject before reservation. The fixed source query uses Web Search, all categories, English labels, UTC and `date=all` (documented January 2004 onward). The returned monthly calendar must be continuous from that boundary through the source creation month. Calendar continuity does not certify complete search logs, native sampling accuracy or subject identity.
+
+The native ChatGPT diagnostic returned 274 months. November 2022 displays **&lt;1** with extracted numeric index **0**; December 2022 is the first positive integer-index month. `first_reported_interest` therefore includes a displayed &lt;1, while `first_positive_integer_index` stays separate. Both are monthly observations. An interval start is not an exact first-search day, launch date or public origin. Index values are relative interest, not counts; zero does not prove absence. All-zero series leave both observations unknown. Interest at the January 2004 boundary sets an explicit left-boundary flag because earlier history is unavailable.
+
+The current month is an open calendar interval. Native `partial_data` is retained independently and stays unknown when absent; a closed past interval is not an independent guarantee of final source values. Source creation and retrieval times remain separate, and provider cache may be up to one hour old. No local response cache is used.
+
+TikTok, X, Reddit, YouTube and Instagram first-post/relevance/censoring lanes are **unavailable**. TikTok/Meta ad presence, cross-platform day gaps, earliness score and AI analysis are unknown, with zero model requests. Missing lanes never become successful empty results, negative ad checks or claims that a term is early. The reference's social 30-day censoring rule is not applied to unavailable lanes.
+
+One existing SerpApi Free Plan allowance check precedes one history query; paid/extra-credit plans, exhausted capacity and source errors fail without a data retry or fallback. Account balances, source keys/links, raw metadata and extras are omitted from independent receipts. A validated timeline retains the provisional flat **25-credit** legacy hold/settlement, including an all-zero series. Full composite pricing and partial-refund parity remain unresolved, and all activation flags stay false with the dedicated journal zero/unallocated.
+
+Runtime bounds: forty-second common deadline, twenty-five-second source phases, 512 monthly points, 2-MiB source bodies, 4-MiB output and ten-minute canonical receipts. Native wider terms/markets/empty/error, subject relevance, social/ad/refund contracts, sustainable free allowance and combined REST/MCP/Python/ledger acceptance remain pending.

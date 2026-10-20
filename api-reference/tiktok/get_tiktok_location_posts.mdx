@@ -3,4 +3,14 @@ title: "TikTok Location Posts"
 openapi: "GET /tiktok/location/posts"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial place-feed metadata adapter staged locally and disabled. One native New York feed returned three posts. ID-only resolution, native pages/cursors/region, per-post place IDs, playback, absence/error acceptance, sustainable capacity and combined verification remain open.</Note>
+
+Supply native numeric `location_id` and a matching canonical HTTPS TikTok `/place/name-ID` `url`. Copy the place URL from TikTok; no city code or guessed slug conversion is performed. `limit` accepts 1–20, default 20. Cursor and region overrides are unavailable. This bounded Actor window does not establish TikTok's exact twenty-row native page or complete place history.
+
+Each native row's `inputSource` must match the requested place URL; post and author IDs/URLs must also corroborate. The source emitted posts out of date order. Optional POI names are observations, and neither a matching name nor feed inclusion proves a per-post place ID or geotag: `per_post_place_id=null` and `tag_membership_verified=false`.
+
+`since` and `until` filter only the returned source window, include the whole UTC day for a date-only `until`, and retain undated rows. A nonempty source window costs one credit even when filtering leaves zero rows. Empty Actor datasets cannot distinguish a valid empty place, unknown place or blocked source and fail without net customer charge.
+
+Native post IDs, author identities, captions, source verification flags, engagement counters, publication timestamps and duration are projected; unknown metrics stay null. Media/playback URLs, cookies/tokens, subtitles, exact coordinates/address, bios, collaboration and music enrichment are omitted from response and canonical receipt. No playable-media guarantee, global rank, source region or completeness claim is made.
+
+One pinned run is bounded at $0.02, 50 seconds, 256 MiB, twenty posts and a 55-second total deadline. Existing paid Apify credits are authorized; all activation flags remain false and the runtime journal is zero/unallocated. The shared TikHub free-only allowance is unchanged.

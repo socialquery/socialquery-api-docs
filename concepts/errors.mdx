@@ -16,3 +16,10 @@ description: Keep unsuccessful requests distinct from successful empty collectio
 | 503 | Provider or required service unavailable | Retry later or contact support |
 
 By default, authenticated traffic is limited to 60 requests per minute for each key. The browser tester has its own visitor and global limits, and source-side restrictions can be tighter. A failed collection must retain a failure status even when no records are returned.
+
+
+## Unconfirmed credit accounting
+
+If a reservation or refund cannot be confirmed, HTTP 503 `SETTLEMENT_UNCONFIRMED` returns `credits_used: null`, `credits_remaining: null` and the requested `credits_reserved`. The response includes `X-Credit-Settlement: unconfirmed` and omits `X-Credits-Used` and `X-Credits-Remaining`. This is an unknown accounting outcome: it does not establish a zero charge or successful refund.
+
+Retain the request ID and inspect credit history before starting a new request. An existing idempotency claim remains pending within its existing 24-hour retention; retrying its key during that window returns 409 without new provider work or another debit. The API does not automatically rerun or reconcile the uncertain transaction.

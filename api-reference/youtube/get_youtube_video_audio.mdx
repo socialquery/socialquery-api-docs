@@ -3,4 +3,6 @@ title: "YouTube Video Audio"
 openapi: "GET /youtube/video/audio"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally and disabled. YouTube provider-scope approval, free-credit eligibility and combined verification remain pending.</Warning>
+
+Returns source-provided signed file URLs with format and expiry metadata. Audio-only, video-only and combined formats remain distinct. Playback is explicitly unverified; URLs may depend on an IP or region and expire. The API does not download, merge, transcode or cache media. Failed or unusable responses are uncharged. Successful metadata costs 5 credits.

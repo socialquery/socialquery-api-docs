@@ -1,6 +1,8 @@
 ---
-title: "Prism Brief Check"
+title: "Brief check"
 openapi: "GET /prism/brief-check"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local implementation. Production remains disabled until the combined verification batch.</Warning>
+
+Partial local implementation; production disabled pending source capacity and combined verification. Supports canonical YouTube and TikTok video URLs with native captions only. Checks 1–12 required talking points and up to 12 forbidden claims against verbatim transcript quotes. Levels are 0 absent, 1 passing mention and 2 explained; visual demonstrations (level 3), descriptions/on-screen disclosure and other platforms are not implemented. Requested disclosure always produces review because transcript marker presence is not contextual compliance proof. Missing transcripts or unavailable/ungrounded model judgments return review with null labels and zero credits. An evaluated report is 15 credits. No AI speech-transcription fallback is enabled. Labels are for human review; automated_decision is false.

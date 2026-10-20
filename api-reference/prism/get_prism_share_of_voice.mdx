@@ -1,6 +1,8 @@
 ---
-title: "Prism Share Of Voice"
+title: "Share of voice"
 openapi: "GET /prism/share-of-voice"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally. Production remains disabled until combined verification.</Warning>
+
+Implemented locally; disabled pending the combined source and settlement audit. Compares 2–5 brands using DataForSEO summary, daily phrase trends and optional sentiment distributions, with first-page TikTok keyword, Instagram reel, Reddit comment-count, X and official YouTube search evidence. Each social source retains its own rows and counts. Client-side date filtering excludes undated social rows. A platform contributes only when every brand has in-window rows and the required metrics; views and Reddit net scores are excluded from engagement. Web shares require matching observed daily buckets for all brands. When no timeline is usable, all brands may fall back to uncensored all-time counts; censored totals or mixed windows produce null web shares. Available web/social axes use equal weights, renormalized table-wide. Optional category_code filters web tasks and uses a matching category timeline denominator. ESOV is share-of-voice percentage minus supplied market-share percentage, a descriptive planning input. Optional Groq labels supply separate sample-only about-brand columns with exact supporting quotations; one failed brand judgment makes cleaned shares null table-wide. Sentiment distributions remain third-party, all-time observations. The published methodology exposes weights, denominators, sample limits and refund rules. Maximum 40 credits per brand with social, 20 web-only. Per brand: 20 for a successful summary or trend leg; social adds 20 for 3–5 successful sources, 10 for 1–2, zero for none. Observed empty pages are successful reads. Optional sentiment, category and labeling failures do not change the charge. JSON only; no complete social-index or growth-prediction claim.

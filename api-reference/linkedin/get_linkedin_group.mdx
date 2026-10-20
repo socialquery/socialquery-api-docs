@@ -3,4 +3,10 @@ title: "LinkedIn Group"
 openapi: "GET /linkedin/group"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Implemented locally and disabled pending source recovery, allocated free capacity and combined verification. Unavailable calls return HTTP 503 without consuming credits.</Note>
+
+Provide a numeric `group_id`. The adapter checks that the returned ID, optional URN and canonical LinkedIn URL identify that same group. It returns the documented name, headline and member count. Missing counts remain null. Counts refer to members, never followers or views.
+
+The upstream description mentions rules and owners but supplies no documented fields for them. `rules`, `owners` and `logo` therefore remain null. No group membership or private-content access is performed.
+
+A validated group costs five credits. Source errors, maintenance and invalid identities fail and receive the normal full refund. The response is limited to 1 MiB with a 20-second request deadline. No allowance has been allocated or provider call made for this adapter.

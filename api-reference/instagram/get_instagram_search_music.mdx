@@ -1,6 +1,8 @@
 ---
-title: "Instagram Search Music"
+title: "Instagram music search"
 openapi: "GET /instagram/search/music"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local implementation. Production remains disabled; HikerAPI activation and combined verification are pending.</Warning>
+
+Partial local implementation, disabled pending HikerAPI trial activation, credentials, an approved allowance and combined verification. One non-paginated first-page result window from the typed v1 music source. Each item contains track identity, artist/title, duration in milliseconds, nullable native CDN audio/artwork URLs and explicit/lyrics/save flags. Usage counts and song monetization metadata are null; total is unknown, next_cursor is null, and coverage_complete is false. Any cursor is rejected before billing. Five credits for a nonempty validated window; zero for an observed empty list. No caching of this fallback. Returned links can expire; pagination parity remains incomplete.

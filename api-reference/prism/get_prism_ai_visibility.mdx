@@ -1,6 +1,14 @@
 ---
-title: "Prism Ai Visibility"
+title: "Prism AI Visibility"
 openapi: "GET /prism/ai-visibility"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial local implementation, disabled. Preset sizes, engine access and combined verification remain outstanding. Unavailable calls are unbilled.</Note>
+
+Supply a brand and either one topic or 1–20 prompts (JSON array or pipe-delimited text), optionally up to five competitor names. Explicit `runs` accepts 1–20, default 8. `preset` is currently rejected pending size confirmation. Engines are Perplexity and Grok; their credentials and approved capacity are still prerequisites.
+
+Each prompt/run/engine combination is a separate probe. The adapter keeps ordered outcomes and exact answers. Literal brand appearance uses NFKC/case normalization and Unicode boundaries. It does not invent aliases or interpret appearance as recommendation. Optional model judgments carry exact answer quotations; rates use known labels only. Failed analysis leaves these metrics null and raises a warning.
+
+Citation domains count once per completed probe. Uncited retrieval context is kept separately. `brand_domains` flags caller-supplied domains and subdomains. The optional web baseline reports DataForSEO indexed mentions and joins those domains to AI citations; an absent domain means absent from the returned sample, not absent from search rankings.
+
+The maximum hold is `2 × prompts × runs × engines`, plus 5 for the baseline. Only completed validated probes retain two credits; only a completed baseline retains five. Zero completed engine probes fails with full refund. Six concurrent requests share a 39-second collection window and bounded evidence size, so large requests can finish with partial coverage and refunds. Requested and completed denominators remain visible. Repeated calls are observations, not proof of statistical independence. No completed-answer cache substitutes for requested reruns.

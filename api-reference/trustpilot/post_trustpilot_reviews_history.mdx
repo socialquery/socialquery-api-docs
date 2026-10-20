@@ -3,4 +3,18 @@ title: "Trustpilot Reviews History"
 openapi: "POST /trustpilot/reviews/history"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial adapter staged locally and disabled. One three-review diagnostic corroborated company/domain, native review IDs, day dates, corpus counters and status. Complete history, native empty/error/reply/update cases, sustained capacity, legacy bulk parity and combined verification remain open.</Note>
+
+POST JSON with a bare public `domain` and required `depth` as an integer string from 1 to 20. The local source reads one bounded most-recent public window, in all original languages. Deep paging, filters, continuation, monitoring and review-revision/deletion timelines are unavailable.
+
+The native diagnostic returned three reviews against a reported corpus of 802. The source's `capped=false` means it did not reach the anonymous paging wall; it does not imply a complete sample. `truncated` compares reported corpus count with returned rows. Reported totals, company TrustScore, displayed stars and the star histogram remain source observations, separate from sample ratings. `complete` stays false.
+
+Review, experience, update and company-reply dates preserve day precision. `published_at` remains null; no midnight timestamp is invented. Native emission positions are retained without inferring exact within-day ordering. Source invitation levels and verification flags stay separate: `verified=false`, `level=invited` and `invitation_source=BasicLink` can coexist. Independently verified purchase status stays unknown. Replies and update dates are current observations, not historical versions.
+
+Company contacts, address, media and unrelated profile-enrichment fields are omitted. Public reviewer IDs/names/country/lifetime review counts remain source observations, with unknown profile URLs and avatars. No AI judgment or translation is performed.
+
+A validated nonempty window settles six credits. Zero credits requires an explicit consistent `no_reviews` status, zero company/status totals and zero reviews; blocked, failed, not-found or ambiguous empty datasets fail without net customer charge. Existing paid Apify credits are authorized, with bounded per-run cost and time. All activation flags remain false and the runtime journal stays zero/unallocated.
+
+Company corpus/histogram totals and public listing totals are separate native observations. A Spotify check reported company `reviews_count=5876` and listing/status `reported_total=5682` (native `review_count_filtered`). The histogram binds the corpus; status binds the listing. No language/filter/moderation/removal cause is inferred. Only consistent zero corpus, listing and sample/status evidence establishes `no_reviews`; a zero listing alone does not.
+
+Cancellation returns `499 REQUEST_CANCELLED`; expiry of the active source window returns `504 UPSTREAM_TIMEOUT`. The full customer hold is refunded on confirmed settlement. Reservation, source work, fetch and body reads share the same deadline, even when a dependency ignores cancellation or cleanup stalls. Late work starts no later read or retry. A completed success/failure replay keeps its payload and performs no new source or ledger work. Already accepted upstream work may still consume its original capped allowance; cancellation does not guarantee a remote stop or allowance rollback. These lifecycle checks use fixture transport and disposable SQL; the native contract gaps and disabled release state above are unchanged.

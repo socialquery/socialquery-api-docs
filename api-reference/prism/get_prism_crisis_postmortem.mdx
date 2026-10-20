@@ -3,4 +3,14 @@ title: "Prism Crisis Postmortem"
 openapi: "GET /prism/crisis-postmortem"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Implemented locally and disabled pending source capacity and combined verification. Unavailable calls return HTTP 503 without consuming credits.</Note>
+
+Reconstructs a bounded chronology from indexed anger-ranked citations, newest Reddit posts, date-filtered Hacker News stories and native TikTok, Instagram, YouTube and X search pages. Supply a `brand` and optional UTC window (default: 30 days ago through today, at most 366 calendar days). Up to five comma-separated `crisis_terms` can narrow the incident. Native content-analysis filters and local social-text matching are explicitly distinguished.
+
+Every event has `time_basis`: native, reported publication or indexed. A crawl timestamp cannot establish who published first. Only native timestamps enter the earliest-observed origin candidates and platform-order calculation. Ties remain visible; `actual_origin_verified` is always false. Chronology is not proof of causality, identity or an allegation.
+
+The peak lists every tied maximum observed indexed-volume day. Missing daily buckets remain unknown. The report exposes sample sizes and dropped rows. URL duplicates prefer native provenance while retaining all source observations.
+
+Narrative is on by default and uses at most 20 bounded excerpts with verified IDs and exact quotations. Pass `include=` for the raw timeline. Model failure preserves raw evidence.
+
+The request holds 35 credits. Five billing sources are counted: volume curve, anger search, Reddit, HN and cross-platform spread. At least one completed spread platform makes that source available. Fewer than three completed sources charges **18 credits and refunds 17**. Valid empty sources count as completed. All-source failure receives the normal full refund.

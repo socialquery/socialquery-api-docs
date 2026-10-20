@@ -3,4 +3,12 @@ title: "Prism Demand Signals"
 openapi: "GET /prism/demand-signals"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Implemented locally and disabled until combined source, capacity and settlement verification. Unavailable requests return HTTP 503 without consuming credits.</Note>
+
+Read up to four consumer-demand inputs in parallel: app-review sample rates, the slope of indexed web mentions, newest-first Reddit post sample rates, and an Amazon product's written-review count. Supply store IDs to include app reviews. Amazon resolves the first organic search result; that ranking is not an entity-identity judgment. Its rating-vote count is returned separately and never stands in for written reviews.
+
+Every index input is explicit. The declared local weights are 0.40 / 0.25 / 0.20 / 0.15 for app reviews / mentions / Reddit / commerce, with respective anchors of 10 reviews per day / 100 indexed mentions per observed day / 10 posts per day / 1,000 written reviews. Each known level is capped at 100 and the weighted mean re-normalizes over known requested axes. Missing inputs stay null and reduce component coverage. These are heuristic anchors, not purchase probabilities or claims of an identical competitor score.
+
+App and Reddit rates divide the dated sample size by its observed exposure in days, with a one-day minimum. Samples are bounded and are not complete histories. Only the mention index has a stateless historical slope: ordinary least squares uses observed UTC daily points and never fills missing days with zero. App, Reddit and commerce week-over-week changes remain unavailable without repeated observations. Dates apply to the mention axis only.
+
+The hold is 30 credits. Strict-majority selected-source failure charges 15. No completed source means a failed request and full refund. A successful empty source retains its coverage charge while its unknown demand metric stays null. Optional countries currently supported: US, GB, DE, FR, CA, AU and JP. Existing provider budgets and the unallocated commerce task gate remain in force.

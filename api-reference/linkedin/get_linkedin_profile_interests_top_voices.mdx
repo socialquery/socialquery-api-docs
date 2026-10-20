@@ -3,4 +3,22 @@ title: "LinkedIn Profile Interests Top Voices"
 openapi: "GET /linkedin/profile/interests/top-voices"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Implemented locally and disabled pending combined release acceptance. Unavailable requests return HTTP 503 without consuming customer credits.</Note>
+
+Supply one HTTPS LinkedIn `/in/` profile URL. This endpoint projects the visible `Top Voices` interest tab from pinned HarvestAPI `0.0.138`, with email discovery disabled. The compatibility target is SocialCrawl’s URL-only Top Voices lookup; no page or cursor is documented for that target.
+
+[LinkedIn describes Interests](https://www.linkedin.com/help/linkedin/answer/a569139/interests-section-on-your-profile?lang=en) as the people and entities a member follows, subscribes to or joins, according to the selected tab. This endpoint retains that source classification. It does not independently attest a current follow relationship or badge. `relationship` remains null, `complete` is false, `total` and `next_cursor` are null. A snapshot does not claim to contain every followed Top Voice.
+
+The hold is **5 credits**. A nonempty observation costs five; an explicitly empty native tab costs zero. A missing or malformed tab fails and refunds the hold. Only the exact observed native missing-profile record, with its query matching the requested owner, produces a free **404 RESOURCE_NOT_FOUND**. An empty dataset, generic source error, forged absence record or another profile’s 404 never establishes absence.
+
+Cards retain native names, profile URLs, headline and follower-display text when supplied. Exact duplicate cards collapse with original source ranks preserved; contradictory duplicates fail. Member URNs, split first/last names, image dimensions and exact follower counts remain null. No profile hydration, media fetch or inference is performed. Provider credentials remain server-side.
+
+Raw Unicode identifiers and their canonical uppercase UTF-8 encoding identify the same member. Host/trailing-slash variants canonicalize; case and Unicode composition remain distinct. Tracking parameters, encoded separators, invalid UTF-8 and controls are rejected before spending.
+
+Two ordered native cards were captured in the October 16 no-email profile diagnostic. The explicit absence envelope comes from the saved October 18 native batch; its technical fixture replaces the query and internal request ID. Later Unicode diagnostics supply additional dated identity observations. These captures are reused without new source requests or double-counting spend. Native absence of a profile is distinct from absence of an interest tab. Native explicit-empty-tab behavior remains a wider acceptance check; synthetic variations establish the implemented refund behavior.
+
+Authenticated local API, app MCP, stdio MCP and Python checks pass against disposable PostgreSQL. They cover exact five-credit charges, zero-credit empty observations, full error/cancellation refunds, immutable free success/failure replay, input/budget/scope checks, Unicode identities and response schemas. Source transport is controlled using saved native-shaped fixtures; these checks are not hosted or fresh native-source acceptance.
+
+Source reservation, provider work and final projection share one active **45-second deadline**. Parent cancellation returns sanitized **499 REQUEST_CANCELLED**; deadline expiry returns **504 UPSTREAM_TIMEOUT**. Held credits are fully refunded when settlement is confirmed. No later dispatch or automatic resubmission occurs after cancellation. An already accepted Actor may still finish under its original cap; outcome/cost can remain unknown, with no allowance rollback.
+
+`provider_cost_usd` is an incomplete Apify usage estimate. Its value may change after completion and does not certify a final invoice or account balance. Runtime capacity is zero/unallocated, and all three release gates remain false. Sustainable capacity, broader native cases, real Redis and combined hosted acceptance remain required before activation. No new source spending, hosted migration, build, deployment or publication occurred in this batch.

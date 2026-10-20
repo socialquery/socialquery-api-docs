@@ -1,6 +1,10 @@
 ---
-title: "Perplexity Research"
+title: "Web Research"
 openapi: "GET /perplexity/research"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This adapter is staged locally and remains disabled. Perplexity credentials and an approved allowance have not been configured.</Note>
+
+Disabled local research adapter pending a Perplexity credential, an approved allowance and combined verification. Uses the current Perplexity Agent API fast preset, with bounded output and web-search tools only; the actual returned model is reported rather than called Sonar. A successful completed cited answer costs one credit. Sources include only URLs referenced by numbered [n] or [web:n] citations, linked to native search-result IDs. Unused search hits are not presented as cited evidence. Incomplete, uncited, conflicting, failed or malformed responses are refunded. Citation linkage does not verify factual support. No arbitrary source page is fetched by SocialQuery.
+
+Perplexity [migrated Sonar Chat Completions to its Agent API](https://docs.perplexity.ai/docs/agent-api/migrate-from-sonar/overview). This adapter exposes the actual model and checks citation identities without claiming model output is independently verified.

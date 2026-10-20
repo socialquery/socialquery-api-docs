@@ -3,4 +3,15 @@ title: "Jobs Bing Search"
 openapi: "GET /jobs/bing/search"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This partial adapter is staged locally and disabled. Production remains on release 2026-10-11.120; unavailable requests return HTTP 503 without consuming credits.</Note>
+
+Supply one keyword. The source fixes the US index and retrieves at most twenty jobs, with optional location, day/week date, remote and employment-type filters. There is no cursor. Exact geographic coverage and wider native filtering remain unverified.
+
+Source jobId and raw Bing jobUid remain distinct. Search positions are preserved separately from window positions. Native operation/query/id traces, publisher/apply-option associations and UTC/epoch date aliases must agree. Midnight UTC may encode only a date; exact-time precision remains unknown. Day/week filtering retains possible date overlap and unknown dates, selects known remote/employment matches, and never refills. No total, continuation or complete-set claim is supplied.
+
+A served job is not a verified open position. Posting/expiry values and direct-apply flags remain source observations. Public HTTP/HTTPS apply links are validated structurally but are never fetched, submitted to, or guaranteed to be direct employer applications. Description completeness is unverified. No salary is inferred from prose; logos and unrelated enrichment are omitted from both canonical output and independent receipt.
+
+A nonempty source window holds/settles ten credits, including a locally filtered empty output. Raw empty/error/inconsistent results fail unbilled and cannot establish no matches, a closed role or not-found absence. One pinned run is bounded to $0.10, 50 seconds, 512 MiB, a 55-second common deadline, 2-MiB source bodies, 4-MiB output, one overflow read and ten-minute receipts. Both routes share a zero/unallocated capacity journal. Wider native location/filter/date/empty/legacy parity, sustained capacity and the combined REST/MCP/Python/ledger audit remain gaps.
+
+
+The exact-id detail route is now verified locally separately from search. Search remains partial and has its own false release gate; shared source flags cannot activate it by themselves. Common reservation/run/fetch/body deadlines are hardened, but pagination, native location/employment filter encoding and broader field acceptance remain open.

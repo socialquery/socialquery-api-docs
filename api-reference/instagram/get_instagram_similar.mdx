@@ -1,6 +1,16 @@
 ---
-title: "Instagram Similar"
-openapi: "GET /instagram/similar"
+title: "Similar accounts"
+openapi: "GET /v1/instagram/similar"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally and disabled. Native envelopes, existing key scopes, free-credit eligibility and combined REST/MCP/skill settlement require verification. TikHub remains free-only with its unchanged shared request ceiling.</Warning>
+
+Supply `handle` or `user_id` for a public seed; both must resolve to the same account if supplied together. `limit` is 1–80. The fixed suggestion list stays in native order and has no cursor or inferred total. Suggestions do not establish shared ownership or objective similarity.
+
+A plain call defaults to 80 rows and leaves followers, following, posts count, biography and lifetime likes null. `include=profile` defaults to 20 rows and fetches each account’s public profile. Both stable ID and username must match. Known follower/following counts and biography populate the row; lifetime post count is included only when the source supplies it. Lifetime likes remain null. Failed, private, mismatched and deferred profile lookups leave the row unfilled.
+
+The nonempty list costs five credits, plus one per **fresh successful** profile. Cached and unsuccessful enrichment costs zero. `limit=20&include=profile` reserves at most 25 credits; `limit=80&include=profile` reserves at most 85. An observed empty list costs zero. Unused reserved credits are refunded. MCP and Python clients quote the same maximum, and `X-Max-Credits` is checked before source requests.
+
+Public profile cache entries last at most one hour and are checked for identity and expiry before use. Cache outages fall back to fresh reads. Up to four enrichment lookups run concurrently, with a 12-second per-lookup source deadline within the shared 45-second request. A source-capacity failure stops new work. `hydration.rows` reports fresh, cached, failed and deferred outcomes, attempted lookups, elapsed time and credits. This is bounded enrichment, so an 80-row request may finish partially within the deadline. Complete response-cache hits use the API’s existing zero-charge cache path; partial responses are not cached as complete results.
+
+Source: [TikHub OpenAPI](https://api.tikhub.io/openapi.json). No new key, scope, paid plan or allowance was created.

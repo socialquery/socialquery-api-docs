@@ -1,6 +1,16 @@
 ---
-title: "Instagram Following"
-openapi: "GET /instagram/following"
+title: "Instagram following"
+openapi: "GET /v1/instagram/following"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Ordinary pagination is implemented locally and disabled pending combined verification. The planned `coverage=full` merged walk is not implemented; requests for it fail before billing. This route does not yet have full feature parity.</Warning>
+
+Supply `handle`, `user_id`, or both when they identify the same public account. Numeric lookup resolves the handle first; a fresh profile read corroborates identity and supplies `total` on every page. `total` is the profile's count, not the number of accounts this source can enumerate.
+
+One native page contains up to 50 account summaries. Follower/following counts for those individual accounts are unavailable and remain null. Private status on a returned member describes that member's profile; this route does not read its private content.
+
+Pass `next_cursor` back unchanged with the same input identity and endpoint. Cursors expire after one hour. A changed seed identity returns `CURSOR_STALE`; invalid signatures, changed inputs and cross-endpoint cursors are rejected. Repeated IDs within a page or a non-advancing source cursor fail rather than silently dropping rows.
+
+Even when `has_more` is false, `complete_list_verified` remains false. Instagram may cap enumeration before the profile total, and cross-page duplicates can occur. Deduplicate by `author.id`. A successful nonempty page costs 5 credits; a successful empty page costs zero. Source errors do not produce a successful charge.
+
+[Source contract: TikHub](https://api.tikhub.io/openapi.json). Activation requires verification of native envelopes, Instagram v3 access and free-credit eligibility. The existing shared TikHub request ceiling is unchanged; no paid fallback or top-up is enabled.

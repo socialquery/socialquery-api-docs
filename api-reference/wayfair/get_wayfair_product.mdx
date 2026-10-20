@@ -3,4 +3,10 @@ title: "Wayfair Product"
 openapi: "GET /wayfair/product"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Local partial adapter; disabled until native nonempty response, source reliability, capacity and combined REST/MCP/Python/ledger verification. HTTP 503 consumes no credits. US/CA/GB only; IE/DE remain gaps.</Warning>
+
+The exact SKU, currency, source store and product URL must agree, and product details must be present. Main photo, selected options, dimensions and specification fields are retained when known. Full gallery/variants, manufacturer, return window and ZIP-specific shipping remain unverified. The source review count has no certified variant/catalogue scope.
+
+Unknown values remain null. Five credits for a valid product observation. Missing details, an empty lookup, malformed identity or source failure use full-refund error handling.
+
+Uses the existing scoped Apify credential and a pinned community Actor (`axiomworks/wayfair-product-scraper`, build `1.0.7`) with limited permissions, at most $0.25/run, a 40-second Actor timeout, 45-second request deadline and 2 MiB response bound. Existing paid credits are authorized; this does not create a subscription or top-up. No response cache. Local synthetic fixtures are separate from native diagnostics.

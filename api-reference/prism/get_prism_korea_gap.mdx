@@ -3,4 +3,28 @@ title: "Prism Korea Gap"
 openapi: "GET /prism/korea-gap"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local composite; disabled. Dedicated Naver Search credentials, live global-search/xAI acceptance and capacity, and combined source/client/ledger verification remain pending. Unavailable requests return 503 without consuming credits.</Warning>
+
+Compare bounded public discovery across news, blog, cafe, KnowledgeiN, shopping and web corpora. `query` is required; `display` is 1–100 per corpus (default ten). `include` is a CSV subset of `social` and `quotes`, default both. Unknown or repeated members return 400. Omitting `social` selects the 15-credit Korean-only mode; full mode holds 40 credits.
+
+Each Korean presence index is the retained distinct URL count divided by requested display. The Korean mean requires all six corpora to succeed. Global presence divides retained rows by ten slots per requested source and requires every source to complete. Difference points are `100 * (Korean index - global index)`, a declared local sampling heuristic. Missing coverage stays null. Search totals do not become Korean volume, and raw relevance is not proof of topic identity or population-level over-indexing.
+
+`date_from` and `date_to` are inclusive UTC calendar days, applied locally to collected relevance windows. Unknown dates are excluded and counted only when dates are requested. Several corpora have no dates; this can remove most rows and is not evidence of absence or historical retrieval.
+
+The optional quote sample contains at most six Korean-text excerpts, one per successful corpus, 240 characters each. The model returns only IDs and English text; the server reattaches the unchanged originals and validates the exact ID set. Translation is soft, may be unavailable, and does not replace source evidence or establish semantic fidelity. The concrete xAI transport is implemented locally using locked AI SDK 7.0.142 and its Chat Completions compatibility adapter 3.0.70. It preserves the dedicated key’s recorded Chat scope; no Responses or search/tool call is made. Native acceptance, semantic quality and account capacity remain unverified.
+
+Local provisional settlement retains base 15 when any Korean corpus completes, including an observed empty result. No Korean corpus success fails the request and refunds the hold. The extra 25 are retained only when all global sources complete; incomplete/unavailable global coverage refunds them. Optional translation failure does not change price.
+
+Collection has three workers, a 42-second collection deadline, 12-second native request limits, 2 MiB native responses and a 4 MiB final limit. Dedicated `NAVER_SEARCH_CLIENT_ID` / `NAVER_SEARCH_CLIENT_SECRET` are separate from the API Hub credential pair. The audit journal remains zero/unallocated; no credential or allowance was created.
+
+[Native Naver Search contract](https://developers.naver.com/docs/serviceapi/search/news/news.md) · [Shopping corpus](https://developers.naver.com/docs/serviceapi/search/shopping/shopping.md)
+
+
+The xAI transport sends only opaque excerpt IDs and their public text (up to six excerpts, 240 characters each). It uses one fixed-host request, no retries/tools, low reasoning effort, at most 1,800 output tokens, an eight-second deadline, 12,000 request bytes and 128 KiB response bytes. Its one-request/minute local guard and conservative 14,000-input-token reservation are below the recorded key ceilings; broader account coordination still requires activation review. Token limits are not a provider-enforced USD spending cap. The verification budget remains zero/unallocated.
+
+`translation_usage` distinguishes a call blocked before sending, a completed translation and a failed request. Reported xAI cost ticks are retained even when output validation fails. Missing or ambiguous costs remain null. `provider_cost_usd` sums known source/model costs only; `provider_cost_complete` is false. These source costs do not change the 40/15 customer-credit policy. The model prompt contains only opaque IDs and excerpt text. Source URL metadata and query context stay outside that prompt; ordinary source evidence retains its links. Credentials and raw provider diagnostics are not returned.
+
+
+The global bridge is implemented locally through universal search's default public GitHub issue/PR, Hacker News story and YouTube video/channel/playlist routes. Each source makes at most one fixed-host request with ten results, no continuation or retry, no paid fallback, a shared deadline of at most twelve seconds within the remaining collection window, and a 2 MiB response limit. Cancellation reaches pending fetches and open response bodies. All three complete sources provide thirty sample slots; this is a small discovery sample, not a global or social population index. GitHub runs without an account token to exclude private issues. Hacker News citations identify the discussion, rather than following its external article URL. Exact duplicate source URLs collapse; conflicting duplicates fail. Excerpts are bounded to 20,000 characters before HTML cleanup.
+
+Native malformed roots, incomplete GitHub searches and invalid result identities fail their source. A successful empty array remains an observed empty result. Global partial failure leaves its presence index and directional comparison null and retains only the 15-credit Korean base. Activation still requires native empty/nonempty/error acceptance, shared GitHub IP and YouTube project quota verification, source fairness review and the combined audit. The global journal reserves three request slots atomically but remains zero/unallocated; it does not establish available upstream quota.

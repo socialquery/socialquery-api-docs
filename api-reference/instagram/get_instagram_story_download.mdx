@@ -3,4 +3,6 @@ title: "Instagram Story Download"
 openapi: "GET /instagram/story/download"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally and disabled. This is staged documentation for the combined release, not production verification.</Warning>
+
+Preview: disabled local TikHub adapter awaiting the same scope, source and free-credit checks as the story list. Resolves the specified author ID, reads the current public tray and selects the exact story ID. Compound story IDs must agree with the author. Absent/expired stories return uncharged RESOURCE_NOT_FOUND; upstream errors are never treated as absence. Returns source-provided media URLs and variants, not downloaded bytes or proof that a URL remains playable. Five credits for a found story. No private or archived access.

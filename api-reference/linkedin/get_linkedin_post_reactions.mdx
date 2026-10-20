@@ -3,4 +3,12 @@ title: "LinkedIn Post Reactions"
 openapi: "GET /linkedin/post/reactions"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This partial local adapter is disabled. Unavailable calls return HTTP 503 without consuming customer credits. Published source examples are not native acceptance.</Note>
+
+Supply a canonical activity post URL. Share and ugcPost identifiers name different resources and reject before a hold. The adapter reads activity detail before the reactor page, then returns a typed public author observation for each source row. Native opaque member URNs are retained; member IDs, profile handles/URLs, counts and verification are unknown unless explicitly available in the documented source fields. Names are not split. HTTPS LinkedIn avatar variants retain observed dimensions, with missing dimensions null.
+
+The local filters support `type=all` or `type=like`. Source `LIKE` maps to `like`; other documented codes remain in `native_reaction_type` while normalized `reaction_type` stays null. Other filters and `include=profile` reject before a hold. These gaps keep the operation partial.
+
+A nonempty source page costs **10 customer credits**; an explicitly empty valid page costs zero. `limit` selects the top 1–10 rows without changing the base price. A returned signed cursor advances past the full native page, including rows omitted by the limit. It binds operation, post, filter, limit, source token and previous page identities, and expires after one hour. Repeated identities or tokens fail rather than becoming duplicate successful pages. Native page-size clamping is reported. The local 100-page ceiling is explicit when the source has more.
+
+Activity detail corroborates the requested post; the returned list's actual association, reaction semantics and native pagination still require live verification. Source cost stays unknown/incomplete. The existing source has a recorded maintenance failure and its free-plan capacity is unverified. Runtime capacity remains zero/unallocated. Native empty/error acceptance and combined REST/MCP/Python/ledger checks remain pending; no deployment or publication occurred.

@@ -3,4 +3,14 @@ title: "Prism Leads"
 openapi: "GET /prism/leads"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Implemented locally and disabled pending combined source, capacity and settlement verification. Unavailable requests return HTTP 503 without consuming credits.</Note>
+
+Search public conversations for alternatives to a competitor. Three exact web phrases, a newest Reddit search and a newest Hacker News story search run independently. Results are deduplicated by normalized URL. Each source outcome is visible, including an explicit successful empty search.
+
+The optional intent model receives bounded excerpts and product/offer context, without author identifiers. It assigns asking/comparing/switching probabilities, product relevance, vendor promotion, offer fit and urgency. Exact supporting quotes are required. Code computes the documented weighted score; labels are judgments for review, not purchasing predictions. Low-relevance rows are recorded under `dropped_ids`. Unavailable judgments preserve source evidence with null scores and keyword ranking.
+
+The response declares its formula and normalization: publication recency decays linearly over 30 days; engagement uses capped logarithmic native scores. Unknown dates and scores have explicit known/unknown flags. Web freshness first uses index fetch time, then excludes known old publication dates; a fresh crawl never becomes a publication date. There is no author enrichment or outreach.
+
+Up to 20 rows per search are examined, 100 unique candidates overall. `limit` returns up to 100. `include=comments` reads at most three returned Reddit leads and five top-level comments per thread. Optional model and comment failures remain visible and do not change search coverage billing.
+
+The hold is **50 credits**. Fewer than two of the three web phrase searches complete: **25 retained, 25 refunded**. All five source searches fail: **full refund**. Empty successful searches count as completed. No provider request, inference or new allowance was used to implement this preview.

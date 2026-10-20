@@ -3,4 +3,18 @@ title: "Prism Comments"
 openapi: "GET /prism/comments"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>The Hacker News adapter is staged locally and disabled. JSON and typed SSE are implemented locally. Other platforms and likes-based sorting remain unimplemented. Combined production verification is pending.</Warning>
+
+The current local implementation accepts canonical Hacker News story URLs and returns the public Algolia index's nested comment tree. Parent and story IDs are validated. Unavailable text remains a null placeholder with its replies intact. Likes are unknown, and source order is preserved; `sort=recent` does not promise chronological ordering. `sort=top` is rejected. Replies always remain nested regardless of `replies`.
+
+`max` scans up to 5,000 top-level branches, defaulting to 1,000. `limit` trims the output after scanning and defaults to `max`. Branches omitted by `limit` are skipped, not deferred to the next cursor. Both options count top-level branches; descendants are included and counted separately. The complete source tree is bounded to 5,000 nodes and 60 levels; oversized trees fail without retaining a charge. Output is limited to 2 MiB.
+
+Pass `next_cursor` with the same URL and options. This opaque public pagination state is bound to the normalized tree snapshot and expires after one hour. It is not an authentication token. Each page rereads the fixed public source; if the tree changed, HTTP 409 requires restarting without the cursor. Indexed results are not proof of a complete or current platform archive.
+
+A nonempty tree costs two credits per request. An observed empty tree costs zero. JSON remains the default. With `Accept: text/event-stream`, the local adapter emits `start`, then one provisional `page` after the full bounded source tree validates. The page has `{provisional: true, item: {data, leg}}`; `data` matches the JSON tree and `leg` records one public source request, zero source cost, estimated credits and source latency. Page credit fields are provisional. This is one complete source read, not incremental upstream streaming.
+
+`complete` carries the authoritative receipt only after durable credit settlement. Failure attempts a refund before `error`; if settlement and refund cannot be confirmed, credit use is unknown (`credits_used: null`). Disconnect prevents a source read from starting; a read already in flight finishes within the common 20-second source deadline, then settles. SSE with `Idempotency-Key` is rejected before reservation once enabled; JSON retains the existing replay path.
+
+One saved public thread verifies the native nested shape locally. Mocked stream, refund and disconnect tests do not certify production settlement. Larger trees, production billing and REST/MCP/skill flows still require the combined audit.
+
+Source: [Hacker News Algolia API](https://hn.algolia.com/api).

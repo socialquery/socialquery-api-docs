@@ -1,6 +1,14 @@
 ---
-title: "Facebook Search Groups"
+title: "Facebook Group Search"
 openapi: "GET /facebook/search/groups"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Local adapter; disabled pending native source, existing free capacity and combined REST/MCP/Python/ledger verification. Unavailable calls consume no credits.</Warning>
+
+Search the public web index for Facebook groups by `query`. A page contains at most ten indexed hits, deduplicated to group URLs in source order. `author.ext.search_hit` retains the exact evidence URL, title, snippet and whether it matched a group page or a post inside one. A post title never becomes a group name. Group-page names are index display labels until a detail lookup supplies the native name. Unknown member counts, descriptions, creation dates and privacy stay null.
+
+Use `include=details` to request public About-page enrichment for each returned group. It fills known member count, description, creation date, native numeric ID, privacy/visibility and activity. A numeric response alone cannot corroborate a vanity alias; that lookup remains unfilled and refunded. Group URLs remain usable by the group and group-post operations. Indexed discovery does not prove the group is readable; inspect privacy before attempting posts. Numeric and vanity aliases may recur across pages.
+
+Plain discovery holds one credit. Details holds eleven: one for a nonempty group window plus one per usable fresh enrichment. Cached, failed, deferred and empty-field lookups add no enrichment charge. Empty discovery refunds the base credit; response-cache hits are free. `hydration` reports attempted lookups, cache hits, outcomes, credits and elapsed time. Source cost stays explicitly unknown. No administrator/member identities or default AI judgments are returned.
+
+Return `next_cursor` verbatim with the same query and include, without page. Cursors expire after one hour; paging stops at page 100, with truncation explicit. Native index continuation is checked, never followed as an arbitrary URL. Details use three workers and a twelve-second deadline; at most ten lookups are attempted. Overall collection is bounded to fifty seconds and 2 MiB source/response bodies.

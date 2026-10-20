@@ -3,4 +3,6 @@ title: "Instagram Comment"
 openapi: "GET /instagram/comment"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Local batch implementation. This operation remains disabled in production until the combined release audit passes.</Warning>
+
+Preview: local EnsembleData single-comment adapter is implemented but disabled pending combined verification and sustainable source capacity. Bounded recent-comment scans read at most 3 pages, or 9 with deep_scan=true, within 50 seconds. Successful standard/deep lookups cost 5/15 credits. No-match, scan-limit and provider failures are free. Signed position hints last 10 minutes and are bound to the post and comment. Native post comment count is nullable. Deep reply permalinks currently return REPLY_NOT_RESOLVABLE without charge.

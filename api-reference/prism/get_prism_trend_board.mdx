@@ -3,4 +3,14 @@ title: "Prism Trend Board"
 openapi: "GET /prism/trend-board"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>This partial adapter is staged locally and disabled. One native US source check succeeded with 3,363 rows. Production remains on 2026-10-11.120 pending the combined audit.</Note>
+
+Use `country_code=US`, `period=7` and `limit` 1–10 (default 10). Other countries, thirty-day periods, keyword seeds, historical dates and continuation reject before reservation. Only Google Trending Now is staged. TikTok breakout posts, sounds and hashtags are unavailable `null` sections, with explicit `unavailable` keys. They are not successful empty lists.
+
+All rows in the bounded source response are validated, then the requested prefix is displayed without refilling. Source emission positions do not establish global or relevance ranks, so `rank` stays null. Repeated search terms can describe different trend episodes and remain separate. Native category IDs/names are retained without invented taxonomy. Reported volume, percentage and activity remain source observations; they do not verify unique people, precise demand or exact independent counts. Missing values stay null and explicit zeros survive. Episode start/end times do not establish first-ever interest.
+
+A free-plan account check precedes one seven-day US search using the existing credential. The account must report Free Plan, zero monthly price, zero extra credits, matching total/plan remaining searches and at least one plan search. Failed or depleted checks stop before search. There is no retry or paid fallback. The account snapshot is neither a reservation of upstream allowance nor the balance at settlement. Runtime capacity remains zero/unallocated and all activation flags remain false.
+
+Source cache may be up to one hour old; provider creation and request observation clocks are recorded separately. Local cache stays disabled. The runtime makes at most one account read and one search, shares a forty-second deadline including reservation, caps each source read at eighteen seconds/4 MiB and accepts at most 5,000 rows. Output is bounded at 4 MiB and canonical receipts expire after ten minutes. Whitelisted evidence is cloned independently; provider links/tokens, query breakdowns, media and enrichment are omitted. No model is called.
+
+The legacy thirty-credit hold and settlement remain provisional while this endpoint is disabled, including an explicit successful empty array. Failed or malformed searches produce an execution error without net customer charge or an absence claim. Full composite pricing/refund/cache/field semantics, other markets/periods, native empty/error behavior, sustained free capacity and combined REST/MCP/Python/ledger verification remain gaps.

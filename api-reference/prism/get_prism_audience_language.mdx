@@ -3,4 +3,14 @@ title: "Prism Audience Language"
 openapi: "GET /prism/audience-language"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>This partial implementation is staged locally and disabled. It has not passed combined production verification.</Warning>
+
+The staged YouTube adapter reads up to five recent uploads and one time-ordered page of up to 50 top-level comments per video. Replies and later pages are not included. Channel, video, thread and comment identities are checked. Failed pages remain failures, not empty samples.
+
+`comment_language` separates sampled, counted and abstained comments. Shares use **classified comments** as the denominator. Each row includes up to three exact public examples and a Wilson 90% interval; `headline_share` is null when its interval is wider than 0.25. Intervals describe the observed classifications and do not correct for biased sampling, repeated authors or classification errors.
+
+Hangul, Kana and Thai labels use script heuristics. Latin-script text uses a closed-list model judgment. Ambiguous Han-only, mixed, short, oversized, unsupported or uncertain text abstains. Labels describe comment text, never nationality, residence or ethnicity. TikTok, Instagram, follower composition and divergence comparisons remain unsupported and are not inferred from YouTube comments.
+
+Nonempty samples cost two credits, including when judgment abstains. Observed empty samples cost zero. If every selected comment page fails, the request fails without a retained charge. One shared deadline, bounded responses and the existing Groq test allowance limit work; no new allowance is initialized.
+
+Sources: [YouTube comment threads](https://developers.google.com/youtube/v3/docs/commentThreads/list) and [comment fields](https://developers.google.com/youtube/v3/docs/comments).

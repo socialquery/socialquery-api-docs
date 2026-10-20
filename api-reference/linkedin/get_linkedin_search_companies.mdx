@@ -1,6 +1,20 @@
 ---
-title: "LinkedIn Search Companies"
+title: "Search LinkedIn company pages"
 openapi: "GET /linkedin/search/companies"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial local implementation, disabled. Native vacancy/location-URN and broader source contracts, sustainable capacity and combined hosted acceptance remain pending. Unavailable requests reject before credit holds or source work.</Note>
+
+Supply `query`, optional `company_size` and comma-separated numeric `industry_ids`, then `page=1–20` or an opaque `cursor`. `has_jobs` and `geocode` remain unsupported. Size bands match the returned About range exactly. Industry matching uses the exact reported IDs, without expanding descendants. Unknown or mismatched fields are excluded explicitly; this does not claim complete native filter membership or exhaustive discovery.
+
+A source page holds up to fifty records and can contain school pages or records outside the requested filters. The response returns companies/showcases only. `source_count`, `filtered_out` and `filter_counts` explain the source window, including `previously_seen`, `non_company`, `company_size_mismatch` and `industry_mismatch`. `source_position` retains the original source position after exclusions. Source totals and ordering can change between calls and are not an exact count/rank for the filtered result set.
+
+Each fresh request holds ten credits. A nonempty returned company page settles ten; a filtered-empty or all-repeat page settles zero and refunds the whole hold. An empty source dataset or source error remains an unbilled failure, not confirmed global absence. A filtered-empty source page may still have a continuation when it observed new identities.
+
+Signed `lcs3_` cursors bind the original query/filters, retain every observed source ID once and keep the original one-hour expiry. Their history includes school/filter-excluded records. Cross-page repeats are omitted without refilling; a full source page with at least one new identity may continue, while an all-repeat page stops. No identity is discarded to fit the 16,000-character cursor bound; exceeding it stops explicitly. `lcs1_` and `lcs2_` cursors must restart. A direct page begins a new chain and cannot check unvisited pages. The source exposes at most twenty pages/1,000 accessible records even when its reported total is larger; `complete` remains false.
+
+Native company slugs containing `&` or `.` retain their exact identity. Bare website-domain labels appear in `author.ext.source_website_domain` with `external_url=null`; no HTTP(S) scheme is invented. Full website and logo URLs are validated metadata and are never fetched. Unknown counts, vacancy facts and precision remain unknown.
+
+Two October 19 native runs returned fifty source records each. The second overlapped the first by fourteen IDs; the corrected local pipeline returned 47 then 35 exact-filtered companies, 82 distinct companies and 86 distinct source identities. Updated Apify usage estimates were $0.201 per run, below each $0.22 cap; these are not final invoices or a current account balance. Original captures remain private; sanitized technical fixtures and unmodified offline originals verify the fixes. Actual authenticated API, both MCP clients, Python and disposable SQL verify filtering, cursor history, no-progress stopping, free empty windows and immutable free replay. Error/no-progress scenarios are synthetic.
+
+All three activation flags remain false and the runtime journal stays zero/unallocated. No deployment, hosted migration, key change, purchase, top-up or allowance reset/allocation occurred.

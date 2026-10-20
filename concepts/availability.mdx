@@ -12,3 +12,7 @@ Readiness can change when a source credential, balance, or quota changes. A fall
 YouTube’s official adapter covers channel and video metadata, uploads, playlists and their items, thumbnails, batch lookups, trending videos, comments, and search. A returned cursor belongs to the same request route. Transcripts, Shorts-only filters, contact-email lookups, and AI labels are outside that adapter’s output and require a different supported route.
 
 An operation that cannot run responds with `503`; it does not return an unrelated search or an invented record. During preview, inspect the actual payload and preserve source identifiers when implementing field handling.
+
+When routing has no live adapter, `PROVIDER_NOT_AVAILABLE` returns HTTP 503 with zero credits used before input validation or a credit hold. This also applies to zero-balance accounts. Cached results and completed idempotent responses are not served while that operation is unavailable; saved replay records remain unchanged. Authentication, scope and method checks still apply first.
+
+A configured provider name alone does not establish usable credentials, policy approval, available quota or a verified source contract. Those checks still apply to configured routes.

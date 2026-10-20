@@ -3,4 +3,16 @@ title: "Prism Answers"
 openapi: "GET /prism/answers"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>This adapter is implemented locally and disabled. Perplexity and Grok credentials, approved capacity and combined live verification remain pending. Synthetic contract tests do not certify production readiness.</Warning>
+
+Supply a question and optionally a CSV subset of `perplexity,grok,tavily`. The question is forwarded verbatim and answers remain unedited. Actual cited links are kept separate from retrieved search context; an answer without traceable links may still be returned with a warning and no citations.
+
+Cited URLs are deduplicated after removing fragments and known tracking parameters and sorting query parameters. Host, path and scheme are retained. `citation_overlap` is set Jaccard for each successful engine pair; an empty union is `null`, never perfect agreement.
+
+Optional comparison returns every successful engine pair with an agreement label and exact supporting answer quotes, plus at most five disputed claims. Invalid, incomplete or unavailable analysis returns `null` for both fields. It does not establish factual truth or calibrated confidence.
+
+`include=polymarket` adds up to ten markets from bounded lexical searches. Native outcome prices are observations, not forecasts supplied by SocialQuery. The optional source accepts printable queries up to 500 characters; unsupported input or source failure is explicit without losing raw answers.
+
+**Credits:** reserve 15. If a strict majority of selected engines fail, charge **7** and refund **8**, as confirmed for whole-credit billing. One failure out of two is not a majority. All-engine failure refunds all; successful market grounding cannot rescue that failure. Optional comparison/grounding failures do not change the charge.
+
+Send `Accept: text/event-stream` for a `start` event, provisional engine `item` events and a settled `complete` event. Only `complete` confirms credit use. Use JSON with `Idempotency-Key`. A disconnect prevents new analysis while in-flight work is settled.

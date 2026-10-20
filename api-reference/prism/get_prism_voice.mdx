@@ -3,4 +3,18 @@ title: "Prism Voice"
 openapi: "GET /prism/voice"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>This adapter is implemented locally and disabled pending combined source and billing verification. TwitterAPI.io and ScrapeCreators capacity must be restored within an approved allowance before activation.</Warning>
+
+Select any subset of Twitter/X, Threads, Bluesky and Truth Social. One profile read and one native feed page per found account run with bounded source deadlines. Bare Bluesky handles resolve to `handle.bsky.social`; custom-domain handles must be supplied in full. Matching handles do not establish that the accounts share an owner.
+
+`posts_by_platform` is always returned. `include` can add or omit `merged_timeline` and `computed`. Dated posts merge newest first, with undated posts last. X requests exclude replies; Bluesky requests exclude replies and the adapter omits feed repost wrappers. This is a bounded authored-post sample, not a complete archive. Per-post detail requests are not made.
+
+Presence is `true` for a corroborated profile, even with no posts. `false` requires an explicit native missing-profile response; unsupported, failed and unqueried sources are `null`. Every attempted leg reports status, estimated source cost and latency. A posts failure preserves a found profile and marks the response partial. All failed or missing profiles produce an error without a retained charge.
+
+The cross-post rate counts sampled posts whose normalized text occurs on more than one platform, divided by text-eligible sampled posts. Normalization uses NFKC, case folding and whitespace collapse; text shorter than 20 characters is excluded. The denominator is returned. It is an overlap estimate, not evidence of copying or common ownership. Optional Groq tone labels are soft judgments of the supplied text, with exact supporting quotations. Unavailable or invalid analysis becomes null without changing the flat price.
+
+A successful response costs five credits, including partial results with a usable profile. Observed all-profile misses and all-source execution failures retain no charge. Complete first pages are eligible for the existing five-minute response cache; cache hits use the existing zero-credit path. Partial responses and continuation pages are not cached. Returned cursors bind the handle and ordered platform selection, expire after one hour, and carry only native pagination state. They are opaque public pagination state, not authentication tokens. Continuations fetch only platforms with a source cursor; other platforms show `not_requested` and null presence for that page. A partial response does not certify completion of a failed source.
+
+Only JSON is supported. Changing source pages may overlap or change between requests. No atomic cross-platform snapshot is promised. Native live pagination and REST/MCP/skill settlement checks remain part of the combined audit.
+
+Sources: [TwitterAPI.io Python examples](https://twitterapi.io/blog/twitter-api-with-python), [Bluesky API](https://docs.bsky.app/), [ScrapeCreators documentation](https://docs.scrapecreators.com/).

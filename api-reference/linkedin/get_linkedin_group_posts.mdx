@@ -3,4 +3,16 @@ title: "LinkedIn Group Posts"
 openapi: "GET /linkedin/group/posts"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Note>Partial group-specific adapter staged locally and disabled. One native group returned three posts. Exact native pages/cursors, broader groups, empty/private/not-found/error, full media, sustained capacity and combined verification remain open.</Note>
+
+Supply native numeric `group_id`, optional `page=1`, and `limit` from 1–20 (default 20). Later pages, continuation and search sorts are unavailable. One pinned Actor reads the requested group; this window does not establish LinkedIn's exact native page size or complete group history.
+
+Every returned `urn:li:groupPost:GROUP-ID-POST-ID` URL must corroborate the group. That native group-post URN is the canonical post identity. Source numeric `postId` is retained separately as `source_post_id`; it differs in the native sample and is never promoted to an inferred activity ID. Person IDs and profile URL references are validated where present, with matching `miniProfileUrn` query fields stripped after verification.
+
+Source ISO dates and native millisecond timestamps must agree. Dataset emission is not chronological, and only emission positions are preserved. `since` and `until` apply inclusive UTC bounds within this window, retain undated rows and do not refill it. A date-only `until` includes that whole UTC day. Every nonempty validated source window costs five credits even if date filtering removes every row.
+
+Like, comment, share and parallel total-reaction counters remain source observations with unknown exact precision. Unknown counters/authors/dates remain null. Source repost flags are observations rather than verified classification. Media, linked articles, avatars/contact/profile enrichment and nested repost/reposter data are omitted from response and canonical receipt. No complete media, exact global rank or full-history guarantee is made.
+
+An empty Actor dataset cannot distinguish a valid-empty, private, missing or blocked group and fails without net customer charge. Runtime uses one pinned group-only Actor capped at $0.03, twenty posts, 50 seconds, 512 MiB and a 55-second total deadline. Existing paid Apify credits are authorized; all activation flags stay false, the new journal stays zero/unallocated, and the older maintenance-blocked draft is not a fallback.
+
+Cancellation returns `499 REQUEST_CANCELLED`; expiry of the active source window returns `504 UPSTREAM_TIMEOUT`. The full customer hold is refunded on confirmed settlement. Reservation, source work, fetch and body reads share the same deadline, even when a dependency ignores cancellation or cleanup stalls. Late work starts no later read or retry. A completed success/failure replay keeps its payload and performs no new source or ledger work. Already accepted upstream work may still consume its original capped allowance; cancellation does not guarantee a remote stop or allowance rollback. These lifecycle checks use fixture transport and disposable SQL; the native contract gaps and disabled release state above are unchanged.

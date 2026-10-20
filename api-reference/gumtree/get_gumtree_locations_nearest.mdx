@@ -3,4 +3,16 @@ title: "Gumtree Locations Nearest"
 openapi: "GET /gumtree/locations/nearest"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Partial local adapter; disabled. Source credentials, native geographic/error acceptance, free allowance and upstream permission for standalone API redistribution remain unresolved. Unavailable requests return 503 without consuming customer credits.</Warning>
+
+Supply `latitude` and `longitude` together, or `location_coordinate=latitude,longitude`. Coordinates use finite decimal degrees within -90–90 and -180–180. Equal aliases are accepted; conflicting aliases, incomplete pairs and unsupported inputs reject before a credit hold.
+
+The candidate returns one provider-reported nearest Gumtree UK postcode or area. `location` preserves its native `id`, `name`, `type`, `latitude` and `longitude`. Source coordinates can differ from requested coordinates. The response does not establish a radius, road distance, exhaustive directory or independently verified nearest-neighbour accuracy. It is not a general address geocoder. The source describes IDs/types as inputs to Gumtree location filters; live compatibility remains unverified.
+
+A usable success would retain the existing five-credit customer price. Only a documented JSON `NOT_FOUND` 404 with `success=false`, `endpoint_family=location`, `billable=false` and `retryable=false` becomes an unbilled not-found response. HTML 404s, parser drift, malformed records and outages fail without manufacturing an empty result. Known errors never cause retries or provider fallbacks.
+
+One request is bounded to fifteen seconds including capacity reservation, a 64 KiB response and a fixed HTTPS recipient. API keys stay in the source's `x-api-key` header; cookies, redirects and account credentials for other providers are excluded. The verification journal remains zero/unallocated. No signup, API key creation, allowance reset or purchase occurred. `upstream_credits=1` reflects the documented provisional source price, while `provider_cost_usd=null` and `provider_cost_complete=false` preserve unknown cash cost.
+
+[Source contract](https://scrappa.co/docs/gumtree-api/gumtree_location) · [Advertised free allowance](https://scrappa.co/pricing) · [Provider terms, section 8](https://scrappa.co/legal/terms-of-service)
+
+The provider permits application display, storage and analytics, but requires written authorization for standalone dataset/data-feed resale. That application-use permission is not recorded as permission to wrap the source in SocialQuery's API. Both runtime gates and the separate provider-review gate remain closed pending resolution and combined REST/MCP/Python/ledger verification.
