@@ -21800,9 +21800,10 @@
                   "duration_seconds": {
                     "anyOf": [
                       {
-                        "type": "number",
+                        "type": "integer",
                         "minimum": 0,
-                        "maximum": 9007199254740.99
+                        "maximum": 9007199254740,
+                        "description": "Whole seconds rounded down; duration_ms retains source millisecond precision."
                       },
                       {
                         "type": "null"
@@ -21910,6 +21911,10 @@
                   "platform",
                   "numeric_author_id",
                   "sec_uid",
+                  "author_id",
+                  "author_url",
+                  "music_title",
+                  "music_artist",
                   "music_id",
                   "published_at_epoch",
                   "hashtags",
@@ -21931,6 +21936,37 @@
                         "pattern": "^MS4w[A-Za-z0-9_-]+$",
                         "minLength": 24,
                         "maxLength": 200
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "author_id": {
+                    "type": "string",
+                    "pattern": "^[1-9][0-9]{0,29}$",
+                    "maxLength": 30
+                  },
+                  "author_url": {
+                    "type": "string",
+                    "pattern": "^https://www\\.douyin\\.com/(?:video/[1-9][0-9]{0,29}|user/MS4w[A-Za-z0-9_-]+)$"
+                  },
+                  "music_title": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 2000
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "music_artist": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 1000
                       },
                       {
                         "type": "null"
@@ -22091,7 +22127,8 @@
           "_warnings",
           "coverage_note",
           "_receipt",
-          "billing"
+          "billing",
+          "dropped"
         ],
         "properties": {
           "request": {
@@ -22184,6 +22221,11 @@
           },
           "billing": {
             "$ref": "#/components/schemas/DouyinDiscoveryBilling"
+          },
+          "dropped": {
+            "type": "integer",
+            "const": 0,
+            "description": "Schema-repair omissions. Malformed source rows fail the whole request, so successful responses report0. Date omissions are counted separately in filtered_out."
           }
         },
         "additionalProperties": false
@@ -147777,7 +147819,7 @@
       "get": {
         "operationId": "get_douyin_search",
         "summary": "Douyin Search",
-        "description": "Partial disabled bounded native-source window, default ten/max25 rows. Hold limit times five credits, settle five per returned post and refund unused holds; images/music add no charge. Exact request/owner/public/counter/date/duration aliases are validated. Source-signed cover metadata retains a declared expiry and explicit elapsed status on observed CDN host/path families, without fetching or inferring dimensions, current availability or playback. Native music IDs require title/author alias corroboration; audio rights/playback are unverified. Views remain null. One 25-row most-liked/under-one-minute native search and one five-row latest/day native search matched those controls; not all filter combinations or negatives are verified. Saved native originals and actual API/MCP/Python/disposable SQL support fields/refunds/free replay. Other native/filter/empty/private/legacy/date wording and applicable handle/paging contracts, sustained capacity, real Redis and combined hosted acceptance remain pending. All shared release flags false, runtime journal zero/unallocated; no deployment. Publication aliases are supported for these bounded list windows: absolute aliases must agree, relative lower bounds freeze at the request reference time retained in the receipt, undated rows stay visible, and filtering never refills the source window. This does not establish native continuation or change returned-row pricing. Canonical post/computed fields accompany existing observations. Caption, source author identity, counters, cover, publication time, pinned state and music ID use corroborated source observations; views, video URLs, avatars and unmeasured computed metrics remain null. No media fetch or playback claim.",
+        "description": "Douyin keyword video search with all documented sort, published-window, duration and publication-alias inputs. One result ceiling1–25(default10), five credits per returned row; date omissions refund unused holds, without refill. The operation-specific reference exposes no cursor input: next_cursor=null and pagination.has_more=false mean no API continuation, never exhaustive results. Loose related-video fallback for nonsense keywords is expected. Canonical duration_seconds is whole seconds rounded down; duration_ms preserves source precision. Source IDs/URLs, caption, author, counters, cover, music ID/title/artist and dates are corroborated. Optional unobserved media/avatar/computed fields stay null, views always null. Source-empty/error data fails unbilled without absence claims. Implementation is verified locally; release remains disabled pending sustainable capacity and combined hosted acceptance.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -147984,8 +148026,35 @@
                       "properties": {
                         "data": {
                           "$ref": "#/components/schemas/DouyinDiscoveryObservation"
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "required": [
+                            "next_cursor",
+                            "has_more",
+                            "page_size"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "next_cursor": {
+                              "type": "null"
+                            },
+                            "has_more": {
+                              "const": false,
+                              "description": "No documented API continuation. This does not certify an exhaustive search."
+                            },
+                            "page_size": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 25,
+                              "description": "Requested result ceiling."
+                            }
+                          }
                         }
-                      }
+                      },
+                      "required": [
+                        "pagination"
+                      ]
                     }
                   ]
                 }
