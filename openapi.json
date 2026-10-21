@@ -4185,6 +4185,12 @@
             "$ref": "#/components/schemas/FacebookGroupSearchPageData"
           },
           {
+            "$ref": "#/components/schemas/FacebookGroupFitPage"
+          },
+          {
+            "$ref": "#/components/schemas/FacebookGroupRecallPage"
+          },
+          {
             "$ref": "#/components/schemas/FacebookGroupSearchPreview"
           }
         ]
@@ -4210,7 +4216,8 @@
           "source_cost_complete",
           "_warnings",
           "coverage_note",
-          "_receipt"
+          "_receipt",
+          "dropped"
         ],
         "properties": {
           "query": {
@@ -4378,6 +4385,11 @@
           },
           "relevance": {
             "$ref": "#/components/schemas/FacebookGroupRelevanceSummary"
+          },
+          "dropped": {
+            "type": "integer",
+            "const": 0,
+            "description": "Schema-repair omissions. Malformed records fail the request; source filtering, duplicate identities and irrelevant index hits have separate counters."
           }
         }
       },
@@ -8163,7 +8175,8 @@
           "returned_count",
           "deduplicated",
           "total",
-          "_receipt"
+          "_receipt",
+          "dropped"
         ],
         "properties": {
           "profile_url": {
@@ -8254,6 +8267,11 @@
               }
             },
             "additionalProperties": false
+          },
+          "dropped": {
+            "type": "integer",
+            "const": 0,
+            "description": "Malformed cards fail the whole request. Exact duplicate cards are counted separately in deduplicated; no schema-repair omission is hidden."
           }
         },
         "additionalProperties": false
@@ -9641,7 +9659,7 @@
               "string",
               "null"
             ],
-            "pattern": "^[1-9]\\d{9,24}$"
+            "pattern": "^[1-9]\\d{0,24}$"
           },
           "cursor": {
             "type": "string",
@@ -9673,7 +9691,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^[1-9]\\d{9,24}$"
+            "pattern": "^[1-9]\\d{0,24}$"
           },
           "uniqueId": {
             "type": "string",
@@ -9902,7 +9920,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "pattern": "^[1-9]\\d{9,24}$"
+                    "pattern": "^[1-9]\\d{0,24}$"
                   },
                   "username": {
                     "type": "string"
@@ -10078,7 +10096,8 @@
           "provider_cost_complete",
           "_warnings",
           "coverage_note",
-          "_receipt"
+          "_receipt",
+          "dropped"
         ],
         "properties": {
           "request": {
@@ -10097,7 +10116,7 @@
             "properties": {
               "id": {
                 "type": "string",
-                "pattern": "^[1-9]\\d{9,24}$"
+                "pattern": "^[1-9]\\d{0,24}$"
               },
               "username": {
                 "type": "string"
@@ -10187,9 +10206,16 @@
             "properties": {
               "source": {
                 "$ref": "#/components/schemas/TikTokPlaylistVideoSourceWindow"
+              },
+              "publication_at": {
+                "type": "integer",
+                "minimum": 0
               }
             },
             "additionalProperties": false
+          },
+          "dropped": {
+            "const": 0
           }
         },
         "additionalProperties": false
@@ -11684,7 +11710,11 @@
           "active",
           "follower_count_precision",
           "has_jobs",
-          "source_website_domain"
+          "source_website_domain",
+          "company_id",
+          "description",
+          "source_industries",
+          "source_locations"
         ],
         "properties": {
           "page_type": {
@@ -11720,32 +11750,18 @@
             ]
           },
           "industries": {
-            "anyOf": [
-              {
-                "type": "array",
-                "maxItems": 20,
-                "items": {
-                  "$ref": "#/components/schemas/LinkedInCompanySearchIndustry"
-                }
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "description": "Observed native industry names; the matching numeric IDs/URNs remain in source_industries."
           },
           "locations": {
-            "anyOf": [
-              {
-                "type": "array",
-                "maxItems": 200,
-                "items": {
-                  "$ref": "#/components/schemas/LinkedInCompanySearchLocation"
-                }
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "type": "null",
+            "description": "No native flat location-label array is observed. Source location objects remain in source_locations, without inventing geocode IDs or combined labels."
           },
           "active": {
             "type": [
@@ -11766,6 +11782,46 @@
             ],
             "maxLength": 253,
             "description": "Native bare-domain label only; no URL scheme inferred."
+          },
+          "company_id": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,29}$",
+            "description": "Source numeric company identifier, identical to author.id; suitable for company lookup endpoints."
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Source long company description. author.bio contains the source tagline, without fallback to this different field."
+          },
+          "source_industries": {
+            "anyOf": [
+              {
+                "type": "array",
+                "maxItems": 20,
+                "items": {
+                  "$ref": "#/components/schemas/LinkedInCompanySearchIndustry"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_locations": {
+            "anyOf": [
+              {
+                "type": "array",
+                "maxItems": 200,
+                "items": {
+                  "$ref": "#/components/schemas/LinkedInCompanySearchLocation"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false
@@ -11809,7 +11865,8 @@
             "type": [
               "string",
               "null"
-            ]
+            ],
+            "description": "Source company tagline; null when no tagline is observed. The long description is retained separately in ext.description."
           },
           "verified": {
             "type": [
@@ -12178,7 +12235,8 @@
           "source_count",
           "filtered_out",
           "filter_match_basis",
-          "filter_counts"
+          "filter_counts",
+          "dropped"
         ],
         "properties": {
           "request": {
@@ -12334,6 +12392,11 @@
               }
             },
             "additionalProperties": false
+          },
+          "dropped": {
+            "type": "integer",
+            "const": 0,
+            "description": "Schema-repair omissions. Malformed records fail the request; source filtering, duplicate identities and irrelevant index hits have separate counters."
           }
         },
         "additionalProperties": false
@@ -16834,6 +16897,10 @@
             "type": "number",
             "minimum": 0,
             "maximum": 0.02
+          },
+          "publication_at": {
+            "type": "integer",
+            "minimum": 0
           }
         },
         "additionalProperties": false
@@ -16861,7 +16928,8 @@
           "provider_cost_complete",
           "_warnings",
           "coverage_note",
-          "_receipt"
+          "_receipt",
+          "dropped"
         ],
         "properties": {
           "request": {
@@ -16944,6 +17012,9 @@
           },
           "_receipt": {
             "$ref": "#/components/schemas/TikTokLocationReceipt"
+          },
+          "dropped": {
+            "const": 0
           }
         },
         "additionalProperties": false
@@ -48516,6 +48587,493 @@
             }
           }
         }
+      },
+      "FacebookGroupFitHeldBack": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ids",
+          "recall_id",
+          "recall_url",
+          "expires_at",
+          "status",
+          "reason",
+          "goal",
+          "soft_token_limit",
+          "estimated_tokens",
+          "soft_limit_exceeded",
+          "methodology_version"
+        ],
+        "properties": {
+          "ids": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "type": "string"
+            }
+          },
+          "recall_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "recall_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "expires_at": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "status": {
+            "enum": [
+              "complete",
+              "skipped"
+            ]
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "goal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "soft_token_limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16000
+          },
+          "estimated_tokens": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "soft_limit_exceeded": {
+            "type": "boolean"
+          },
+          "methodology_version": {
+            "const": "facebook-group-fit-1"
+          }
+        }
+      },
+      "FacebookGroupFitPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query",
+          "items",
+          "returned_count",
+          "source_count",
+          "skipped_non_group_hits",
+          "total",
+          "page",
+          "next_cursor",
+          "source_has_more",
+          "pagination_truncated",
+          "hydration",
+          "credits",
+          "observed_at",
+          "source_cost_estimate_usd",
+          "source_cost_complete",
+          "_warnings",
+          "coverage_note",
+          "dropped",
+          "held_back"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "author"
+              ],
+              "properties": {
+                "author": {
+                  "$ref": "#/components/schemas/FacebookGroupSearchAuthor"
+                },
+                "computed": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "relevance"
+                  ],
+                  "properties": {
+                    "relevance": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/FacebookGroupRelevanceScore"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "held_back": {
+                  "const": true
+                }
+              }
+            },
+            "maxItems": 10
+          },
+          "returned_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "source_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "skipped_non_group_hits": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "total": {
+            "type": "null"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 8000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_has_more": {
+            "type": "boolean"
+          },
+          "pagination_truncated": {
+            "type": "boolean"
+          },
+          "hydration": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "rows",
+                  "lookups",
+                  "cache_hits",
+                  "filled",
+                  "credits",
+                  "elapsed_ms"
+                ],
+                "properties": {
+                  "rows": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/FacebookGroupSearchHydrationLeg"
+                    },
+                    "maxItems": 10
+                  },
+                  "lookups": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "cache_hits": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "filled": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "credits": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "elapsed_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 51000
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "credits": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 12
+          },
+          "observed_at": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "source_cost_estimate_usd": {
+            "type": "null"
+          },
+          "source_cost_complete": {
+            "const": false
+          },
+          "_warnings": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "maxItems": 10
+          },
+          "coverage_note": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "relevance": {
+            "$ref": "#/components/schemas/FacebookGroupRelevanceSummary"
+          },
+          "dropped": {
+            "type": "integer",
+            "const": 0,
+            "description": "Schema-repair omissions. Malformed records fail the request; source filtering, duplicate identities and irrelevant index hits have separate counters."
+          },
+          "held_back": {
+            "$ref": "#/components/schemas/FacebookGroupFitHeldBack"
+          }
+        }
+      },
+      "FacebookGroupRecallPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query",
+          "items",
+          "returned_count",
+          "source_count",
+          "skipped_non_group_hits",
+          "total",
+          "page",
+          "next_cursor",
+          "source_has_more",
+          "pagination_truncated",
+          "hydration",
+          "credits",
+          "observed_at",
+          "source_cost_estimate_usd",
+          "source_cost_complete",
+          "_warnings",
+          "coverage_note",
+          "dropped",
+          "recall"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "author"
+              ],
+              "properties": {
+                "author": {
+                  "$ref": "#/components/schemas/FacebookGroupSearchAuthor"
+                },
+                "computed": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "relevance"
+                  ],
+                  "properties": {
+                    "relevance": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/FacebookGroupRelevanceScore"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "maxItems": 10
+          },
+          "returned_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "source_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "skipped_non_group_hits": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "total": {
+            "type": "null"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 8000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_has_more": {
+            "type": "boolean"
+          },
+          "pagination_truncated": {
+            "type": "boolean"
+          },
+          "hydration": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "rows",
+                  "lookups",
+                  "cache_hits",
+                  "filled",
+                  "credits",
+                  "elapsed_ms"
+                ],
+                "properties": {
+                  "rows": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/FacebookGroupSearchHydrationLeg"
+                    },
+                    "maxItems": 10
+                  },
+                  "lookups": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "cache_hits": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "filled": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "credits": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "elapsed_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 51000
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "credits": {
+            "const": 0
+          },
+          "observed_at": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "source_cost_estimate_usd": {
+            "type": "null"
+          },
+          "source_cost_complete": {
+            "const": false
+          },
+          "_warnings": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "maxItems": 10
+          },
+          "coverage_note": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "relevance": {
+            "$ref": "#/components/schemas/FacebookGroupRelevanceSummary"
+          },
+          "dropped": {
+            "type": "integer",
+            "const": 0,
+            "description": "Schema-repair omissions. Malformed records fail the request; source filtering, duplicate identities and irrelevant index hits have separate counters."
+          },
+          "recall": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "expires_at"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^fbfr1_"
+              },
+              "expires_at": {
+                "type": "integer"
+              }
+            }
+          }
+        }
       }
     },
     "responses": {
@@ -59961,7 +60519,7 @@
       "get": {
         "operationId": "get_linkedin_search_companies",
         "summary": "LinkedIn Search Companies",
-        "description": "Partial disabled native-backed company search. One full-mode source page of up to 50 company/showcase observations, with explicit page type and native IDs. query is required; company_size and up to 20 comma-separated numeric industry_ids are mapped locally. page=1–20 or a signed matching cursor is supported. geocode and has_jobs are unsupported and reject before a hold. Native result count and the accessible 1000-result source ceiling remain separate. A cursor requires a complete source page; a short window never skips omitted positions. Native filter/continuation/empty acceptance, full reference parity, sustainable capacity and combined verification remain pending. Successful nonempty observations cost 10 credits; empty datasets fail unbilled. All activation flags stay false. Dataset emission order is retained; LinkedIn search rank remains unknown. Version lcs2 cursors retain every company ID observed in the current chain and the original expiry; direct page requests start new chains. Cross-page repeated IDs fail unbilled. cursor_size_limited=true stops continuation at 16000 characters without discarding history. Earlier lcs1 cursors must restart. Synthetic twenty-page chain and authenticated local SQL/client acceptance are verified; native full-page continuation remains pending. Native full pages can include school results and inexact source-filter membership. Schools are excluded; company_size and industry_ids match exact returned fields only, without descendant-industry expansion. filter_counts discloses exclusions. Source ranks, totals and cursor history include all source rows, including excluded rows. A filtered-empty page is free and can still have a next_cursor. Bare website domains remain labels with external_url=null; no protocol is inferred. Native pages can overlap and source totals can change. lcs3 signed cursors retain every observed source ID once; repeated IDs are omitted without refill, and an all-repeat page is free and stops continuation. lcs1/lcs2 cursors must restart.",
+        "description": "Partial disabled native-backed company search. One full-mode source page of up to 50 company/showcase observations, with explicit page type and native IDs. query is required; company_size and up to 20 comma-separated numeric industry_ids are mapped locally. page=1–20 or a signed matching cursor is supported. geocode and has_jobs are unsupported and reject before a hold. Native result count and the accessible 1000-result source ceiling remain separate. A cursor requires a complete source page; a short window never skips omitted positions. Native filter/continuation/empty acceptance, full reference parity, sustainable capacity and combined verification remain pending. Successful nonempty observations cost 10 credits; empty datasets fail unbilled. All activation flags stay false. Dataset emission order is retained; LinkedIn search rank remains unknown. Version lcs2 cursors retain every company ID observed in the current chain and the original expiry; direct page requests start new chains. Cross-page repeated IDs fail unbilled. cursor_size_limited=true stops continuation at 16000 characters without discarding history. Earlier lcs1 cursors must restart. Synthetic twenty-page chain and authenticated local SQL/client acceptance are verified; native full-page continuation remains pending. Native full pages can include school results and inexact source-filter membership. Schools are excluded; company_size and industry_ids match exact returned fields only, without descendant-industry expansion. filter_counts discloses exclusions. Source ranks, totals and cursor history include all source rows, including excluded rows. A filtered-empty page is free and can still have a next_cursor. Bare website domains remain labels with external_url=null; no protocol is inferred. Native pages can overlap and source totals can change. lcs3 signed cursors retain every observed source ID once; repeated IDs are omitted without refill, and an all-repeat page is free and stops continuation. lcs1/lcs2 cursors must restart. Canonical author.bio is the native tagline; author.ext.description retains the long description and author.ext.company_id repeats the native numeric company ID. Successful live lists include dropped=0 and required root pagination; pagination.page_size is the delivered item count. Source exclusions and schema omissions remain distinct. Static cost previews omit pagination. These repairs do not qualify missing filters, generic labels/fit, source access or activation.",
         "x-credit-cost": 10,
         "x-launch-status": "beta",
         "parameters": [
@@ -60091,11 +60649,40 @@
                     {
                       "type": "object",
                       "required": [
-                        "data"
+                        "data",
+                        "pagination"
                       ],
                       "properties": {
                         "data": {
                           "$ref": "#/components/schemas/LinkedInCompanySearchObservation"
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "required": [
+                            "next_cursor",
+                            "has_more",
+                            "page_size"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "next_cursor": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "pattern": "^lcs3_[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+                            },
+                            "has_more": {
+                              "type": "boolean",
+                              "description": "Whether this API response offers a continuation cursor. A false value is not proof of complete source coverage; inspect data.pagination_truncated and source caps."
+                            },
+                            "page_size": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 50,
+                              "description": "Actual number of delivered items after filtering and deduplication; can be zero while continuation remains available."
+                            }
+                          }
                         }
                       }
                     }
@@ -61389,7 +61976,7 @@
       "get": {
         "operationId": "get_linkedin_profile_activity",
         "summary": "LinkedIn Profile Activity",
-        "description": "Use LinkedIn Profile Activity to inspect the selected public resource. The reference defines accepted identifiers, optional fields, and the expected credit amount. Validate a small response before depending on preview coverage.",
+        "description": "Preview unavailable. The target contract returns the member’s most recent public activity timestamp for a required profile URL; it is not a feed. A saved candidate returned only the relative display 1w. Absolute timestamp conversion, precision and broader native semantics are unqualified, so no activity time is fabricated. Unsupported requests remain unbilled.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -71722,7 +72309,7 @@
       "get": {
         "operationId": "get_linkedin_profile_contact",
         "summary": "LinkedIn Profile Contact",
-        "description": "Partial local typed adapter, disabled pending native source, contact subfield schemas, capacity and combined verification. Checks the canonical profile URL against the native username and profile URN. Returns visible first/last name, nullable address/email and typed HTTPS website links. Native empty phone/messenger arrays remain empty; nonempty undocumented structures and birthdays stay null with explicit warnings. Null/empty values do not establish absence or complete contact discovery. Five credits for a validated source response; failures receive the normal full refund.",
+        "description": "Partial local typed adapter, disabled pending native source, published phone/X/WeChat contact fields and source identity schemas, capacity and combined verification. Checks the canonical profile URL against the native username and profile URN. Returns visible first/last name, nullable address/email and typed HTTPS website links. Native empty phone/messenger arrays remain empty; nonempty undocumented structures and birthdays stay null with explicit warnings. Null/empty values do not establish absence or complete contact discovery. Five credits for a validated source response; failures receive the normal full refund. The reference also advertises public_identifier, twitter and wechat; these remain implementation/source gaps. Birthday, email and generic messenger enrichment are not required by that published contract.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -81362,6 +81949,87 @@
               "type": "integer",
               "minimum": 0
             }
+          },
+          {
+            "name": "published_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "published_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "publish_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "yesterday",
+                "this-week",
+                "this-month",
+                "last-3-months",
+                "last-6-months"
+              ]
+            },
+            "description": "Relative lower publication bound: yesterday=1 day, this-week=7, this-month=30, last-3-months=90, last-6-months=180. Uses a request reference clock retained in the receipt; does not change native ordering or add a source request."
+          },
+          {
+            "name": "max_age_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 36500
+            },
+            "description": "Relative lower bound in days, 0–36500; fractions accepted. The strongest absolute/relative lower bound wins."
           }
         ],
         "responses": {
@@ -81379,8 +82047,38 @@
                       "properties": {
                         "data": {
                           "$ref": "#/components/schemas/TikTokPlaylistVideoObservation"
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "required": [
+                            "next_cursor",
+                            "has_more",
+                            "page_size"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "next_cursor": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "pattern": "^(?:0|[1-9]\\d{0,8})$"
+                            },
+                            "has_more": {
+                              "type": "boolean"
+                            },
+                            "page_size": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 10,
+                              "description": "Delivered rows after window-local filtering; no source-exhaustion claim."
+                            }
+                          }
                         }
-                      }
+                      },
+                      "required": [
+                        "pagination"
+                      ]
                     }
                   ]
                 }
@@ -81930,6 +82628,87 @@
               "type": "integer",
               "minimum": 0
             }
+          },
+          {
+            "name": "published_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "published_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "publish_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "yesterday",
+                "this-week",
+                "this-month",
+                "last-3-months",
+                "last-6-months"
+              ]
+            },
+            "description": "Relative lower publication bound: yesterday=1 day, this-week=7, this-month=30, last-3-months=90, last-6-months=180. Uses a request reference clock retained in the receipt; does not change native ordering or add a source request."
+          },
+          {
+            "name": "max_age_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 36500
+            },
+            "description": "Relative lower bound in days, 0–36500; fractions accepted. The strongest absolute/relative lower bound wins."
           }
         ],
         "responses": {
@@ -81947,8 +82726,34 @@
                       "properties": {
                         "data": {
                           "$ref": "#/components/schemas/TikTokLocationObservation"
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "required": [
+                            "next_cursor",
+                            "has_more",
+                            "page_size"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "next_cursor": {
+                              "type": "null"
+                            },
+                            "has_more": {
+                              "const": false
+                            },
+                            "page_size": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 20,
+                              "description": "Delivered rows after window-local filtering; no source-exhaustion claim."
+                            }
+                          }
                         }
-                      }
+                      },
+                      "required": [
+                        "pagination"
+                      ]
                     }
                   ]
                 }
@@ -163778,7 +164583,7 @@
       "get": {
         "operationId": "get_facebook_search_groups",
         "summary": "Facebook Search Groups",
-        "description": "Partial indexed Facebook group discovery, disabled pending missing generic-label/alias contracts, sustained capacity and combined hosted verification. Two native index pages and one independent numeric-group About lookup passed projection; authenticated local API, MCP/Python clients and disposable SQL acceptance passed. A query searches the public web index restricted to Facebook group URLs; search snippets remain search evidence. Group-page titles are index display labels, and post-in-group hits have no group name until corroborated by a detail lookup. Fewer than ten unique groups can be returned from one ten-result index window; exact totals and exhaustive coverage are unknown. Optional include=details holds up to eleven credits: one for a nonempty group window and one per usable fresh enrichment. Cached, failed, empty-field and deferred enrichments add zero credits; successful empty discovery refunds the base credit. Detail identity must be corroborated; a numeric response alone cannot resolve a vanity alias, so that row remains unfilled and refunded. Three workers, at most ten detail attempts and a twelve-second hydration deadline; a fifty-second overall deadline and 2 MiB source/response bounds apply. Returned cursors bind query and include, expire after one hour, and stop at page 100 or a repeated page. Unsupported options fail before source work. No administrator/member identities or generic AI labels are returned. Default query relevance and explicit score/filter are bounded uncalibrated model judgments; unclear/unjudged rows remain, and filtering never refills/reorders or changes native pagination. judgments=off or label=none omits relevance. relevant_to with explicit relevance holds one extra credit and charges one per started25 fresh successful judgments, cached/failing judgments free; maximum12 with details. Cursors bind all judgment/topic/threshold controls. No complete scoring calibration/reference-parity claim. dry_run=1 returns a static zero-credit cost ceiling with ten expected rows as a source ceiling and rows_cached=null, not a forecast or cache/availability guarantee. No provider/source/model/quota/judgment-cache access, source cursor verification, or customer debit occurs. Preview response caching is disabled; authenticated idempotent replay remains free. Source cost is explicitly unknown, separate from customer charges. Response cache hits are free. Parent cancellation and source/hydration deadlines bound quota, rate, fetch, body and cache work; cancellation returns 499 and deadline failure returns 504 with unbilled/refunded collection. Native samples do not establish complete reference parity.\n",
+        "description": "Locally complete indexed public Facebook group discovery; disabled pending sustainable runtime capacity and combined hosted release acceptance. One ten-hit web-index window yields up to ten unique group URLs, in source order. Search titles/snippets are index evidence; a post title never becomes a group name. Canonical facts stay null until optional include=details fills usable public About-page observations. Numeric responses do not prove vanity ownership: failed, unfilled, cached and deferred details add no enrichment credit. Plain nonempty discovery costs1; fresh usable details add1 each (maximum11), and explicit custom-topic relevance adds at most1 (maximum12). Empty discovery, exact response-cache hits and authenticated replay are free. Source cost and exact totals are unknown. Default query relevance uses bounded public text; explicit score/filter and relevant_to are supported. Unclear/unjudged rows remain; filtering never refills, reorders or changes index continuation. judgments=off or label=none suppresses defaults, while explicitly requested relevance still runs. Author/group rows use relevance; post/comment label presets do not apply. fit=goal adds no customer charge and uses reversible stubs, with first/last/uncertain rows retained and an approximate soft token budget for other rows. Full signed snapshots must be stored and read back before stubbing. Authenticated same-route recall_id retrieves the immutable full page for zero credits within five minutes, without a source/model call. This recall URL is a SocialQuery extension; the reference does not publish a retrieval wire protocol. Invalid judgments or unavailable snapshots retain full rows. Curated native samples and local API/client/ledger checks establish this bounded contract, not exhaustive discovery, scoring calibration, readable membership, every-alias success or authenticated competitor wire parity. Cursors bind query, detail, relevance and fit controls for one hour, with explicit page100/repeat truncation. Root pagination reports actual delivered count; filtered-empty pages can continue. dropped=0 distinguishes schema omissions from source exclusions. Detail work uses three workers/twelve seconds within a fifty-second overall deadline. Parent cancellation and deadlines bound reservations, HTTP/body, cache and model work; collection cancellation/deadline returns499/504 with a full refund. dry_run=1 is a free static maximum-cost preview with unknown cached rows, no source/model/quota/cache access and no ledger mutation; previews omit pagination. Fit, recall and previews are private/no-store. No new journal allocation or activation is granted by this local completion.",
         "x-credit-cost": 1,
         "x-launch-status": "beta",
         "parameters": [
@@ -163864,7 +164669,7 @@
                 "off"
               ]
             },
-            "description": "on (default) enables query relevance; off omits relevance keys. Generic labels remain unsupported. Cannot combine off with explicit relevance."
+            "description": "on (default) enables free query relevance. off suppresses default judgments; explicit relevance still runs. Group Author rows do not receive post/comment label presets."
           },
           {
             "name": "dry_run",
@@ -163888,7 +164693,7 @@
                 "none"
               ]
             },
-            "description": "none omits relevance, as judgments=off. Other generic labels are unavailable."
+            "description": "none suppresses default judgments, as judgments=off. Explicit relevance still runs. Group Author rows do not receive post/comment label presets."
           },
           {
             "name": "fit",
@@ -163900,14 +164705,16 @@
                 "goal"
               ]
             },
-            "description": "Unsupported in this partial adapter; rejected before source work, including with dry_run=1."
+            "description": "Set goal with goal= to keep first/last and uncertain rows, and useful interior rows within the soft budget, while replacing other interior rows with reversible stubs. Default relevance remains separate. No extra customer credits. Failure to judge/store/read back a full immutable page retains every row. Soft fit_tokens limit may be exceeded to keep required rows."
           },
           {
             "name": "goal",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
             },
             "description": "Unsupported in this partial adapter; rejected before source work, including with dry_run=1."
           },
@@ -163916,7 +164723,10 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16000,
+              "default": 1500
             },
             "description": "Unsupported in this partial adapter; rejected before source work, including with dry_run=1."
           },
@@ -163956,6 +164766,17 @@
               "type": "integer",
               "minimum": 0
             }
+          },
+          {
+            "name": "recall_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 2048,
+              "pattern": "^fbfr1_"
+            },
+            "description": "SocialQuery recall URL extension. Send only the original query and returned recall_id to retrieve the unmodified cached page with zero credits and no source/model call. Bound to this user and API key; expires after five minutes. Expired/missing/foreign snapshots return an unbilled404; no automatic refetch."
           }
         ],
         "responses": {
@@ -163976,8 +164797,70 @@
                       "properties": {
                         "data": {
                           "$ref": "#/components/schemas/FacebookGroupSearchData"
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "required": [
+                            "next_cursor",
+                            "has_more",
+                            "page_size"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "next_cursor": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "pattern": "^fbgs1_[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+                            },
+                            "has_more": {
+                              "type": "boolean",
+                              "description": "Whether this API response offers a continuation cursor. A false value is not proof of complete source coverage; inspect data.pagination_truncated and source caps."
+                            },
+                            "page_size": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 10,
+                              "description": "Actual number of delivered items after filtering and deduplication; can be zero while continuation remains available."
+                            }
+                          }
                         }
-                      }
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "data": {
+                              "oneOf": [
+                                {
+                                  "$ref": "#/components/schemas/FacebookGroupSearchPageData"
+                                },
+                                {
+                                  "$ref": "#/components/schemas/FacebookGroupFitPage"
+                                },
+                                {
+                                  "$ref": "#/components/schemas/FacebookGroupRecallPage"
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "pagination"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "data": {
+                              "$ref": "#/components/schemas/FacebookGroupSearchPreview"
+                            }
+                          },
+                          "not": {
+                            "required": [
+                              "pagination"
+                            ]
+                          }
+                        }
+                      ]
                     }
                   ]
                 }
@@ -164041,7 +164924,9 @@
           "maxRelevanceCredits": 1,
           "relevanceRowsPerCredit": 25,
           "maxCredits": 12,
-          "dryRunSupported": true
+          "dryRunSupported": true,
+          "fitSupported": true,
+          "recallSupported": true
         }
       }
     },

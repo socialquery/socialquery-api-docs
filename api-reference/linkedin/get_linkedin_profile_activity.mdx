@@ -3,4 +3,10 @@ title: "LinkedIn Profile Activity"
 openapi: "GET /linkedin/profile/activity"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>This endpoint is unavailable. Requests return HTTP 503 without consuming credits. No timestamp adapter has been accepted or enabled.</Warning>
+
+The target endpoint returns the member's **most recent public activity time**. Supply a full LinkedIn profile URL as `url`. It is a timestamp endpoint; use the separate profile posts, comments and reactions endpoints for lists.
+
+The current candidate's saved native response contains only `recent_activity_time: "1w"`. That label does not establish an exact absolute timestamp or a documented rounding rule. We have not converted the crawl time into publication time. Native precision, identity/error behavior and the full source contract still need qualification.
+
+The published operation takes only `url`. It does not require a feed, activity type, page, limit or cursor. It remains unstaged; passing a generic response schema does not verify its timestamp behavior.
