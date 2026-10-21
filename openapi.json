@@ -190767,7 +190767,7 @@
             "name": "id",
             "in": "query",
             "required": true,
-            "example": "MTE5OTc2NjYxOS5SZXRybw==",
+            "example": "YmluZzotMjAwMDQyMTczMC5SZXRybw",
             "schema": {
               "type": "string",
               "minLength": 4,
