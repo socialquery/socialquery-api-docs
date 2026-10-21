@@ -19876,7 +19876,9 @@
           "media_projected",
           "playback_verified",
           "source_scraped_at",
-          "media"
+          "media",
+          "post",
+          "computed"
         ],
         "properties": {
           "entity_type": {
@@ -20039,6 +20041,279 @@
                 "type": "null"
               }
             ]
+          },
+          "post": {
+            "type": "object",
+            "required": [
+              "id",
+              "url",
+              "content",
+              "author",
+              "engagement",
+              "flags",
+              "published_at",
+              "ext"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{24}$",
+                "minLength": 24,
+                "maxLength": 24
+              },
+              "url": {
+                "type": "string",
+                "pattern": "^https://www\\.xiaohongshu\\.com/(?:explore|user/profile)/[a-f0-9]{24}$"
+              },
+              "content": {
+                "type": "object",
+                "required": [
+                  "text",
+                  "media_urls",
+                  "thumbnail_url",
+                  "duration_seconds"
+                ],
+                "properties": {
+                  "text": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 100000
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "media_urls": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "maxItems": 100,
+                        "items": {
+                          "type": "string",
+                          "maxLength": 8000,
+                          "pattern": "^https://"
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "thumbnail_url": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 8000,
+                        "pattern": "^https://"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "duration_seconds": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "author": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "display_name",
+                  "avatar_url",
+                  "verified"
+                ],
+                "properties": {
+                  "username": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "display_name": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "avatar_url": {
+                    "type": "null"
+                  },
+                  "verified": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "engagement": {
+                "$ref": "#/components/schemas/XhsContentEngagement"
+              },
+              "flags": {
+                "type": "object",
+                "required": [
+                  "nsfw",
+                  "spoiler",
+                  "pinned",
+                  "deleted"
+                ],
+                "properties": {
+                  "nsfw": {
+                    "type": "null"
+                  },
+                  "spoiler": {
+                    "type": "null"
+                  },
+                  "pinned": {
+                    "type": "null"
+                  },
+                  "deleted": {
+                    "type": "null"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "published_at": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "ext": {
+                "type": "object",
+                "required": [
+                  "platform",
+                  "author_user_id",
+                  "text_truncated",
+                  "source_kind",
+                  "hashtags",
+                  "topic_ids"
+                ],
+                "properties": {
+                  "platform": {
+                    "const": "xiaohongshu"
+                  },
+                  "author_user_id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{24}$",
+                        "minLength": 24,
+                        "maxLength": 24
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "text_truncated": {
+                    "enum": [
+                      true,
+                      null
+                    ]
+                  },
+                  "source_kind": {
+                    "enum": [
+                      "image",
+                      "video"
+                    ]
+                  },
+                  "hashtags": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "maxItems": 100,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "topic_ids": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "maxItems": 100,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{24}$",
+                          "minLength": 24,
+                          "maxLength": 24
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          "computed": {
+            "type": "object",
+            "required": [
+              "engagement_rate",
+              "language",
+              "content_category",
+              "estimated_reach"
+            ],
+            "properties": {
+              "engagement_rate": {
+                "type": "null"
+              },
+              "language": {
+                "type": "null"
+              },
+              "content_category": {
+                "type": "null"
+              },
+              "estimated_reach": {
+                "type": "null"
+              }
+            },
+            "additionalProperties": false
           }
         },
         "additionalProperties": false
@@ -20175,6 +20450,12 @@
             "type": "number",
             "minimum": 0,
             "maximum": 0.1
+          },
+          "publication_at": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "For relative filters, the immutable request reference within the bounded source deadline; not a source publication time."
           }
         },
         "additionalProperties": false
@@ -21284,7 +21565,9 @@
           "native_rank_verified",
           "media_projected",
           "playback_verified",
-          "cover"
+          "cover",
+          "post",
+          "computed"
         ],
         "properties": {
           "entity_type": {
@@ -21456,6 +21739,284 @@
                 "type": "null"
               }
             ]
+          },
+          "post": {
+            "type": "object",
+            "required": [
+              "id",
+              "url",
+              "content",
+              "author",
+              "engagement",
+              "flags",
+              "published_at",
+              "ext"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,29}$",
+                "maxLength": 30
+              },
+              "url": {
+                "type": "string",
+                "pattern": "^https://www\\.douyin\\.com/(?:video/[1-9][0-9]{0,29}|user/MS4w[A-Za-z0-9_-]+)$"
+              },
+              "content": {
+                "type": "object",
+                "required": [
+                  "text",
+                  "media_urls",
+                  "thumbnail_url",
+                  "duration_seconds"
+                ],
+                "properties": {
+                  "text": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 50000
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "media_urls": {
+                    "type": "null"
+                  },
+                  "thumbnail_url": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 8000,
+                        "pattern": "^https://"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "duration_seconds": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 9007199254740.99
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "author": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "display_name",
+                  "avatar_url",
+                  "verified"
+                ],
+                "properties": {
+                  "username": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "display_name": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "avatar_url": {
+                    "type": "null"
+                  },
+                  "verified": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "engagement": {
+                "$ref": "#/components/schemas/DouyinDiscoveryEngagement"
+              },
+              "flags": {
+                "type": "object",
+                "required": [
+                  "nsfw",
+                  "spoiler",
+                  "pinned",
+                  "deleted"
+                ],
+                "properties": {
+                  "nsfw": {
+                    "type": "null"
+                  },
+                  "spoiler": {
+                    "type": "null"
+                  },
+                  "pinned": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "deleted": {
+                    "const": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "published_at": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "ext": {
+                "type": "object",
+                "required": [
+                  "platform",
+                  "numeric_author_id",
+                  "sec_uid",
+                  "music_id",
+                  "published_at_epoch",
+                  "hashtags",
+                  "is_image_post"
+                ],
+                "properties": {
+                  "platform": {
+                    "const": "douyin"
+                  },
+                  "numeric_author_id": {
+                    "type": "string",
+                    "pattern": "^[1-9][0-9]{0,29}$",
+                    "maxLength": 30
+                  },
+                  "sec_uid": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^MS4w[A-Za-z0-9_-]+$",
+                        "minLength": 24,
+                        "maxLength": 200
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "music_id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 30,
+                        "pattern": "^[1-9][0-9]{0,29}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "published_at_epoch": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "hashtags": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "maxItems": 100,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "is_image_post": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          "computed": {
+            "type": "object",
+            "required": [
+              "engagement_rate",
+              "language",
+              "content_category",
+              "estimated_reach"
+            ],
+            "properties": {
+              "engagement_rate": {
+                "type": "null"
+              },
+              "language": {
+                "type": "null"
+              },
+              "content_category": {
+                "type": "null"
+              },
+              "estimated_reach": {
+                "type": "null"
+              }
+            },
+            "additionalProperties": false
           }
         },
         "additionalProperties": false
@@ -21497,6 +22058,12 @@
             "type": "number",
             "minimum": 0,
             "maximum": 0.1
+          },
+          "publication_at": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "For relative filters, the immutable request reference within the bounded source deadline; not a source publication time."
           }
         },
         "additionalProperties": false
@@ -61466,6 +62033,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -61477,9 +62047,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -61585,6 +62152,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -61596,9 +62166,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -61704,6 +62271,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -61715,9 +62285,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -62669,6 +63236,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -62680,9 +63250,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -62794,6 +63361,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -62805,9 +63375,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -64471,6 +65038,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -64482,9 +65052,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -66009,6 +66576,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -66020,9 +66590,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -68262,6 +68829,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -68273,9 +68843,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -68381,6 +68948,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -68392,9 +68962,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -80805,6 +81372,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -80816,9 +81386,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -81489,6 +82056,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -81500,9 +82070,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -81611,6 +82178,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -81622,9 +82192,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -86002,6 +86569,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -86013,9 +86583,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -86298,6 +86865,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -86309,9 +86879,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -86679,6 +87246,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -86690,9 +87260,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -86918,6 +87485,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -86929,9 +87499,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -87701,6 +88268,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -87712,9 +88282,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -88595,6 +89162,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -88606,9 +89176,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -93233,6 +93800,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -93244,9 +93814,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -108928,6 +109495,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -108939,9 +109509,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "requestBody": {
@@ -116417,6 +116984,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -116428,9 +116998,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -122929,6 +123496,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -122940,9 +123510,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -127326,6 +127893,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -127337,9 +127907,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -127563,6 +128130,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -127574,9 +128144,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -128187,6 +128754,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -128198,9 +128768,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -128295,6 +128862,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -128306,9 +128876,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -146732,6 +147299,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -146743,9 +147313,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -146883,6 +147450,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -146894,9 +147464,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -147034,6 +147601,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -147045,9 +147615,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -147185,6 +147752,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -147196,9 +147766,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -147210,7 +147777,7 @@
       "get": {
         "operationId": "get_douyin_search",
         "summary": "Douyin Search",
-        "description": "Partial disabled bounded native-source window, default ten/max25 rows. Hold limit times five credits, settle five per returned post and refund unused holds; images/music add no charge. Exact request/owner/public/counter/date/duration aliases are validated. Source-signed cover metadata retains a declared expiry and explicit elapsed status on observed CDN host/path families, without fetching or inferring dimensions, current availability or playback. Native music IDs require title/author alias corroboration; audio rights/playback are unverified. Views remain null. One 25-row most-liked/under-one-minute native search and one five-row latest/day native search matched those controls; not all filter combinations or negatives are verified. Saved native originals and actual API/MCP/Python/disposable SQL support fields/refunds/free replay. Other native/filter/empty/private/legacy/date wording and applicable handle/paging contracts, sustained capacity, real Redis and combined hosted acceptance remain pending. All shared release flags false, runtime journal zero/unallocated; no deployment.",
+        "description": "Partial disabled bounded native-source window, default ten/max25 rows. Hold limit times five credits, settle five per returned post and refund unused holds; images/music add no charge. Exact request/owner/public/counter/date/duration aliases are validated. Source-signed cover metadata retains a declared expiry and explicit elapsed status on observed CDN host/path families, without fetching or inferring dimensions, current availability or playback. Native music IDs require title/author alias corroboration; audio rights/playback are unverified. Views remain null. One 25-row most-liked/under-one-minute native search and one five-row latest/day native search matched those controls; not all filter combinations or negatives are verified. Saved native originals and actual API/MCP/Python/disposable SQL support fields/refunds/free replay. Other native/filter/empty/private/legacy/date wording and applicable handle/paging contracts, sustained capacity, real Redis and combined hosted acceptance remain pending. All shared release flags false, runtime journal zero/unallocated; no deployment. Publication aliases are supported for these bounded list windows: absolute aliases must agree, relative lower bounds freeze at the request reference time retained in the receipt, undated rows stay visible, and filtering never refills the source window. This does not establish native continuation or change returned-row pricing. Canonical post/computed fields accompany existing observations. Caption, source author identity, counters, cover, publication time, pinned state and music ID use corroborated source observations; views, video URLs, avatars and unmeasured computed metrics remain null. No media fetch or playback claim.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -147291,6 +147858,87 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "published_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "published_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "publish_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "yesterday",
+                "this-week",
+                "this-month",
+                "last-3-months",
+                "last-6-months"
+              ]
+            },
+            "description": "Relative lower publication bound: yesterday=1 day, this-week=7, this-month=30, last-3-months=90, last-6-months=180. Uses a request reference clock retained in the receipt; does not change native ordering or add a source request."
+          },
+          {
+            "name": "max_age_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 36500
+            },
+            "description": "Relative lower bound in days, 0–36500; fractions accepted. The strongest absolute/relative lower bound wins."
           },
           {
             "name": "Cache-Control",
@@ -147522,7 +148170,7 @@
       "get": {
         "operationId": "get_douyin_profile_posts",
         "summary": "Douyin Profile Posts",
-        "description": "Partial disabled bounded native-source window, default ten/max25 rows. Hold limit times five credits, settle five per returned post and refund unused holds; images/music add no charge. Exact request/owner/public/counter/date/duration aliases are validated. Source-signed cover metadata retains a declared expiry and explicit elapsed status on observed CDN host/path families, without fetching or inferring dimensions, current availability or playback. Native music IDs require title/author alias corroboration; audio rights/playback are unverified. Views remain null. One 25-row most-liked/under-one-minute native search and one five-row latest/day native search matched those controls; not all filter combinations or negatives are verified. Saved native originals and actual API/MCP/Python/disposable SQL support fields/refunds/free replay. Other native/filter/empty/private/legacy/date wording and applicable handle/paging contracts, sustained capacity, real Redis and combined hosted acceptance remain pending. All shared release flags false, runtime journal zero/unallocated; no deployment.",
+        "description": "Partial disabled bounded native-source window, default ten/max25 rows. Hold limit times five credits, settle five per returned post and refund unused holds; images/music add no charge. Exact request/owner/public/counter/date/duration aliases are validated. Source-signed cover metadata retains a declared expiry and explicit elapsed status on observed CDN host/path families, without fetching or inferring dimensions, current availability or playback. Native music IDs require title/author alias corroboration; audio rights/playback are unverified. Views remain null. One 25-row most-liked/under-one-minute native search and one five-row latest/day native search matched those controls; not all filter combinations or negatives are verified. Saved native originals and actual API/MCP/Python/disposable SQL support fields/refunds/free replay. Other native/filter/empty/private/legacy/date wording and applicable handle/paging contracts, sustained capacity, real Redis and combined hosted acceptance remain pending. All shared release flags false, runtime journal zero/unallocated; no deployment. Publication aliases are supported for these bounded list windows: absolute aliases must agree, relative lower bounds freeze at the request reference time retained in the receipt, undated rows stay visible, and filtering never refills the source window. This does not establish native continuation or change returned-row pricing. Canonical post/computed fields accompany existing observations. Caption, source author identity, counters, cover, publication time, pinned state and music ID use corroborated source observations; views, video URLs, avatars and unmeasured computed metrics remain null. No media fetch or playback claim.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -147594,6 +148242,87 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "published_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "published_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "publish_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "yesterday",
+                "this-week",
+                "this-month",
+                "last-3-months",
+                "last-6-months"
+              ]
+            },
+            "description": "Relative lower publication bound: yesterday=1 day, this-week=7, this-month=30, last-3-months=90, last-6-months=180. Uses a request reference clock retained in the receipt; does not change native ordering or add a source request."
+          },
+          {
+            "name": "max_age_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 36500
+            },
+            "description": "Relative lower bound in days, 0–36500; fractions accepted. The strongest absolute/relative lower bound wins."
           },
           {
             "name": "Cache-Control",
@@ -162667,6 +163396,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -162678,9 +163410,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -162804,6 +163533,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -162815,9 +163547,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -163213,6 +163942,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -163224,9 +163956,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -191705,6 +192434,9 @@
           "429": {
             "$ref": "#/components/responses/Error429"
           },
+          "499": {
+            "$ref": "#/components/responses/Error499"
+          },
           "500": {
             "$ref": "#/components/responses/Error500"
           },
@@ -191716,9 +192448,6 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
-          },
-          "499": {
-            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -196917,7 +197646,7 @@
       "get": {
         "operationId": "get_xiaohongshu_search",
         "summary": "Xiaohongshu Search",
-        "description": "Partial local implementation, disabled. Hold five credits per requested row (default ten, max twenty), settle five per validated returned row, refund unused holds. Actor minimum rows and creator anchor do not add customer charges; filtered-empty list output costs zero. Raw source empty/error data fail unbilled without absence inference. Billing is verified through saved original/technical source replay and the actual authenticated API/MCP/Python/disposable SQL. Bounded source/deadline and unknown-field behavior remain explicit. Video/avatar media, continuation, broader native filters/empty/legacy/freshness and date-wording parity, sustainable capacity and combined production acceptance remain pending; all activation gates false and journal zero/unallocated. Image-note covers and ordered galleries retain validated source CDN URL observations with explicit unknown completeness, unchanged per-returned-note billing and no image fetches. Video/avatars and native pagination remain unsupported.",
+        "description": "Partial local implementation, disabled. Hold five credits per requested row (default ten, max twenty), settle five per validated returned row, refund unused holds. Actor minimum rows and creator anchor do not add customer charges; filtered-empty list output costs zero. Raw source empty/error data fail unbilled without absence inference. Billing is verified through saved original/technical source replay and the actual authenticated API/MCP/Python/disposable SQL. Bounded source/deadline and unknown-field behavior remain explicit. Video/avatar media, continuation, broader native filters/empty/legacy/freshness and date-wording parity, sustainable capacity and combined production acceptance remain pending; all activation gates false and journal zero/unallocated. Image-note covers and ordered galleries retain validated source CDN URL observations with explicit unknown completeness, unchanged per-returned-note billing and no image fetches. Video/avatars and native pagination remain unsupported. Publication aliases are supported for these bounded list windows: absolute aliases must agree, relative lower bounds freeze at the request reference time retained in the receipt, undated rows stay visible, and filtering never refills the source window. This does not establish native continuation or change returned-row pricing. Canonical post/computed fields accompany existing note observations. Summary text, source IDs/URLs, observed media metadata and source array order are preserved. Unobserved views, avatars, pin state and computed metrics remain null. List text is a summary; detail completeness is unverified. No media fetch or playback claim.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -196940,7 +197669,7 @@
               "maximum": 20,
               "default": 10
             },
-            "description": "Return 1–20 selected rows (default 20). The source minimum is five rows; smaller limits select a prefix. No continuation or refilling."
+            "description": "Return 1–20 selected rows (default 10). The source minimum is five rows; smaller limits select a prefix. No continuation or refilling."
           },
           {
             "name": "sort",
@@ -196999,6 +197728,87 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "published_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "published_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "publish_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "yesterday",
+                "this-week",
+                "this-month",
+                "last-3-months",
+                "last-6-months"
+              ]
+            },
+            "description": "Relative lower publication bound: yesterday=1 day, this-week=7, this-month=30, last-3-months=90, last-6-months=180. Uses a request reference clock retained in the receipt; does not change native ordering or add a source request."
+          },
+          {
+            "name": "max_age_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 36500
+            },
+            "description": "Relative lower bound in days, 0–36500; fractions accepted. The strongest absolute/relative lower bound wins."
           },
           {
             "name": "Cache-Control",
@@ -197378,7 +198188,7 @@
       "get": {
         "operationId": "get_xiaohongshu_profile_posts",
         "summary": "Xiaohongshu Profile Posts",
-        "description": "Partial local implementation, disabled. Hold five credits per requested row (default ten, max twenty), settle five per validated returned row, refund unused holds. Actor minimum rows and creator anchor do not add customer charges; filtered-empty list output costs zero. Raw source empty/error data fail unbilled without absence inference. Billing is verified through saved original/technical source replay and the actual authenticated API/MCP/Python/disposable SQL. Bounded source/deadline and unknown-field behavior remain explicit. Video/avatar media, continuation, broader native filters/empty/legacy/freshness and date-wording parity, sustainable capacity and combined production acceptance remain pending; all activation gates false and journal zero/unallocated. Image-note covers and ordered galleries retain validated source CDN URL observations with explicit unknown completeness, unchanged per-returned-note billing and no image fetches. Video/avatars and native pagination remain unsupported.",
+        "description": "Partial local implementation, disabled. Hold five credits per requested row (default ten, max twenty), settle five per validated returned row, refund unused holds. Actor minimum rows and creator anchor do not add customer charges; filtered-empty list output costs zero. Raw source empty/error data fail unbilled without absence inference. Billing is verified through saved original/technical source replay and the actual authenticated API/MCP/Python/disposable SQL. Bounded source/deadline and unknown-field behavior remain explicit. Video/avatar media, continuation, broader native filters/empty/legacy/freshness and date-wording parity, sustainable capacity and combined production acceptance remain pending; all activation gates false and journal zero/unallocated. Image-note covers and ordered galleries retain validated source CDN URL observations with explicit unknown completeness, unchanged per-returned-note billing and no image fetches. Video/avatars and native pagination remain unsupported. Publication aliases are supported for these bounded list windows: absolute aliases must agree, relative lower bounds freeze at the request reference time retained in the receipt, undated rows stay visible, and filtering never refills the source window. This does not establish native continuation or change returned-row pricing. Canonical post/computed fields accompany existing note observations. Summary text, source IDs/URLs, observed media metadata and source array order are preserved. Unobserved views, avatars, pin state and computed metrics remain null. List text is a summary; detail completeness is unverified. No media fetch or playback claim.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -197415,7 +198225,7 @@
               "maximum": 20,
               "default": 10
             },
-            "description": "Return 1–20 selected rows (default 20). The source minimum is five rows; smaller limits select a prefix. No continuation or refilling."
+            "description": "Return 1–20 selected rows (default 10). The source minimum is five rows; smaller limits select a prefix. No continuation or refilling."
           },
           {
             "name": "since",
@@ -197432,6 +198242,87 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "published_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of since. Calendar dates mean midnight UTC. Multiple absolute lower aliases must resolve to the same instant."
+          },
+          {
+            "name": "published_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alias of until. A calendar date includes that entire UTC day. Multiple upper aliases must resolve to the same instant."
+          },
+          {
+            "name": "publish_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "yesterday",
+                "this-week",
+                "this-month",
+                "last-3-months",
+                "last-6-months"
+              ]
+            },
+            "description": "Relative lower publication bound: yesterday=1 day, this-week=7, this-month=30, last-3-months=90, last-6-months=180. Uses a request reference clock retained in the receipt; does not change native ordering or add a source request."
+          },
+          {
+            "name": "max_age_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 36500
+            },
+            "description": "Relative lower bound in days, 0–36500; fractions accepted. The strongest absolute/relative lower bound wins."
           },
           {
             "name": "Cache-Control",
