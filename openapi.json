@@ -4010,7 +4010,8 @@
           "page",
           "next_cursor",
           "observed_at",
-          "elapsed_ms"
+          "elapsed_ms",
+          "relevance"
         ],
         "properties": {
           "index": {
@@ -4161,10 +4162,34 @@
             "type": "number",
             "minimum": 0,
             "maximum": 51000
+          },
+          "relevance": {
+            "anyOf": [
+              {
+                "type": "array",
+                "maxItems": 10,
+                "items": {
+                  "$ref": "#/components/schemas/FacebookGroupRelevanceRow"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         }
       },
       "FacebookGroupSearchData": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/FacebookGroupSearchPageData"
+          },
+          {
+            "$ref": "#/components/schemas/FacebookGroupSearchPreview"
+          }
+        ]
+      },
+      "FacebookGroupSearchPageData": {
         "type": "object",
         "additionalProperties": false,
         "required": [
@@ -4203,6 +4228,25 @@
               "properties": {
                 "author": {
                   "$ref": "#/components/schemas/FacebookGroupSearchAuthor"
+                },
+                "computed": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "relevance"
+                  ],
+                  "properties": {
+                    "relevance": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/FacebookGroupRelevanceScore"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  }
                 }
               }
             },
@@ -4304,7 +4348,7 @@
           "credits": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 11
+            "maximum": 12
           },
           "observed_at": {
             "type": "integer",
@@ -4331,6 +4375,9 @@
           },
           "_receipt": {
             "$ref": "#/components/schemas/FacebookGroupSearchReceipt"
+          },
+          "relevance": {
+            "$ref": "#/components/schemas/FacebookGroupRelevanceSummary"
           }
         }
       },
@@ -46069,6 +46116,1797 @@
             }
           }
         ]
+      },
+      "AliCategoryChild": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "parent_id",
+          "id_namespace",
+          "source_key",
+          "site_category_ids",
+          "search_term"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,19}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "parent_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "id_namespace": {
+            "const": "aliexpress_front_category_id"
+          },
+          "source_key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "site_category_ids": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[1-9][0-9]{0,19}$"
+            }
+          },
+          "search_term": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              }
+            ]
+          }
+        }
+      },
+      "AliCategoryRoot": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "id_namespace",
+          "children"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "id_namespace": {
+            "const": "source_section_key"
+          },
+          "children": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 2000,
+            "items": {
+              "$ref": "#/components/schemas/AliCategoryChild"
+            }
+          }
+        }
+      },
+      "AliCategoryEvidence": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "categoryId",
+              "categoryName",
+              "shopFromCountry",
+              "scrapedAt",
+              "siteCategoryIds",
+              "recordType",
+              "subcategoryKey",
+              "subcategoryName",
+              "frontCategoryId",
+              "searchTerm"
+            ],
+            "properties": {
+              "categoryId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "categoryName": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "shopFromCountry": {
+                "const": "US"
+              },
+              "scrapedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "siteCategoryIds": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 100,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]{0,19}$"
+                }
+              },
+              "recordType": {
+                "const": "subcategory"
+              },
+              "subcategoryKey": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "subcategoryName": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "frontCategoryId": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,19}$"
+              },
+              "searchTerm": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "categoryId",
+              "categoryName",
+              "shopFromCountry",
+              "scrapedAt",
+              "siteCategoryIds",
+              "recordType",
+              "brandKey",
+              "brandName"
+            ],
+            "properties": {
+              "categoryId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "categoryName": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "shopFromCountry": {
+                "const": "US"
+              },
+              "scrapedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "siteCategoryIds": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 100,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]{0,19}$"
+                }
+              },
+              "recordType": {
+                "const": "brand"
+              },
+              "brandKey": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "brandName": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              }
+            }
+          }
+        ]
+      },
+      "AliCategoryObservation": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "root_count",
+          "subcategory_count",
+          "source_count",
+          "omitted_brand_count",
+          "country",
+          "next_cursor",
+          "total",
+          "source_sections_complete",
+          "global_taxonomy_complete",
+          "id_namespaces_interchangeable",
+          "credits",
+          "observed_at",
+          "source_actor",
+          "source_build",
+          "provider_cost_usd",
+          "provider_cost_complete",
+          "coverage_note",
+          "_receipt"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "minItems": 24,
+            "maxItems": 24,
+            "items": {
+              "$ref": "#/components/schemas/AliCategoryRoot"
+            }
+          },
+          "root_count": {
+            "const": 24
+          },
+          "subcategory_count": {
+            "type": "integer",
+            "minimum": 24,
+            "maximum": 2000
+          },
+          "source_count": {
+            "type": "integer",
+            "minimum": 24,
+            "maximum": 2000
+          },
+          "omitted_brand_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2000
+          },
+          "country": {
+            "const": "US"
+          },
+          "next_cursor": {
+            "type": "null"
+          },
+          "total": {
+            "const": 24
+          },
+          "source_sections_complete": {
+            "const": true
+          },
+          "global_taxonomy_complete": {
+            "const": false
+          },
+          "id_namespaces_interchangeable": {
+            "const": false
+          },
+          "credits": {
+            "const": 1
+          },
+          "observed_at": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "source_actor": {
+            "const": "apt_marble~aliexpress-category-scraper"
+          },
+          "source_build": {
+            "const": "0.0.2"
+          },
+          "provider_cost_usd": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "provider_cost_complete": {
+            "const": false
+          },
+          "coverage_note": {
+            "type": "string"
+          },
+          "_receipt": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "records",
+              "cost_usd"
+            ],
+            "properties": {
+              "records": {
+                "type": "array",
+                "minItems": 24,
+                "maxItems": 2000,
+                "items": {
+                  "$ref": "#/components/schemas/AliCategoryEvidence"
+                }
+              },
+              "cost_usd": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        }
+      },
+      "FacebookGroupRelevanceScore": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "p",
+          "sense",
+          "depth",
+          "spam"
+        ],
+        "properties": {
+          "p": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "sense": {
+            "type": "string",
+            "enum": [
+              "target",
+              "namesake",
+              "unrelated",
+              "unclear"
+            ]
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "spam": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      },
+      "FacebookGroupRelevanceJudgment": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "p",
+          "sense",
+          "depth",
+          "spam",
+          "quotes"
+        ],
+        "properties": {
+          "p": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "sense": {
+            "type": "string",
+            "enum": [
+              "target",
+              "namesake",
+              "unrelated",
+              "unclear"
+            ]
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "spam": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "quotes": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 250
+            }
+          }
+        }
+      },
+      "FacebookGroupRelevanceRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "key",
+          "status",
+          "judgment"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "key": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "fresh",
+              "cached",
+              "unjudged",
+              "too_short"
+            ]
+          },
+          "judgment": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FacebookGroupRelevanceJudgment"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "FacebookGroupRelevanceSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mode",
+          "topic_source",
+          "rows",
+          "scored",
+          "cached",
+          "kept",
+          "dropped",
+          "dropped_ids",
+          "unjudged",
+          "too_short",
+          "threshold",
+          "extra_credits",
+          "methodology_version",
+          "origin",
+          "status",
+          "pending",
+          "pending_ids",
+          "scope",
+          "calibrated"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "score",
+              "filter"
+            ]
+          },
+          "topic_source": {
+            "type": "string",
+            "enum": [
+              "relevant_to",
+              "query"
+            ]
+          },
+          "rows": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "scored": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "cached": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "kept": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "dropped": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "dropped_ids": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          "unjudged": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "too_short": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "threshold": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "extra_credits": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "methodology_version": {
+            "const": "facebook-group-text-relevance-1"
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "default",
+              "explicit"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "partial",
+              "skipped"
+            ]
+          },
+          "pending": {
+            "const": 0
+          },
+          "pending_ids": {
+            "type": "array",
+            "maxItems": 0,
+            "items": {
+              "type": "string"
+            }
+          },
+          "scope": {
+            "const": "bounded_public_text"
+          },
+          "calibrated": {
+            "const": false
+          }
+        }
+      },
+      "FacebookGroupSearchPreview": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dry_run",
+          "query",
+          "page",
+          "include_details",
+          "relevance_topic",
+          "estimate",
+          "credits",
+          "coverage_note"
+        ],
+        "properties": {
+          "dry_run": {
+            "const": true
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "page": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "include_details": {
+            "type": "boolean"
+          },
+          "relevance_topic": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "estimate": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "rows_expected",
+              "rows_cached",
+              "base_credits",
+              "detail_credits_min",
+              "detail_credits_max",
+              "label_credits_min",
+              "label_credits_max",
+              "maximum_credits",
+              "credits_min",
+              "credits_max",
+              "estimate_kind",
+              "source_cache_checked",
+              "cursor_verified",
+              "provider_requests",
+              "model_requests"
+            ],
+            "properties": {
+              "rows_expected": {
+                "const": 10
+              },
+              "rows_cached": {
+                "type": "null"
+              },
+              "base_credits": {
+                "const": 1
+              },
+              "detail_credits_min": {
+                "const": 0
+              },
+              "detail_credits_max": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 10
+              },
+              "label_credits_min": {
+                "const": 0
+              },
+              "label_credits_max": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "maximum_credits": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              "credits_min": {
+                "const": 0
+              },
+              "credits_max": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              "estimate_kind": {
+                "const": "static_worst_case"
+              },
+              "source_cache_checked": {
+                "const": false
+              },
+              "cursor_verified": {
+                "const": false
+              },
+              "provider_requests": {
+                "const": 0
+              },
+              "model_requests": {
+                "const": 0
+              }
+            }
+          },
+          "credits": {
+            "const": 0
+          },
+          "coverage_note": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        }
+      },
+      "LinkedInCompanyPeopleData": {
+        "type": "object",
+        "properties": {
+          "request": {
+            "type": "object",
+            "description": "Canonical operation request; timestamps are UTC epoch milliseconds. Internal continuation fields may be present."
+          },
+          "observed_at": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "credits": {
+            "type": "integer",
+            "enum": [
+              10,
+              14,
+              18,
+              22,
+              26,
+              30,
+              34,
+              38,
+              42,
+              46,
+              50
+            ]
+          },
+          "_warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "coverage_note": {
+            "type": "string"
+          },
+          "_receipt": {
+            "type": "object",
+            "description": "Canonical settlement evidence. Treat as opaque."
+          },
+          "returned_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "source_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "filtered_out": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Source-window rows excluded as previously seen, current-employer mismatches or by delivery limit; no refill."
+          },
+          "total": {
+            "type": "null"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "page_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "source_has_more": {
+            "type": "boolean"
+          },
+          "has_more": {
+            "type": "boolean"
+          },
+          "pagination_truncated": {
+            "type": "boolean"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LinkedInCompanyPeopleItem"
+            }
+          },
+          "hydration": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "rows": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "looked_up": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "filled": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "cached": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "unfilled": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "credits_held": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "extra_credits": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "ms": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "rows",
+                  "looked_up",
+                  "filled",
+                  "cached",
+                  "unfilled",
+                  "credits_held",
+                  "extra_credits",
+                  "ms"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "complete": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "filter_counts": {
+            "type": "object",
+            "properties": {
+              "previously_seen": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "company_mismatch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "delivery_limit": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "previously_seen",
+              "company_mismatch",
+              "delivery_limit"
+            ],
+            "additionalProperties": false
+          },
+          "terminal_proof": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "native_page": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "reported_total": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "requested_offset": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "native_page",
+                  "reported_total",
+                  "requested_offset"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "source_pages": {
+            "type": "array",
+            "maxItems": 2,
+            "items": {
+              "type": "object",
+              "properties": {
+                "native_page": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "reported_total": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "reported_pages": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "native_page",
+                "reported_total",
+                "reported_pages"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "cache_expires_at": {
+            "type": "string"
+          },
+          "source_actor": {
+            "type": "string",
+            "enum": [
+              "harvestapi~linkedin-company-employees"
+            ]
+          },
+          "source_build": {
+            "type": "string",
+            "enum": [
+              "0.0.163"
+            ]
+          },
+          "source_mode": {
+            "type": "string",
+            "enum": [
+              "full"
+            ]
+          },
+          "source_requests": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "provider_cost_usd": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 0.75
+          },
+          "provider_cost_basis": {
+            "type": "string",
+            "enum": [
+              "apify_usage_estimate"
+            ]
+          },
+          "provider_cost_complete": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          }
+        },
+        "required": [
+          "request",
+          "observed_at",
+          "credits",
+          "_warnings",
+          "coverage_note",
+          "_receipt",
+          "returned_count",
+          "source_count",
+          "filtered_out",
+          "total",
+          "page",
+          "page_size",
+          "source_has_more",
+          "has_more",
+          "pagination_truncated",
+          "next_cursor",
+          "items",
+          "hydration",
+          "complete",
+          "filter_counts",
+          "terminal_proof",
+          "source_pages",
+          "cache_expires_at",
+          "source_actor",
+          "source_build",
+          "source_mode",
+          "source_requests",
+          "provider_cost_usd",
+          "provider_cost_basis",
+          "provider_cost_complete"
+        ],
+        "additionalProperties": false
+      },
+      "LinkedInCompanyPeopleAuthor": {
+        "type": "object",
+        "required": [
+          "id",
+          "username",
+          "display_name",
+          "avatar_url",
+          "bio",
+          "verified",
+          "followers",
+          "following",
+          "posts_count",
+          "likes_count",
+          "url",
+          "location",
+          "external_url",
+          "ext",
+          "joined_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ACo[A-Za-z0-9_-]{10,100}$"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1200
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "avatar_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "bio": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "verified": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "followers": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "following": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "posts_count": {
+            "type": "null"
+          },
+          "likes_count": {
+            "type": "null"
+          },
+          "url": {
+            "type": "string"
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "external_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ext": {
+            "type": "object",
+            "properties": {
+              "member_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "member_reference_kind": {
+                "type": "string",
+                "enum": [
+                  "profile"
+                ]
+              },
+              "company_id": {
+                "type": "string"
+              },
+              "connections_count": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "follower_count_precision": {
+                "type": "null"
+              },
+              "connection_count_precision": {
+                "type": "null"
+              },
+              "employment_independently_verified": {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              },
+              "urn": {
+                "type": "null"
+              },
+              "member_reference": {
+                "type": "string",
+                "pattern": "^ACo[A-Za-z0-9_-]{10,100}$"
+              },
+              "headline": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "followers_approximate": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "following_metric": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "linkedin_connections",
+                  null
+                ]
+              },
+              "country": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "website": {
+                "type": "null"
+              },
+              "cover_url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "is_creator": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "is_influencer": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "is_open_to_work": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "is_hiring": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "is_top_voice": {
+                "type": "null"
+              },
+              "is_premium": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "member_id",
+              "member_reference_kind",
+              "company_id",
+              "connections_count",
+              "follower_count_precision",
+              "connection_count_precision",
+              "employment_independently_verified",
+              "urn",
+              "member_reference",
+              "headline",
+              "followers_approximate",
+              "following_metric",
+              "country",
+              "website",
+              "cover_url",
+              "is_creator",
+              "is_influencer",
+              "is_open_to_work",
+              "is_hiring",
+              "is_top_voice",
+              "is_premium"
+            ],
+            "additionalProperties": false
+          },
+          "joined_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "LinkedInCompanyPeopleProfile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "member_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "headline": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "followers": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "connections": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "country": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "joined_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "avatar_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "verified": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "premium": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "influencer": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "creator": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "open_to_work": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "hiring": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "cover_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "member_id",
+          "url",
+          "first_name",
+          "last_name",
+          "headline",
+          "location",
+          "followers",
+          "connections",
+          "country",
+          "joined_at",
+          "avatar_url",
+          "verified",
+          "premium",
+          "influencer",
+          "creator",
+          "open_to_work",
+          "hiring",
+          "cover_url"
+        ],
+        "additionalProperties": false
+      },
+      "LinkedInCompanyPeopleItem": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "$ref": "#/components/schemas/LinkedInCompanyPeopleAuthor"
+          },
+          "source_position": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LinkedInCompanyPeopleProfile"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "author",
+          "source_position",
+          "profile"
+        ],
+        "additionalProperties": false
+      },
+      "PrismJobPosts": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "endpoint",
+          "status",
+          "items",
+          "next_cursor",
+          "has_more",
+          "credits"
+        ],
+        "properties": {
+          "endpoint": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "empty",
+              "failed",
+              "unsupported",
+              "deferred"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "type": "object"
+            }
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "has_more": {
+            "type": "boolean"
+          },
+          "stopped_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              null,
+              "known_id",
+              "since",
+              "end"
+            ]
+          },
+          "credits": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      },
+      "EvelodeEffectsData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "request",
+          "items",
+          "returned_count",
+          "next_cursor",
+          "total",
+          "complete",
+          "observed_at",
+          "credits",
+          "credits_held",
+          "credits_refunded",
+          "source",
+          "provider_cost_usd",
+          "provider_cost_complete",
+          "_receipt"
+        ],
+        "properties": {
+          "request": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ids"
+            ],
+            "properties": {
+              "ids": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 50,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[1-9]\\d{0,19}$"
+                },
+                "uniqueItems": true
+              }
+            }
+          },
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 50,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "post",
+                "computed"
+              ],
+              "properties": {
+                "post": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "url",
+                    "content",
+                    "author",
+                    "engagement",
+                    "flags",
+                    "published_at",
+                    "ext"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[1-9]\\d{0,19}$"
+                    },
+                    "url": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 8192
+                    },
+                    "content": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "text",
+                        "media_urls",
+                        "thumbnail_url",
+                        "duration_seconds"
+                      ],
+                      "properties": {
+                        "text": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 1000
+                        },
+                        "media_urls": {
+                          "type": "null"
+                        },
+                        "thumbnail_url": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 8192
+                        },
+                        "duration_seconds": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    "author": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "username",
+                        "display_name",
+                        "avatar_url",
+                        "verified"
+                      ],
+                      "properties": {
+                        "username": {
+                          "type": "null"
+                        },
+                        "display_name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 1000
+                        },
+                        "avatar_url": {
+                          "type": "null"
+                        },
+                        "verified": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    "engagement": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "views",
+                        "likes",
+                        "comments",
+                        "shares",
+                        "saves"
+                      ],
+                      "properties": {
+                        "views": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "likes": {
+                          "type": "null"
+                        },
+                        "comments": {
+                          "type": "null"
+                        },
+                        "shares": {
+                          "type": "null"
+                        },
+                        "saves": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    "flags": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "nsfw",
+                        "spoiler",
+                        "pinned",
+                        "deleted"
+                      ],
+                      "properties": {
+                        "nsfw": {
+                          "type": "null"
+                        },
+                        "spoiler": {
+                          "type": "null"
+                        },
+                        "pinned": {
+                          "type": "null"
+                        },
+                        "deleted": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    "published_at": {
+                      "type": "null"
+                    },
+                    "ext": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "video_count"
+                      ],
+                      "properties": {
+                        "video_count": {
+                          "type": "integer",
+                          "minimum": 0
+                        }
+                      }
+                    }
+                  }
+                },
+                "computed": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "engagement_rate",
+                    "language",
+                    "content_category",
+                    "estimated_reach"
+                  ],
+                  "properties": {
+                    "engagement_rate": {
+                      "type": "null"
+                    },
+                    "language": {
+                      "type": "null"
+                    },
+                    "content_category": {
+                      "type": "null"
+                    },
+                    "estimated_reach": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "returned_count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          },
+          "next_cursor": {
+            "const": null
+          },
+          "total": {
+            "const": null
+          },
+          "complete": {
+            "const": true
+          },
+          "observed_at": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "credits": {
+            "const": 1
+          },
+          "credits_held": {
+            "const": 1
+          },
+          "credits_refunded": {
+            "const": 0
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "provider",
+              "operation",
+              "control_verified",
+              "source_count"
+            ],
+            "properties": {
+              "provider": {
+                "const": "evelode"
+              },
+              "operation": {
+                "const": "/tiktok-api/getStickersByID"
+              },
+              "control_verified": {
+                "const": true
+              },
+              "source_count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 51
+              }
+            }
+          },
+          "provider_cost_usd": {
+            "const": null
+          },
+          "provider_cost_complete": {
+            "const": false
+          },
+          "_receipt": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "signature"
+            ],
+            "properties": {
+              "signature": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{43}$"
+              }
+            }
+          }
+        }
       }
     },
     "responses": {
@@ -46605,7 +48443,7 @@
         }
       },
       "Error499": {
-        "description": "The profile request was cancelled. Confirmed local settlement returns zero customer credits used; an already submitted Actor may continue under its original cap.",
+        "description": "Caller cancelled. No successful result is returned; customer holds fully refund when settlement is confirmed.",
         "headers": {
           "X-Request-Id": {
             "schema": {
@@ -62474,7 +64312,7 @@
       "get": {
         "operationId": "get_linkedin_company_people",
         "summary": "LinkedIn Company People",
-        "description": "Partial local typed employee-page adapter, disabled pending employment-membership semantics, native source, capacity and combined verification. Requires numeric company_id. Preserves native member identity, nullable headline/location and an optional core public-profile projection with include=profile. Does not infer exact headcount, exhaustive employee coverage or profile verification. Every hydration checks the observed canonical member URL. A validated page, including an empty native page, costs 10 credits; any source/hydration failure receives the normal full refund. Pagination uses page 1–100, limit 1–10 and a returned HMAC-authenticated one-hour cursor bound to the operation, identity, filters, page size and hydration choice. Native page-size clamping is explicit. At page 100, source_has_more can be true while pagination_truncated=true and next_cursor=null. Source errors are never converted to empty results. Requests use a 55-second total deadline, 1 MiB per response and at most 12 calls. Provider capacity remains unallocated.",
+        "description": "Partial disabled company employee-page adapter. Numeric company_id is required. A validated native page costs 10 credits. include=profile holds four extra credits per requested row (limit 1–10, default 10; maximum hold 50), and charges those extras only for fresh successful core-profile fills. Cached, unfilled and deferred lookups add zero; enrichment failures preserve basic employee rows. A failed base page refunds the entire hold. Source pages remain ten members: limit caps delivered/hydrated rows and the cursor advances past all ten, skipping the remaining rows. Versioned one-hour profile caches validate the canonical member URL and any supplied native profile URN before use. data.hydration reports rows, looked_up, filled, cached, unfilled, credits_held, extra_credits and ms. Source reservations, transport, body reads and caches share a bounded 55-second window with parent cancellation. Existing source membership/field/capacity and native acceptance remain unresolved. HarvestAPI employee page/Full-mode diagnostics are source feasibility evidence only and are not wired into this runtime.",
         "x-credit-cost": 10,
         "x-launch-status": "beta",
         "parameters": [
@@ -62493,7 +64331,8 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "maximum": 100
             }
           },
           {
@@ -62523,7 +64362,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Opaque lcp1 continuation binds the user/API key, company, include and limit to immutable native pages for one hour. Retain those request options. Legacy lipl1 cursors must restart."
           },
           {
             "name": "Cache-Control",
@@ -62595,7 +64435,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/LinkedInPublicPeopleData"
+                          "$ref": "#/components/schemas/LinkedInCompanyPeopleData"
                         }
                       }
                     }
@@ -62642,11 +64482,23 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
+          },
+          "499": {
+            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
           "LinkedIn"
-        ]
+        ],
+        "x-credit-pricing": {
+          "type": "profile_hydration",
+          "baseCredits": 10,
+          "creditsPerProfile": 4,
+          "defaultLimit": 10,
+          "maxLimit": 10
+        },
+        "x-credit-min": 10,
+        "x-credit-max": 50
       }
     },
     "/linkedin/post/comments": {
@@ -78964,6 +80816,9 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
+          },
+          "499": {
+            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -79540,7 +81395,7 @@
       "get": {
         "operationId": "get_tiktok_effects",
         "summary": "TikTok Effects",
-        "description": "Partial local documented Monocrawl mapping, disabled pending native payloads, dedicated credential, verified existing free capacity and combined acceptance. One-credit hold; validated nonempty window costs one, explicit empty zero. One fixed-origin source request with X-Max-Credits=1, fifteen-second total deadline including reservation and one MiB source body. Source errors, mismatched IDs, duplicates, overflow, dropped rows and synthetic/degraded output fail. Source credits and cached telemetry are separate from customer billing; monetary cost remains unknown. Local observation time is not source freshness. Unknown fields stay null; no complete catalogue/history or absence claim. URLs remain unverified inert provider strings and are never fetched. No source model labels, media/detail fetch, SSE, retry or fallback. All gates false and runtime journal zero/unallocated; documentation-shaped synthetic tests are not native acceptance. Metadata takes up to ten distinct decimal IDs. Every returned identity must belong to the request; unreturned IDs remain unknown. Optional native effect name, designer, counts and supplied URLs only. Date filters and other options reject before the hold. Local authenticated API/app MCP/stdio MCP/Python/disposable SQL acceptance uses synthetic transport only. One-credit nonempty settlement and fully refunded explicit terminal empty/failure cases pass locally. Caller cancellation now reaches source waits (499), deadlines remain 504, auth/quota capacity failures 503, and exact replay is immutable/free. Native credential/capacity/source parity and combined hosted acceptance remain pending; all release flags false and source journal zero/unallocated.",
+        "description": "Native-verified local TikTok effect lookup, gated for capacity and combined deployment. Up to50 numeric input IDs; duplicates collapse, unknown IDs are omitted and rows must be matched by post.id. Name is post.content.text, designer post.author.display_name, views post.engagement.views and video count post.ext.video_count. One-credit hold and nonempty settlement; successful control-corroborated all-unknown omission returns404 RESOURCE_NOT_FOUND with a full refund. Generic source errors never become absence. One fixed-origin request includes a known control effect, removed unless requested; requires native status0 and that control. No retry, fallback, feed, model or media request.15-second deadline includes rate/quota/source/body/projection. Canonical optional unknown fields remain null. Scope is requested effect identities, not the full effect catalog. Trial expires2026-11-21; no sustained capacity or production activation claim.",
         "x-credit-cost": 1,
         "x-launch-status": "beta",
         "parameters": [
@@ -79551,9 +81406,9 @@
             "example": "1108584,1109028",
             "schema": {
               "type": "string",
-              "pattern": "^[1-9]\\d{0,19}(?:,[1-9]\\d{0,19}){0,9}$"
+              "pattern": "^[1-9]\\d{0,19}(?:,[1-9]\\d{0,19}){0,49}$"
             },
-            "description": "Up to ten decimal input ID entries in this partial adapter. Duplicate input entries collapse before the one bounded source request and one-credit hold; the reference 50-ID batch remains unsupported."
+            "description": "Up to50 comma-separated numeric effect IDs. Duplicate entries collapse; missing identities are omitted. Match by post.id."
           },
           {
             "name": "Cache-Control",
@@ -79586,7 +81441,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Partial local documented Monocrawl mapping, disabled pending native payloads, dedicated credential, verified existing free capacity and combined acceptance. One-credit hold; validated nonempty window costs one, explicit empty zero. One fixed-origin source request with X-Max-Credits=1, fifteen-second total deadline including reservation and one MiB source body. Source errors, mismatched IDs, duplicates, overflow, dropped rows and synthetic/degraded output fail. Source credits and cached telemetry are separate from customer billing; monetary cost remains unknown. Local observation time is not source freshness. Unknown fields stay null; no complete catalogue/history or absence claim. URLs remain unverified inert provider strings and are never fetched. No source model labels, media/detail fetch, SSE, retry or fallback. All gates false and runtime journal zero/unallocated; documentation-shaped synthetic tests are not native acceptance. Metadata takes up to ten distinct decimal IDs. Every returned identity must belong to the request; unreturned IDs remain unknown. Optional native effect name, designer, counts and supplied URLs only. Date filters and other options reject before the hold.",
+            "description": "Native-verified local TikTok effect lookup, gated for capacity and combined deployment. Up to50 numeric input IDs; duplicates collapse, unknown IDs are omitted and rows must be matched by post.id. Name is post.content.text, designer post.author.display_name, views post.engagement.views and video count post.ext.video_count. One-credit hold and nonempty settlement; successful control-corroborated all-unknown omission returns404 RESOURCE_NOT_FOUND with a full refund. Generic source errors never become absence. One fixed-origin request includes a known control effect, removed unless requested; requires native status0 and that control. No retry, fallback, feed, model or media request.15-second deadline includes rate/quota/source/body/projection. Canonical optional unknown fields remain null. Scope is requested effect identities, not the full effect catalog. Trial expires2026-11-21; no sustained capacity or production activation claim.",
             "content": {
               "application/json": {
                 "schema": {
@@ -79598,7 +81453,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/TikTokEffectsData"
+                          "$ref": "#/components/schemas/EvelodeEffectsData"
                         }
                       }
                     }
@@ -79653,7 +81508,7 @@
         "tags": [
           "TikTok"
         ],
-        "x-local-batch-status": "partial-disabled-documented-contract-awaiting-native-credential-capacity-and-combined-acceptance",
+        "x-local-batch-status": "native-verified-local-contract-awaiting-capacity-and-combined-release",
         "x-credit-cost-min": 0,
         "x-credit-cost-max": 1
       }
@@ -84158,6 +86013,9 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
+          },
+          "499": {
+            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -84451,6 +86309,9 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
+          },
+          "499": {
+            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -84829,6 +86690,9 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
+          },
+          "499": {
+            "$ref": "#/components/responses/Error499"
           }
         },
         "x-one-of-parameters": [
@@ -85065,6 +86929,9 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
+          },
+          "499": {
+            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -85845,6 +87712,9 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
+          },
+          "499": {
+            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -86736,6 +88606,9 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
+          },
+          "499": {
+            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -126231,7 +128104,7 @@
       "get": {
         "operationId": "get_aliexpress_categories",
         "summary": "Aliexpress Categories",
-        "description": "Use Aliexpress Categories to inspect the selected public resource. The reference defines accepted identifiers, optional fields, and the expected credit amount. Validate a small response before depending on preview coverage.",
+        "description": "Locally implemented, disabled pending capacity and combined release acceptance. Returns all24 sections and published subcategories of one pinned US source catalog. Source section keys, frontend numeric child IDs and backend site_category_ids are distinct namespaces; no ID substitution or search interoperability is asserted. Brand records are counted and omitted. No query parameters, product/media lookup, worldwide completeness or alternative-country claim. Empty/truncated/inconsistent catalogs fail unbilled. One credit for a validated catalog; successful API cache hits are free.",
         "x-credit-cost": 1,
         "x-launch-status": "beta",
         "parameters": [
@@ -126266,7 +128139,26 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/components/responses/Success"
+            "description": "Validated source catalog; local implementation gated pending release.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SocialQueryResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AliCategoryObservation"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/Error400"
@@ -126306,6 +128198,9 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
+          },
+          "499": {
+            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
@@ -161085,7 +162980,7 @@
       "get": {
         "operationId": "get_facebook_search_groups",
         "summary": "Facebook Search Groups",
-        "description": "Local indexed Facebook group discovery, disabled pending native source, existing capacity and combined verification. A query searches the public web index restricted to Facebook group URLs; search snippets remain search evidence. Group-page titles are index display labels, and post-in-group hits have no group name until corroborated by a detail lookup. Fewer than ten unique groups can be returned from one ten-result index window; exact totals and exhaustive coverage are unknown. Optional include=details holds up to eleven credits: one for a nonempty group window and one per usable fresh enrichment. Cached, failed, empty-field and deferred enrichments add zero credits; successful empty discovery refunds the base credit. Detail identity must be corroborated; a numeric response alone cannot resolve a vanity alias, so that row remains unfilled and refunded. Three workers, at most ten detail attempts and a twelve-second hydration deadline; a fifty-second overall deadline and 2 MiB source/response bounds apply. Returned cursors bind query and include, expire after one hour, and stop at page 100 or a repeated page. Unsupported options fail before source work. No administrator/member identities or default AI judgments are returned. Source cost is explicitly unknown, separate from customer charges. Response cache hits are free.",
+        "description": "Partial indexed Facebook group discovery, disabled pending missing generic-label/alias contracts, sustained capacity and combined hosted verification. Two native index pages and one independent numeric-group About lookup passed projection; authenticated local API, MCP/Python clients and disposable SQL acceptance passed. A query searches the public web index restricted to Facebook group URLs; search snippets remain search evidence. Group-page titles are index display labels, and post-in-group hits have no group name until corroborated by a detail lookup. Fewer than ten unique groups can be returned from one ten-result index window; exact totals and exhaustive coverage are unknown. Optional include=details holds up to eleven credits: one for a nonempty group window and one per usable fresh enrichment. Cached, failed, empty-field and deferred enrichments add zero credits; successful empty discovery refunds the base credit. Detail identity must be corroborated; a numeric response alone cannot resolve a vanity alias, so that row remains unfilled and refunded. Three workers, at most ten detail attempts and a twelve-second hydration deadline; a fifty-second overall deadline and 2 MiB source/response bounds apply. Returned cursors bind query and include, expire after one hour, and stop at page 100 or a repeated page. Unsupported options fail before source work. No administrator/member identities or generic AI labels are returned. Default query relevance and explicit score/filter are bounded uncalibrated model judgments; unclear/unjudged rows remain, and filtering never refills/reorders or changes native pagination. judgments=off or label=none omits relevance. relevant_to with explicit relevance holds one extra credit and charges one per started25 fresh successful judgments, cached/failing judgments free; maximum12 with details. Cursors bind all judgment/topic/threshold controls. No complete scoring calibration/reference-parity claim. dry_run=1 returns a static zero-credit cost ceiling with ten expected rows as a source ceiling and rows_cached=null, not a forecast or cache/availability guarantee. No provider/source/model/quota/judgment-cache access, source cursor verification, or customer debit occurs. Preview response caching is disabled; authenticated idempotent replay remains free. Source cost is explicitly unknown, separate from customer charges. Response cache hits are free. Parent cancellation and source/hydration deadlines bound quota, rate, fetch, body and cache work; cancellation returns 499 and deadline failure returns 504 with unbilled/refunded collection. Native samples do not establish complete reference parity.\n",
         "x-credit-cost": 1,
         "x-launch-status": "beta",
         "parameters": [
@@ -161134,23 +163029,31 @@
                 "score",
                 "filter"
               ]
-            }
+            },
+            "description": "score adds bounded public-text model estimates; filter also removes judged non-unclear rows below threshold. No refill/reorder or pagination change. Query-topic judgments are free."
           },
           {
             "name": "relevance_threshold",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
-            }
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "default": 0.5
+            },
+            "description": "Only with explicit relevance. Up to six decimal places. Unjudged/unclear rows are always retained."
           },
           {
             "name": "relevant_to",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "description": "Only with explicit relevance; alternate topic. Hold one extra credit; charge only fresh successful judgments, one per started25 rows."
           },
           {
             "name": "judgments",
@@ -161162,7 +163065,8 @@
                 "on",
                 "off"
               ]
-            }
+            },
+            "description": "on (default) enables query relevance; off omits relevance keys. Generic labels remain unsupported. Cannot combine off with explicit relevance."
           },
           {
             "name": "dry_run",
@@ -161173,7 +163077,20 @@
               "enum": [
                 "1"
               ]
-            }
+            },
+            "description": "1 returns a static zero-credit maximum-hold estimate without fetching source data, reading provider quotas/judgment caches, or invoking a model. rows_cached is null/unknown. Cursor signature and live availability are not verified."
+          },
+          {
+            "name": "label",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "none"
+              ]
+            },
+            "description": "none omits relevance, as judgments=off. Other generic labels are unavailable."
           },
           {
             "name": "fit",
@@ -161184,7 +163101,8 @@
               "enum": [
                 "goal"
               ]
-            }
+            },
+            "description": "Unsupported in this partial adapter; rejected before source work, including with dry_run=1."
           },
           {
             "name": "goal",
@@ -161192,7 +163110,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Unsupported in this partial adapter; rejected before source work, including with dry_run=1."
           },
           {
             "name": "fit_tokens",
@@ -161200,7 +163119,8 @@
             "required": false,
             "schema": {
               "type": "integer"
-            }
+            },
+            "description": "Unsupported in this partial adapter; rejected before source work, including with dry_run=1."
           },
           {
             "name": "cursor",
@@ -161209,7 +163129,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Return the signed next_cursor verbatim, with the same query/include and without page. Expires after one hour."
+            "description": "Return next_cursor verbatim with the same query/include/judgment/topic/threshold controls, without page. One-hour expiry."
           },
           {
             "name": "Cache-Control",
@@ -161304,20 +163224,26 @@
           },
           "504": {
             "$ref": "#/components/responses/Error504"
+          },
+          "499": {
+            "$ref": "#/components/responses/Error499"
           }
         },
         "tags": [
           "Facebook"
         ],
-        "x-credit-cost-min": 1,
-        "x-credit-cost-max": 11,
-        "x-credit-cost-formula": "1 credit for a nonempty indexed group window, plus 1 per usable fresh group enrichment with include=details; hold 1 or 11. Cached/failed/deferred details add zero; empty discovery is free.",
+        "x-credit-cost-min": 0,
+        "x-credit-cost-max": 12,
+        "x-credit-cost-formula": "1 for a nonempty source window plus1 per usable fresh detail; hold1/11. Query relevance is free; explicit relevant_to adds a one-credit hold and charges1 per started25 fresh successful judgments (max12 including details). Cached, failed, deferred or unjudged enrichment is free. Filtering does not refund the source window. Response-cache/replay hits are free. dry_run=1 is a static zero-credit ceiling preview with no source/model/quota/cache access; no live availability or cached-count claim.",
         "x-credit-pricing": {
           "type": "group_search",
           "baseCredits": 1,
           "creditsPerGroup": 1,
           "maxGroups": 10,
-          "maxCredits": 11
+          "maxRelevanceCredits": 1,
+          "relevanceRowsPerCredit": 25,
+          "maxCredits": 12,
+          "dryRunSupported": true
         }
       }
     },
@@ -184498,7 +186424,7 @@
       "post": {
         "operationId": "post_prism_jobs",
         "summary": "Prism Jobs",
-        "description": "Durable API-key-owned profile and post-stat batches use existing provider adapters and allowances. No production readiness is claimed. Submit 1–5,000 items in a JSON body up to 3 MiB. Every item validates before any credit hold; invalid items identify their zero-based index. Profiles cost 1 credit per successful row (LinkedIn 5); post stats cost 1 (Instagram 2, LinkedIn 5). All potential row charges are reserved atomically with job creation; submission returns 202 with credits_used=0 and X-Credits-Reserved. Stable Idempotency-Key values return the original job; different canonical job inputs conflict. The creating key must grant both /v1/prism/jobs and the underlying batch endpoint, or *. Ten active jobs per account. Posts enrichment and since/stop_at_id remain unsupported and return 400 before reservation. Optional webhook: {url} enables one signed terminal-summary callback after durable credit settlement; a signing secret appears only on the first 202. Exact idempotent replays omit the secret and create no new callback. Callback failure never changes source billing. Public HTTPS DNS only; private/reserved/mixed DNS targets and redirects are rejected; ten-second delivery deadline, no automatic retry. Pending/sending/delivered/failed/unknown/suppressed status is visible in key-owned reads. Jobs, worker and webhook gates stay false pending combined release acceptance. No automatic provider retry after uncertain execution.\n\nCode status (19 October Pacific): Submission, workers and callback delivery remain disabled. GET reads have independent enabled gates and hosted server-only tables. Hosted release acceptance is pending.",
+        "description": "Durable API-key-owned profile and post-stat batches use existing provider adapters and allowances. No production readiness is claimed. Submit 1–5,000 items in a JSON body up to 3 MiB. Every item validates before any credit hold; invalid items identify their zero-based index. Profiles cost 1 credit per successful row (LinkedIn 5); post stats cost 1 (Instagram 2, LinkedIn 5). All potential row charges are reserved atomically with job creation; submission returns 202 with credits_used=0 and X-Credits-Reserved. Stable Idempotency-Key values return the original job; different canonical job inputs conflict. The creating key must grant both /v1/prism/jobs and the underlying batch endpoint, or *. Ten active jobs per account. Profile jobs accept include=\"posts\", an optional job-wide since date/ISO timestamp and per-item stop_at_id (up to 512 characters). Posts jobs use 25-item chunks, up to 200 chunks. Holds add one credit only for Instagram, TikTok, YouTube, Twitter, Threads and Facebook post-list legs. A successful profile survives empty/failed/unsupported/deferred posts with the page credit refunded. A nonempty source page costs one even when incremental filters remove every returned row. Pinned boundary rows are omitted without ending the walk; unknown dates survive. Incremental legs require corroborated native pin state and otherwise fail unbilled. Durable options, worker phase and settlement are locally tested with synthetic source boundaries; native page-envelope/pin/continuation parity and exact reference submission billing/envelope remain pending. Optional webhook: {url} enables one signed terminal-summary callback after durable credit settlement; a signing secret appears only on the first 202. Exact idempotent replays omit the secret and create no new callback. Callback failure never changes source billing. Public HTTPS DNS only; private/reserved/mixed DNS targets and redirects are rejected; ten-second delivery deadline, no automatic retry. Pending/sending/delivered/failed/unknown/suppressed status is visible in key-owned reads. Jobs, worker and webhook gates stay false pending combined release acceptance. No automatic provider retry after uncertain execution.\n\nCode status (19 October Pacific): Submission, workers and callback delivery remain disabled. GET reads have independent enabled gates and hosted server-only tables. Hosted release acceptance is pending.",
         "x-credit-cost": 0,
         "x-launch-status": "beta",
         "parameters": [
@@ -184827,6 +186753,12 @@
                             "custom_id": {
                               "type": "string",
                               "maxLength": 200
+                            },
+                            "stop_at_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 512,
+                              "description": "Post ID or URL already held for this profile. Requires job include=posts."
                             }
                           }
                         }
@@ -184848,8 +186780,64 @@
                         "example": {
                           "url": "https://hooks.example.com/events"
                         }
+                      },
+                      "include": {
+                        "type": "string",
+                        "const": "posts",
+                        "description": "Profile jobs only. Fetch the first post page beside each successful profile; use 25-item chunks."
+                      },
+                      "since": {
+                        "type": "string",
+                        "minLength": 10,
+                        "maxLength": 29,
+                        "description": "Real YYYY-MM-DD date or ISO 8601 timestamp; requires include=posts. Normalized to UTC in durable job identity."
                       }
-                    }
+                    },
+                    "allOf": [
+                      {
+                        "if": {
+                          "required": [
+                            "since"
+                          ]
+                        },
+                        "then": {
+                          "required": [
+                            "include"
+                          ],
+                          "properties": {
+                            "include": {
+                              "const": "posts"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "items": {
+                              "contains": {
+                                "required": [
+                                  "stop_at_id"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "items"
+                          ]
+                        },
+                        "then": {
+                          "required": [
+                            "include"
+                          ],
+                          "properties": {
+                            "include": {
+                              "const": "posts"
+                            }
+                          }
+                        }
+                      }
+                    ]
                   },
                   {
                     "type": "object",
@@ -184959,6 +186947,12 @@
                             "custom_id": {
                               "type": "string",
                               "maxLength": 200
+                            },
+                            "stop_at_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 512,
+                              "description": "Post ID or URL already held for this profile. Requires job include=posts."
                             }
                           }
                         },
@@ -185007,8 +187001,64 @@
                     "example": {
                       "url": "https://hooks.example.com/events"
                     }
+                  },
+                  "include": {
+                    "type": "string",
+                    "const": "posts",
+                    "description": "Profile jobs only. Fetch the first post page beside each successful profile; use 25-item chunks."
+                  },
+                  "since": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 29,
+                    "description": "Real YYYY-MM-DD date or ISO 8601 timestamp; requires include=posts. Normalized to UTC in durable job identity."
                   }
-                }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "required": [
+                        "since"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "include"
+                      ],
+                      "properties": {
+                        "include": {
+                          "const": "posts"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "items": {
+                          "contains": {
+                            "required": [
+                              "stop_at_id"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "items"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "include"
+                      ],
+                      "properties": {
+                        "include": {
+                          "const": "posts"
+                        }
+                      }
+                    }
+                  }
+                ]
               }
             }
           }
@@ -185513,6 +187563,15 @@
                               },
                               "custom_id": {
                                 "type": "string"
+                              },
+                              "posts": {
+                                "$ref": "#/components/schemas/PrismJobPosts"
+                              },
+                              "stop_at_id": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 512,
+                                "description": "Post ID or URL already held for this profile. Requires job include=posts."
                               }
                             }
                           }
