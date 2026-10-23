@@ -1,6 +1,10 @@
 ---
-title: "Aliexpress Search Promo"
+title: "AliExpress Named Promotion Product Page"
 openapi: "GET /aliexpress/search/promo"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Disabled pending native quality,existing capacity and hosted acceptance. Monocrawl signup remains declined.</Warning>
+
+Disabled documentation/offline implementation of a named-promotion product page. promotion_name required;exact matching source promotion_name echo required,including empty results. Optional query/page1–1000/page_size1–50(default10)/country(defaultUS)/currency(defaultUSD) forward to fixed source endpoint. Category and stable price/sales sorts,min_price/max_price filter/rank only the delivered source window,no refill or global ranking claim;unknown required values excluded. Local sort_by source/price_low/price_high/most_sold/least_sold never becomes a source sort because none is documented for this lane. Product/SKU/category/shopIDs,zero/unknown cardprices/counters and inertCDNmetadata retained from the same validated product projector as hotsearch. Source-labelled membership is not independently verified per product;promotion validity,availability,freshness,checkout,shipping and complete inventory remain unknown. Missing/wrong promotion echo,wrong page/currency/IDs/duplicates/overflow/error/ambiguousempty fail. Manual next_page only native-more hint;opaque cursor/language unsupported422beforeholds. Customer5nonempty validated sourcewindow even locallyfilteredempty or sourcecredits0,explicit terminalempty0,error/caller499/deadline504fullrefund,immutable replayfree. IndependentHMACrequest/evidence/time/fullreprojection. One source request/reservation3units from existing shared directoryjournalzero/unallocated,no newpool;sourcecredits notUSD,USDunknown.15second active rate/quota/fetch/body/projection,no retry/fallback/model/media/detailwork. Monocrawl signup remains declined;native quality/credential/eligibleexistingcapacity/hosted acceptance pending. Allruntimeflagsfalse.
+
+[Published source contract](https://www.monocrawl.com/openapi.json)

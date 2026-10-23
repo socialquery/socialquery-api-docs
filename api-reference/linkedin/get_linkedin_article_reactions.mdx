@@ -1,6 +1,18 @@
 ---
-title: "LinkedIn Article Reactions"
+title: "LinkedIn Article Reaction Count"
 openapi: "GET /linkedin/article/reactions"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Disabled pending native source quality,shared capacity and combined hosted acceptance. Unavailable requests return503 without consuming credits.</Warning>
+
+This endpoint reports the public article-level count exposed by the source. It does not return individual reactors. `reported_reactions` comes only from the article’s top-level `likeCount`; `reactors`, `total_reactors` and `reaction_type_breakdown` remain null,including when the reported count is zero. The source’s count semantics,unique-person identity and complete current reaction corpus are unverified.
+
+Supply a canonical public `https://www.linkedin.com/pulse/SLUG` URL. The source must echo the same canonical URL. Optional `page=1` is accepted for compatibility;later pages,cursors and type filters reject before a hold. Related-article counts and public-feed activity/share URNs are omitted and never substituted for Pulse evidence.
+
+A positive reported count settles5 credits;reported zero settles0 without establishing global absence. Missing/negative/noninteger/unsafe counts or a mismatched article are errors and fully refund. Free immutable replay performs no new source work. One source request shares the existing article-comments journal;no account-balance request or new allowance pool is added. Reported source credits remain separate from USD costs,which are unknown.
+
+Rate,reservation,fetch,body and projection share a35second global deadline,with15seconds per source,2MiB source and32KiB response limits. Caller cancellation499 and deadline504 fullyrefund. Ignored work and stalled body cleanup are bounded;already accepted remote work has no new stop/quota-rollback guarantee. No retries,paid fallback,model/media calls,profile enrichment or link following.
+
+This explicitly scoped aggregate contract replaces the unsupported reference reactor-list promise under the user’s replacement policy. Native success/zero/error quality,source-count semantics,shared sustainable capacity and hosted API/client/ledger acceptance remain pending. All activation gates remainfalse and the existing shared journal stayszero/unallocated.
+
+[Documented public article source](https://docs.scrapecreators.com/v1/linkedin/post/)

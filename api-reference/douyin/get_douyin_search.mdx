@@ -3,7 +3,7 @@ title: "Douyin Search"
 openapi: "GET /douyin/search"
 ---
 
-<Note>Implementation is complete locally for the operation-specific bounded keyword contract. Release remains disabled pending runtime capacity and combined hosted acceptance; unavailable requests return 503 before credit holds or source work.</Note>
+<Note>Implementation is complete locally for the operation-specific bounded keyword contract. Availability follows the current catalog status; the optional media changes in this local batch await combined release. Unavailable requests return 503 before credit holds or source work.</Note>
 
 Search with one plain Chinese, English or mixed keyword. `limit` is a ceiling from 1–25, default 10. Supported native controls are `sort` (relevance, most_liked, latest), `published` (all, day, week, half_year) and `duration` (all, under_1m, one_to_five_m, over_5m). Source keyword traces, unique increasing positions, post/author identities, public flags, counter/date/duration aliases and explicit ordering/duration contradictions are checked.
 
@@ -17,4 +17,7 @@ Canonical `post`/`computed` fields accompany technical observations. Music ID/ti
 
 Six original native windows (50 posts) pass the captured reference response schema at their saved clocks: 25 most-liked/short videos, five latest/day, five week/medium, five half-year/long, five fuzzy-query results and five English coffee results. These cover the documented control values individually; they do not certify every possible combination or future source quality. Only the English window was newly requested in this completion batch, reserving its full $0.04 cap from the existing Apify journal. Its initial $0.005 usage estimate is not a final invoice; the full cap remains reserved.
 
-Authenticated REST, app MCP, stdio MCP and Python pass disposable local SQL acceptance for holds, returned-row settlement, refunds and replay. Successful search responses are checked against all three local specs and the captured reference schema. These tests use intercepted source transport; saved unmodified native captures are replayed separately. No production activation, new runtime allowance, purchase, push or deployment is implied. Profile-post identity/continuation and creator-search filter/cursor gaps remain separate partial operations.
+Authenticated REST, app MCP, stdio MCP and Python pass disposable local SQL acceptance for holds, returned-row settlement, refunds and replay. Successful search responses are checked against all three local specs and the captured reference schema. These tests use intercepted source transport; saved unmodified native captures are replayed separately. No production activation, new runtime allowance, purchase, push or deployment is implied. Profile-post and creator-search now have separately documented bounded contracts,complete offline but gated pending native/capacity/hosted acceptance; no native cursor or unsupported handle/type targeting is promised.
+
+
+The local shared-source update additionally maps optional documented videoMeta.playUrl,width/height and authorMeta.avatarThumb as inert metadata without media fetching or playback/download verification. These additions await the combined release.

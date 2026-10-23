@@ -1,23 +1,10 @@
 ---
-title: "YouTube Subtitle Files"
+title: "YouTube Signed Caption Track Metadata"
 openapi: "GET /youtube/video/subtitles"
 ---
 
-<Warning>Partial local adapter, disabled pending successful native downloads and combined release verification. A documented URL shape is not proof that the caption file can currently be downloaded.</Warning>
+<Warning>download_verified=false. The saved native source omits required playback tokens and is rejected. Disabled pending usable signed-download evidence,existing capacity and hosted acceptance.</Warning>
 
-Pass a canonical public YouTube video URL. The adapter reads native caption tracks and returns direct timedtext URLs with language, display name, native track ID, automatic-caption status and expiry. Omit `format` for all supported format URLs, or choose `json3`, `srv1`, `srv2`, `srv3`, `ttml`, `srt` or `vtt`.
+Supported signed native caption-track metadata contract,not a verified file-download service. Canonical YouTube video URL and optional single format json3/srv1/srv2/srv3/ttml/srt/vtt;omittingformat emits each source track in allseven format plans. Native manual and automatic tracks stay distinct;no generated or converted transcript substitutes. Exact responsevideoID/pertrack v/lang/signature/expiry required,optionalresponseURL mustmatch. Signed fmt is never changed;missing required xpe/xpv playbacktoken,ambiguous/crossvideo/expired/unsigned tracks fail unbilled. Playback token already supplied remains intact. Links expire and depend on source playback policies;download_verified=false always,capture/sourceformatplanning does not certify live downloads. Known native eight-track snapshot omitted required playback tokens and remains rejected;two earlier download attempts failed before HTTP,manual/native downloads not proved. One metadata read,one existing shared launch ScrapeCreators journal unit,no new allowance pool/account/balance read. Fixed1customercredit for validated metadata response including explicit empty tracklist;errors/caller499/global504fullrefund,immutable replayfree. Independent HMAC binds canonical video/format/source tracks/credit usage/time and settlement rechecks expiry/fullprojection;20s active rate/quota/fetch/body/projection/nonblockingcleanup,no retry/fallback/model/media fetch. Both runtimegatesfalse;native usable signed downloads/manual coverage,existingcapacity and hosted acceptance remain separate qualification blockers,never inferred from fixtures.
 
-The original signature and source tokens are preserved. The `fmt` query field follows yt-dlp's current YouTube extractor; a signed field is never changed. This is not a conversion of transcript text into a purported native download. No translated tracks or private-video credentials are created.
-
-Video ID, language and unambiguous expiry must match the source. Links with less than 30 seconds remaining fail. An absent track list is unknown and fails; an explicit empty list is an observed result. Either a valid nonempty or valid empty list costs one credit. Failed requests refund the hold.
-
-Download links promptly. They may depend on YouTube playback policy and are not cached by this adapter. `download_verified` is always `false`: the metadata call does not download every file to prove availability. Before release, the combined audit must verify current file accessibility and native format behavior.
-
-
-The complete source operation, including the pre-request check, fetch, body read and projection, has one active **20-second deadline**. Parent cancellation reaches the source through the router. Even work that ignores abort or body cleanup that never settles cannot hold the caller indefinitely. Cancellation returns **499 REQUEST_CANCELLED**; deadline expiry returns **504 UPSTREAM_TIMEOUT**, both sanitized and fully refunded when settlement is confirmed. Successful and failed idempotent replays do not repeat the source request. These are local controlled-transport checks against the actual API, clients and disposable SQL ledger.
-
-A bounded 19 October native diagnostic consumed **one existing ScrapeCreators credit** and returned eight automatic-language tracks. Its response omitted the video URL; this is now accepted only with the mandatory exact response video ID and signed per-track identity. A supplied URL must still agree. All eight native tracks declared a signed playback experiment requiring a token that the provider did not supply; the adapter correctly rejects them. It does not fabricate a token or alter signed fields. Two direct VTT/SRT checks failed at TLS before an HTTP/file result, so neither format availability nor successful download is claimed. Current yt-dlp includes all seven planned formats, including SRT; this corroborates format construction, not download availability.
-
-Both release gates remain false. Successful native downloads, manual-caption examples, wider empty/error cases, sustainable source capacity and combined hosted acceptance remain required. This batch closes no whole endpoint and performs no deployment, purchase, new-key creation or allowance reset.
-
-The coverage inventory now classifies this endpoint as partial. Its earlier implemented classification rested on documentation-shaped evidence; the native playback-token gap corrects that overcount. Top Voices completion remains separate.
+[Source metadata contract](https://docs.scrapecreators.com/v1/youtube/video/)

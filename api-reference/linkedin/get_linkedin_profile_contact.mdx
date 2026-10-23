@@ -1,11 +1,8 @@
 ---
-title: "LinkedIn Profile Contact"
+title: "LinkedIn visible contact snapshot"
 openapi: "GET /linkedin/profile/contact"
 ---
 
-<Note>Staged locally and disabled. Source, contract and capacity checks remain open. Unavailable calls return HTTP 503 without consuming credits.</Note>
+<Warning>Implemented locally from published source documentation and offline checks; disabled pending native usability, sustainable existing-source capacity and combined hosted acceptance. This supported contract replaces source-infeasible reference promises. No new allowance allocation or activation. Parent cancellation499 and total/source deadlines504 refund customer holds; accepted upstream work may still consume its original cap.</Warning>
 
-Partial local typed adapter, disabled pending native source, contact subfield schemas, capacity and combined verification. Checks the canonical profile URL against the native username and profile URN. Returns visible first/last name, nullable address/email and typed HTTPS website links. Native empty phone/messenger arrays remain empty; nonempty undocumented structures and birthdays stay null with explicit warnings. Null/empty values do not establish absence or complete contact discovery. Five credits for a validated source response; failures receive the normal full refund.
-
-
-The published target contract also includes `public_identifier`, `twitter[]` and `wechat`, which the current adapter does not yet supply. Corroborating those fields, public phone structures and source empty/null behavior remains required. Birthday, email and generic messenger enrichment are not requirements of that published contact-panel operation. The route remains disabled.
+One canonical HTTPS /in/ profile URL;no extra identifier,contact discovery or hydration input. Source username/public_identifier and native profile URN corroborate requested identity. Select first/last name,nullable address/email and HTTPS website URL/category observations. public_identifier is the native username alias,not a guessed member ID. field_state distinguishes not_provided,null,empty,value and untyped_nonempty as appropriate. Optional phone/messenger arrays have no documented nonempty entry schema;retain observed empty arrays,null/missing states,and omit nonempty private/untyped values from output and independent receipts. Twitter,WeChat and birthday stay null because no source mapping is documented;no hidden/private contact or full reference compatibility promise. Nonempty array lengths may be reflected only through sanitized placeholder receipt structure;values are not copied. Website links are inert and never fetched;empty/null does not establish absence. Five credits per validated snapshot,full failure refund,free immutable replay. One source request,55-second overall/15-second source deadline,1MiB source/4MiB output;existing zero journal remains unallocated.

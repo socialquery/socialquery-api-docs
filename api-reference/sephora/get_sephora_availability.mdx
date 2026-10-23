@@ -1,6 +1,10 @@
 ---
-title: "Sephora Availability"
+title: "Sephora SKU Store Availability Observations"
 openapi: "GET /sephora/availability"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Disabled pending native quality,existing capacity and hosted acceptance. Monocrawl signup remains declined.</Warning>
+
+Disabled documentation/offline SKU-bound nearby-store observation contract. Exact numeric sku required;latitude/longitude together or location_coordinate="latitude,longitude",aliases must agree. Finite decimal-degree bounds ±90/±180;radius1–100 miles(default25). One published source request forwards sku_id/latitude/longitude/radius exactly and requires matching source sku_id,including empty windows. Preserve store IDs/names,address/coordinates/public business phone,hours,pickup/curbside/native distance/availability fields;unknowns null. Source in_store is an unspecified numeric observation,not independently verified sellable quantity or boolean stock;status is source text. Capture time is not verified inventory time. Store ownership/SKU association,region,freshness and complete nearby inventory unverified. Provided distances outside radius locally removed without refill,missing distance retained unknown;no inferred nearest order/road distance. No region/store override,product-to-SKU inference or continuation support documented. Five customer credits for nonempty validated source window,even filtered empty/provider0;explicit terminal empty0,errors/caller499/deadline504fullrefund,immutable replayfree. HMAC request/source/time/fullreprojection. One source read reserves3credits from existing shared directoryzerojournal;sourcecredits notUSD,USDunknown.15s active rate/quota/fetch/body/projection,1MiB source/2MiB output,no retry/fallback/model/media/product fetch. Allruntimeflagsfalse;Monocrawl signupdeclined,native quality/eligibleexistingcapacity/hosted acceptance pending.
+
+[Published source contract](https://www.monocrawl.com/openapi.json)

@@ -1,6 +1,14 @@
 ---
-title: "TikTok Similar"
+title: "Instagram-suggested TikTok Candidate Window"
 openapi: "GET /tiktok/similar"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Disabled pending native source eligibility, capacity and hosted acceptance. This is explicitly an Instagram-derived candidate window.</Warning>
+
+An explicitly supported Instagram-suggestion-derived TikTok candidate window. Supply a bare handle (optional leading @) and optional instagram_handle. Read the public TikTok seed and exact Instagram seed, then check at most the first 30 Instagram-suggested accounts under their exact same TikTok handle. The Instagram seed defaults to the same handle; an alias is caller supplied. Shared ownership and same-person identity are never inferred. Native TikTok suggestions and reverse recommendation-graph traversal are unavailable in this contract.
+
+Retain a candidate when its TikTok public metadata reports verified=true, at least 10,000 followers, or at least 1,000 followers with a shared display-name word. The lexical rule uses NFKC normalization, case folding and letter/digit words of at least two Unicode characters. It is a qualification heuristic, not an identity or audience-quality conclusion. Missing display names cannot satisfy that branch. Each result records its Instagram source ID/handle, original position and qualification_basis. Source biography, verification, privacy and follower/following/video/like counters retain null and explicit false/zero. No media is fetched and no model is used.
+
+Source suggestion order is retained without similarity ranking, refill or continuation. Self, below-threshold, not-found, failed and deferred candidates are counted separately. Up to four 12-second profile reads share a 55-second global window. A positive partial window costs five credits. A window with no accepted candidates and failed/deferred checks errors and fully refunds; it is not a confirmed empty list. A fully processed empty selection costs zero. Five credits are held for ordinary requests; immutable replay is free.
+
+Fully processed exact-plan public windows may be cached locally for 15 minutes, up to 100 keys; fresh hits cost zero under the ordinary five-credit hold. Original capture times remain. There is no stale recovery, full-graph completeness or global cache guarantee. A larger original Instagram window is explicitly truncated to 30 candidates. Independent HMAC request/evidence/time settlement rejects mutation. Caller cancellation (499) and global deadline (504) fully refund. Existing ScrapeCreators 100-request and TikHub 30-request free-only journals/gates remain; no new pool, allowance read, cap increase or fallback purchase. Disabled pending native usability, existing source eligibility/capacity and hosted API/client/ledger acceptance.

@@ -14,3 +14,7 @@ Omit `limit` for one native page (5-credit hold). With `limit=1–50`, the adapt
 Signed cursors preserve both sources' independent positions, bind the account and feed, and expire one hour after the first page. Independent source windows may differ. Reel captions, pinned reels and media URLs may be absent; inferred metrics remain null. Media URLs can expire.
 
 The post enrichment uses HikerAPI's current `/g2/user/medias` contract, not deprecated v1/v2 post-list routes. The reel enrichment uses `/v2/user/clips`. Raw mobile `reshare_count` behavior still needs a real matching fixture before activation.
+
+Caller cancellation and the 50-second total deadline include source, rate/quota, fetch/body and cleanup waits. A parent cancellation or expired total deadline fails the whole request with a full refund; an ordinary optional enrichment failure still settles the standard page at one credit. Profile and standard reads reserve one request each from the existing shared ScrapeCreators100 journal; Hiker capacity stays zero/unallocated until separately approved. Gates remain disabled.
+
+Client pricing metadata distinguishes the5-credit single-page hold from the50-credit upper hold whenever limit is supplied (1–50). The server, explorer and app/standalone MCP share browser-safe budgeting; Python matches the policy and all clients reject stale/tampered metadata. Actual settlement remains1 credit per standard page plus4 when enrichment succeeds, with unused holds refunded. No source capacity or activation is granted.

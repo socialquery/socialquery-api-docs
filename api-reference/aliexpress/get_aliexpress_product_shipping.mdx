@@ -1,6 +1,10 @@
 ---
-title: "Aliexpress Product Shipping"
+title: "AliExpress SKU-Selected Shipping Observations"
 openapi: "GET /aliexpress/product/shipping"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Disabled pending native variant-selector/rate quality,existing capacity and hosted acceptance. Shipping variant echo and checkout validity are unverified.</Warning>
+
+Supported SKU-selected shipping observation contract. Exact numeric sku_id plus product_id or canonical AliExpress item URL required;aliases agree. First read product with country(defaultUS),currency(defaultUSD),language(defaulten_US);select exact observed variantID and its source ext token,never inferSKU/product correspondence or substitute product-level estimates. Second read shipping with productID,country,quantity1–100(default1) and that observedext;reserve full4sourcecredits once from existing shared directoryzerojournal. Exact product and country shipping echoes mandatory;provided shipping currency mustmatch,missing currency unknown. Shipping docs omit SKU/selector responseecho,so variant association is request-bound and shipping_variant_echo_verified=false,never independent exact-SKU/checkout proof. Only selectorSHA256 exposed,no rawtoken. Preserve variant cardprices/quantity/attributes and shipping from/to/notes;opaque sanitized source_extensions have unspecified semantics,not validated carrier/fee/delivery/tracking claims. Currency/language control productread only;shipping doesnot document these inputs,no currencyconversion or locale-match promise. Missing requestedSKU in bounded100variant window404 without globalabsenceclaim. Price/tax_rate overrides unsupported;no quotedtax/checkout/stock/freshness/delivery guarantee. Five customercredits for nonempty shippingwindow evenprovider0;explicit terminalempty0,all source/identity/errors/caller499/global504fullrefund/free replay. Independent HMAC request/variant/shipping/usage/capturetime/fullreprojection;30s global/15s source each,1MiBsource/2MiBoutput,no retry/fallback/model/media/checkout. Allruntimeflagsfalse;Monocrawl signupdeclined,native variant-selector/rate quality/eligibleexistingcapacity/hosted acceptance pending.
+
+[Published product and shipping contracts](https://www.monocrawl.com/openapi.json)

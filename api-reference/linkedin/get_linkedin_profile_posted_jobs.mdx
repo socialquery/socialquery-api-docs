@@ -1,6 +1,10 @@
 ---
-title: "LinkedIn Profile Posted Jobs"
+title: "Jobs Shared in Member Posts"
 openapi: "GET /linkedin/profile/posted-jobs"
 ---
 
-<Note>This reference describes a preview operation. Test the required call before integrating it; a request that is unavailable returns HTTP 503 without consuming credits.</Note>
+<Warning>Disabled pending native quality, eligible capacity and hosted acceptance. This is the supported bounded replacement described below.</Warning>
+
+This supported replacement returns LinkedIn job URLs shared in the selected member's own public posts. It does not establish who created a formal job listing. Supply one canonical public LinkedIn /in/ profile url. One existing pinned Harvest0.0.85 source window returns at most20 own-author posts, corroborating the exact member URL and native author URN; repost/quote and comment/reaction enrichment are disabled. Extract only HTTPS LinkedIn /jobs/view/{numeric ID} links from delivered text and article-card destinations. Native job IDs deduplicate while retaining every source-post/evidence location. Tracking query parameters are discarded. Shortlinks and all destinations remain unfetched. Post publication times are share observations, not job posting dates. Title, employer, location, salary, job creator and active status remain unknown. A company hiring listing is never substituted for member ownership. No observed links means none in this window, not no jobs. No total, continuation or complete archive is asserted.
+
+A nonempty corroborated20-post source window costs5, including when it contains no observed job URLs. Uncorroborated native empty datasets and source failures are unbilled execution errors. Caller499 and global55-second504 refund the full hold; immutable JSON replay is free. HMAC request/evidence/time receipts fully reproject extracted links and settlement. Reserve the full existing five-cent Actor cap from the unchanged Apify500-cent journal. Source usage is an estimate, not a final invoice; no new pool, account, key, purchase, refill or activation. Disabled pending native job-link quality, eligible capacity and hosted API/client/SQL acceptance.
