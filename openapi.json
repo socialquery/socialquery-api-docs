@@ -116687,7 +116687,7 @@
       "get": {
         "operationId": "get_linkedin_company_people",
         "summary": "LinkedIn Company People",
-        "description": "Partial disabled company employee-page adapter. Numeric company_id is required. A validated native page costs 10 credits. include=profile holds four extra credits per requested row (limit 1–10, default 10; maximum hold 50), and charges those extras only for fresh successful core-profile fills. Cached, unfilled and deferred lookups add zero; enrichment failures preserve basic employee rows. A failed base page refunds the entire hold. Source pages remain ten members: limit caps delivered/hydrated rows and the cursor advances past all ten, skipping the remaining rows. Versioned one-hour profile caches validate the canonical member URL and any supplied native profile URN before use. data.hydration reports rows, looked_up, filled, cached, unfilled, credits_held, extra_credits and ms. Source reservations, transport, body reads and caches share a bounded 55-second window with parent cancellation. Existing source membership/field/capacity and native acceptance remain unresolved. HarvestAPI employee page/Full-mode diagnostics are source feasibility evidence only and are not wired into this runtime.",
+        "description": "Enabled as a bounded beta using the existing Apify journal under the explicitly approved $25 total cap. Historical native/local acceptance is recorded; current hosted acceptance remains pending under the user verification waiver. Sustainable capacity is not certified. Numeric company_id is required. Immutable native Full-mode pages of 25 source profiles support ten-position API windows with limit 1–10. Windows may cross two saved native pages; direct deep pages corroborate the first source page and use at most three new native runs inside the 55-second overall deadline. Current-employer mismatches and duplicate source rows are excluded without refill. Source totals remain observations, not an exact workforce census. A validated window costs 10 credits. include=profile holds four additional credits per requested row and settles only fresh usable delivered profile fills; cached, unfilled and deferred fills add zero. Failed base windows refund the full customer hold. Encrypted one-hour cursors and immutable source/profile caches bind owner/API key, company, enrichment and limit. Successful response-cache hits and idempotent replays cost zero. Unknown optional fields stay null. Each source run reserves its full 25-cent ceiling; at most 75 cents per request, retained after failed or uncertain execution. No automatic retry, refill or new allowance. Parent cancellation returns 499; total deadline returns 504 with refunds on confirmed settlement.",
         "x-credit-cost": 10,
         "x-launch-status": "beta",
         "parameters": [
@@ -116873,7 +116873,10 @@
           "maxLimit": 10
         },
         "x-credit-min": 10,
-        "x-credit-max": 50
+        "x-credit-max": 50,
+        "x-local-batch-status": "enabled_pending_deployment_hosted_verification_waived",
+        "x-source-verification": "historical_native_sample",
+        "x-hosted-verification": "pending"
       }
     },
     "/linkedin/post/comments": {
@@ -181856,7 +181859,7 @@
       "get": {
         "operationId": "get_aliexpress_categories",
         "summary": "Aliexpress Categories",
-        "description": "Locally implemented, disabled pending capacity and combined release acceptance. Returns all24 sections and published subcategories of one pinned US source catalog. Source section keys, frontend numeric child IDs and backend site_category_ids are distinct namespaces; no ID substitution or search interoperability is asserted. Brand records are counted and omitted. No query parameters, product/media lookup, worldwide completeness or alternative-country claim. Empty/truncated/inconsistent catalogs fail unbilled. One credit for a validated catalog; successful API cache hits are free.",
+        "description": "Enabled as a bounded beta using the existing Apify journal under the explicitly approved $25 total cap. Historical native/local acceptance is recorded; current hosted acceptance remains pending under the user verification waiver. Sustainable capacity is not certified. Returns all24 sections and published subcategories of one pinned US source catalog. Source section keys, frontend numeric child IDs and backend site_category_ids are distinct namespaces; no ID substitution or search interoperability is asserted. Brand records are counted and omitted. No query parameters, product/media lookup, worldwide completeness or alternative-country claim. Empty/truncated/inconsistent catalogs fail unbilled. One credit for a validated catalog; successful API cache hits are free.",
         "x-credit-cost": 1,
         "x-launch-status": "beta",
         "parameters": [
@@ -181957,7 +181960,10 @@
         },
         "tags": [
           "Aliexpress"
-        ]
+        ],
+        "x-local-batch-status": "enabled_pending_deployment_hosted_verification_waived",
+        "x-source-verification": "historical_native_sample",
+        "x-hosted-verification": "pending"
       }
     },
     "/aliexpress/promo": {
@@ -246417,7 +246423,7 @@
       "get": {
         "operationId": "get_jobs_bing_search",
         "summary": "Bing jobs snapshot search",
-        "description": "Enabled as a bounded beta under the user-authorized verification waiver. Native usability, sustainable capacity and hosted acceptance remain unverified; requests require remaining allowance in the existing non-refilling source journal. First request requires query and location; country=us(default)|gb selects the source index. date_posted=all|day|week, remote_only and supported employment types filter the scanned window locally without refilling. Keyword-free search, temporary employment and native deep pagination are outside this contract and reject before dispatch. At most20 source jobs, scanned in10-row API pages within one immutable user/API-key-bound5-minute Redis snapshot. Cursor continuation reads only that snapshot, with no new Actor or source reservation; query/location may be omitted or supplied consistently. Source order and loose source location/date observations do not establish exact geographic/date coverage, current-open status, total results or a complete set. Description and apply links are excluded from list data/receipts; use detail. First validated nonempty source window10credits, continuation0 even with zero balance/X-Max-Credits0. Missing/expired/corrupt snapshots and source errors fail unbilled without resubmission; source-empty is an error rather than global absence. Source cap$0.10,55seconds,2 MiB source/4 MiB response; shared non-refilling Apify500-cent journal unchanged. Cancellation/failures refund on confirmed settlement. No original-reference continuation parity is promised.",
+        "description": "Enabled as a bounded beta under the user-authorized verification waiver. Native usability, sustainable capacity and hosted acceptance remain unverified; requests require remaining allowance in the existing non-refilling source journal. First request requires query and location; country=us(default)|gb selects the source index. date_posted=all|day|week, remote_only and supported employment types filter the scanned window locally without refilling. Keyword-free search, temporary employment and native deep pagination are outside this contract and reject before dispatch. At most20 source jobs, scanned in10-row API pages within one immutable user/API-key-bound5-minute Redis snapshot. Cursor continuation reads only that snapshot, with no new Actor or source reservation; query/location may be omitted or supplied consistently. Source order and loose source location/date observations do not establish exact geographic/date coverage, current-open status, total results or a complete set. Description and apply links are excluded from list data/receipts; use detail. First validated nonempty source window10credits, continuation0 even with zero balance/X-Max-Credits0. Missing/expired/corrupt snapshots and source errors fail unbilled without resubmission; source-empty is an error rather than global absence. Source cap$0.10,55seconds,2 MiB source/4 MiB response; shared non-refilling Apify2500-cent journal unchanged. Cancellation/failures refund on confirmed settlement. No original-reference continuation parity is promised.",
         "x-credit-cost": 10,
         "x-launch-status": "beta",
         "parameters": [

@@ -3,7 +3,7 @@ title: "AliExpress Categories"
 openapi: "GET /aliexpress/categories"
 ---
 
-<Note>Implemented and verified locally, with release and capacity gates disabled. No production activation has occurred.</Note>
+<Note>Enabled as a bounded beta using the existing Apify journal under the explicitly approved $25 total cap. Historical native/local acceptance is recorded; current hosted acceptance remains pending under the user verification waiver. Sustainable capacity is not certified.</Note>
 
 This parameter-free operation returns the complete published US catalog of the pinned source: 24 sections and their subcategories. The accepted native sample contained 519 subcategories and 224 brand records. Brands are counted in `omitted_brand_count` and excluded from the tree. Root and child names and identifiers are native observations; no intermediate group label is invented from a source key.
 
@@ -11,4 +11,4 @@ Each root has a source section `id`, a name, and `children`. Each child has a nu
 
 A validated catalog costs one credit; API cache hits are free. The response cache lasts up to 24 hours. Empty, truncated, missing-section, duplicate, inconsistent and failed source catalogs fail with zero customer charge. No product or media link is fetched. There are no country, filter, paging or other query parameters.
 
-One pinned taxonomy-only run is capped at $1, 2,000 rows, 512 MiB and 50 seconds, under a 55-second total request deadline including reservation, transport, body reads and projection. The larger transport bound applies only to this exact pinned plan; ordinary Actor limits are unchanged. The full 100-cent ceiling is reserved from the existing shared non-refilling 500-cent Apify journal and retained after failures. Usage estimates are not a final invoice. Sustained capacity/economics and the combined deployed audit remain release blockers.
+One pinned taxonomy-only run is capped at $1, 2,000 rows, 512 MiB and 50 seconds, under a 55-second total request deadline including reservation, transport, body reads and projection. The larger transport bound applies only to this exact pinned plan; ordinary Actor limits are unchanged. The full 100-cent ceiling is reserved from the existing shared non-refilling 2500-cent Apify journal and retained after failures. Usage estimates are not a final invoice. Sustained capacity/economics remain uncertified; current hosted acceptance is pending under the explicit user waiver.

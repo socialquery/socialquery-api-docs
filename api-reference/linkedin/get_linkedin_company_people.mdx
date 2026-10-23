@@ -3,7 +3,7 @@ title: "LinkedIn Company People"
 openapi: "GET /linkedin/company/people"
 ---
 
-<Warning>The adapter is locally complete and remains disabled pending sustainable source capacity/economics and combined hosted release acceptance. Enabled code and hosted acceptance are tracked separately.</Warning>
+<Warning>Enabled as a bounded beta using the existing Apify journal under the explicitly approved $25 total cap. Historical native/local acceptance is recorded; current hosted acceptance remains pending under the user verification waiver. Sustainable capacity is not certified.</Warning>
 
 Use a numeric `company_id`, `page` from 1 to 100 or a returned `cursor`, and `limit` from 1 to 10 (default 10). Unknown options, malformed identifiers, incompatible cursors and an `include` other than `profile` return **400** before upstream dispatch. Explicit empty query values are rejected rather than treated as defaults. A valid source window costs **10 credits**. Source failure refunds the entire reservation.
 
@@ -17,4 +17,4 @@ Encrypted one-hour cursors bind the user/API key, company, enrichment choice and
 
 Response and core-profile caches are bound to the requesting user/API key and source identity. Normal response-cache hits and successful idempotent replays cost zero, including with zero balance. `Cache-Control: no-cache` bypasses the response cache while preserving immutable source pages and core-profile caches. Cached source/core fills add no enrichment charge. Responses use `Cache-Control: private, no-store` because they carry owner-bound continuation.
 
-A **55-second overall deadline** bounds rate checks, full-cap reservations, Actor transport/body reads, cache operations and projection. Parent cancellation returns **499 REQUEST_CANCELLED**; the deadline returns **504 UPSTREAM_TIMEOUT**, with full refunds on confirmed settlement. Source caps remain reserved after failed or uncertain execution. There is no automatic retry, refill, capacity allocation or deployment. Local and native evidence does not establish hosted disconnect acceptance.
+A **55-second overall deadline** bounds rate checks, full-cap reservations, Actor transport/body reads, cache operations and projection. Parent cancellation returns **499 REQUEST_CANCELLED**; the deadline returns **504 UPSTREAM_TIMEOUT**, with full refunds on confirmed settlement. Source caps remain reserved after failed or uncertain execution. Each Full-mode source run reserves 25 cents, up to three runs/75 cents per request, from the existing shared non-refilling 2500-cent Apify journal. There is no automatic retry, reset or refill. Local and native evidence does not establish hosted disconnect acceptance.
