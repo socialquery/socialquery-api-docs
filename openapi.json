@@ -116874,7 +116874,7 @@
         },
         "x-credit-min": 10,
         "x-credit-max": 50,
-        "x-local-batch-status": "enabled_pending_deployment_hosted_verification_waived",
+        "x-local-batch-status": "enabled_deployed_hosted_verification_waived",
         "x-source-verification": "historical_native_sample",
         "x-hosted-verification": "pending"
       }
@@ -181961,7 +181961,7 @@
         "tags": [
           "Aliexpress"
         ],
-        "x-local-batch-status": "enabled_pending_deployment_hosted_verification_waived",
+        "x-local-batch-status": "enabled_deployed_hosted_verification_waived",
         "x-source-verification": "historical_native_sample",
         "x-hosted-verification": "pending"
       }
@@ -201786,7 +201786,7 @@
           "hostedVerification": "pending",
           "verificationWaivedByUser": true
         },
-        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
+        "x-local-batch-status": "enabled_deployed_verification_waived"
       }
     },
     "/douyin/post": {
@@ -202347,7 +202347,7 @@
           "hostedVerification": "pending",
           "verificationWaivedByUser": true
         },
-        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
+        "x-local-batch-status": "enabled_deployed_verification_waived"
       }
     },
     "/douyin/trending": {
@@ -246621,7 +246621,7 @@
           "hostedVerification": "pending",
           "verificationWaivedByUser": true
         },
-        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
+        "x-local-batch-status": "enabled_deployed_verification_waived"
       }
     },
     "/jobs/bing": {
@@ -253319,7 +253319,7 @@
           "hostedVerification": "pending",
           "verificationWaivedByUser": true
         },
-        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
+        "x-local-batch-status": "enabled_deployed_verification_waived"
       }
     },
     "/xiaohongshu/trending": {
@@ -253880,7 +253880,7 @@
           "hostedVerification": "pending",
           "verificationWaivedByUser": true
         },
-        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
+        "x-local-batch-status": "enabled_deployed_verification_waived"
       }
     },
     "/xiaohongshu/post": {
@@ -254010,7 +254010,7 @@
           "hostedVerification": "pending",
           "verificationWaivedByUser": true
         },
-        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
+        "x-local-batch-status": "enabled_deployed_verification_waived"
       }
     },
     "/xiaohongshu/post/comments": {
