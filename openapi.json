@@ -201474,7 +201474,7 @@
       "get": {
         "operationId": "get_douyin_profile_posts",
         "summary": "Douyin creator post window",
-        "description": "Scoped implementation from saved upstream docs and offline checks; this operation remains disabled pending native usability, sustainable capacity and combined hosted acceptance. No original-reference compatibility or exhaustive coverage promise. Raw empty/error/stale/malformed or mismatched-owner source data fails with refunds, never establishes global absence. All URLs are inert source metadata, never fetched or certified for playback, downloads, current availability or full gallery/text completeness. Request cancellation and quota/Actor/HTTP/body/cleanup/projection share an active55second deadline; no automatic retry, refill or new allowance. Supply a native secUid id or matching canonical HTTPS Douyin user URL; handle/numericUID resolution and native cursors are outside this source contract. Default10/max25 posts plus one owner proof. Every post must corroborate owner aliases, numeric post ID, public flags, counter/date/duration aliases. since/until and all publication aliases, recent_days and exclude_pinned filter only this window without refilling; unknown dates/pins stay visible. Relative and recent-day bounds freeze at the request reference. Source order is an observation, not guaranteed global recency. Optional videoMeta.playUrl,width,height,authorMeta.avatarThumb and signed cover/music observations retain source values; views and computed fields remain null. Hold5*limit,settle5 per returned post; owner proof adds no customer charge. No source total or API continuation:pagination.has_more=false describes API scope only.",
+        "description": "Enabled as a bounded beta under the user-authorized verification waiver. Native usability, sustainable capacity and hosted acceptance remain unverified; requests require remaining allowance in the existing non-refilling source journal. No original-reference compatibility or exhaustive coverage promise. Raw empty/error/stale/malformed or mismatched-owner source data fails with refunds, never establishes global absence. All URLs are inert source metadata, never fetched or certified for playback, downloads, current availability or full gallery/text completeness. Request cancellation and quota/Actor/HTTP/body/cleanup/projection share an active55second deadline; no automatic retry, refill or new allowance. Supply a native secUid id or matching canonical HTTPS Douyin user URL; handle/numericUID resolution and native cursors are outside this source contract. Default10/max25 posts plus one owner proof. Every post must corroborate owner aliases, numeric post ID, public flags, counter/date/duration aliases. since/until and all publication aliases, recent_days and exclude_pinned filter only this window without refilling; unknown dates/pins stay visible. Relative and recent-day bounds freeze at the request reference. Source order is an observation, not guaranteed global recency. Optional videoMeta.playUrl,width,height,authorMeta.avatarThumb and signed cover/music observations retain source values; views and computed fields remain null. Hold5*limit,settle5 per returned post; owner proof adds no customer charge. No source total or API continuation:pagination.has_more=false describes API scope only.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -201776,8 +201776,11 @@
           "exhaustive": false,
           "implementation": "complete_offline",
           "nativeVerification": "pending",
-          "activation": "disabled"
-        }
+          "activation": "enabled_under_verification_waiver",
+          "hostedVerification": "pending",
+          "verificationWaivedByUser": true
+        },
+        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
       }
     },
     "/douyin/post": {
@@ -202138,7 +202141,7 @@
       "get": {
         "operationId": "get_douyin_search_users",
         "summary": "Douyin creator search window",
-        "description": "Scoped implementation from saved upstream docs and offline checks; this operation remains disabled pending native usability, sustainable capacity and combined hosted acceptance. No original-reference compatibility or exhaustive coverage promise. Raw empty/error/stale/malformed or mismatched-owner source data fails with refunds, never establishes global absence. All URLs are inert source metadata, never fetched or certified for playback, downloads, current availability or full gallery/text completeness. Request cancellation and quota/Actor/HTTP/body/cleanup/projection share an active55second deadline; no automatic retry, refill or new allowance. Keyword required,default10/max25 source cards. Exact query trace,unique identities and increasing source positions validate; no certified global rank. followers accepts all,under_1k,1k_to_10k,10k_to_100k,100k_to_1m,over_1m and filters observed source integer counts locally,with no refill. Bands are n<1000,1000<=n<10000,10000<=n<100000,100000<=n<=1000000,n>1000000. Unknown counts remain for all and are excluded for a specific band; follower_filter reports source_unknown_count/excluded and unverified precision. user_type=all only; cards do not establish regular/enterprise/individual verification classes. Native secUid stays distinct from unknown numericUID; no Xingtu namespace or guessed identifiers. Optional avatarUrl is retained from an accepted HTTPS Douyin CDN family,without image requests. Hold5*limit,settle5 per returned card with unused holds refunded. No native cursor or full directory claim;pagination.has_more=false means no API continuation.",
+        "description": "Enabled as a bounded beta under the user-authorized verification waiver. Native usability, sustainable capacity and hosted acceptance remain unverified; requests require remaining allowance in the existing non-refilling source journal. No original-reference compatibility or exhaustive coverage promise. Raw empty/error/stale/malformed or mismatched-owner source data fails with refunds, never establishes global absence. All URLs are inert source metadata, never fetched or certified for playback, downloads, current availability or full gallery/text completeness. Request cancellation and quota/Actor/HTTP/body/cleanup/projection share an active55second deadline; no automatic retry, refill or new allowance. Keyword required,default10/max25 source cards. Exact query trace,unique identities and increasing source positions validate; no certified global rank. followers accepts all,under_1k,1k_to_10k,10k_to_100k,100k_to_1m,over_1m and filters observed source integer counts locally,with no refill. Bands are n<1000,1000<=n<10000,10000<=n<100000,100000<=n<=1000000,n>1000000. Unknown counts remain for all and are excluded for a specific band; follower_filter reports source_unknown_count/excluded and unverified precision. user_type=all only; cards do not establish regular/enterprise/individual verification classes. Native secUid stays distinct from unknown numericUID; no Xingtu namespace or guessed identifiers. Optional avatarUrl is retained from an accepted HTTPS Douyin CDN family,without image requests. Hold5*limit,settle5 per returned card with unused holds refunded. No native cursor or full directory claim;pagination.has_more=false means no API continuation.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -202334,8 +202337,11 @@
           "exhaustive": false,
           "implementation": "complete_offline",
           "nativeVerification": "pending",
-          "activation": "disabled"
-        }
+          "activation": "enabled_under_verification_waiver",
+          "hostedVerification": "pending",
+          "verificationWaivedByUser": true
+        },
+        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
       }
     },
     "/douyin/trending": {
@@ -246411,7 +246417,7 @@
       "get": {
         "operationId": "get_jobs_bing_search",
         "summary": "Bing jobs snapshot search",
-        "description": "Locally implemented bounded snapshot contract; search remains disabled pending broader native usability, sustainable capacity and combined hosted acceptance. First request requires query and location; country=us(default)|gb selects the source index. date_posted=all|day|week, remote_only and supported employment types filter the scanned window locally without refilling. Keyword-free search, temporary employment and native deep pagination are outside this contract and reject before dispatch. At most20 source jobs, scanned in10-row API pages within one immutable user/API-key-bound5-minute Redis snapshot. Cursor continuation reads only that snapshot, with no new Actor or source reservation; query/location may be omitted or supplied consistently. Source order and loose source location/date observations do not establish exact geographic/date coverage, current-open status, total results or a complete set. Description and apply links are excluded from list data/receipts; use detail. First validated nonempty source window10credits, continuation0 even with zero balance/X-Max-Credits0. Missing/expired/corrupt snapshots and source errors fail unbilled without resubmission; source-empty is an error rather than global absence. Source cap$0.10,55seconds,2 MiB source/4 MiB response; shared non-refilling Apify500-cent journal unchanged. Cancellation/failures refund on confirmed settlement. No original-reference continuation parity is promised.",
+        "description": "Enabled as a bounded beta under the user-authorized verification waiver. Native usability, sustainable capacity and hosted acceptance remain unverified; requests require remaining allowance in the existing non-refilling source journal. First request requires query and location; country=us(default)|gb selects the source index. date_posted=all|day|week, remote_only and supported employment types filter the scanned window locally without refilling. Keyword-free search, temporary employment and native deep pagination are outside this contract and reject before dispatch. At most20 source jobs, scanned in10-row API pages within one immutable user/API-key-bound5-minute Redis snapshot. Cursor continuation reads only that snapshot, with no new Actor or source reservation; query/location may be omitted or supplied consistently. Source order and loose source location/date observations do not establish exact geographic/date coverage, current-open status, total results or a complete set. Description and apply links are excluded from list data/receipts; use detail. First validated nonempty source window10credits, continuation0 even with zero balance/X-Max-Credits0. Missing/expired/corrupt snapshots and source errors fail unbilled without resubmission; source-empty is an error rather than global absence. Source cap$0.10,55seconds,2 MiB source/4 MiB response; shared non-refilling Apify500-cent journal unchanged. Cancellation/failures refund on confirmed settlement. No original-reference continuation parity is promised.",
         "x-credit-cost": 10,
         "x-launch-status": "beta",
         "parameters": [
@@ -246605,8 +246611,11 @@
           "exhaustive": false,
           "implementation": "complete_offline",
           "nativeVerification": "pending",
-          "activation": "disabled"
-        }
+          "activation": "enabled_under_verification_waiver",
+          "hostedVerification": "pending",
+          "verificationWaivedByUser": true
+        },
+        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
       }
     },
     "/jobs/bing": {
@@ -252994,7 +253003,7 @@
       "get": {
         "operationId": "get_xiaohongshu_search",
         "summary": "Xiaohongshu note search window",
-        "description": "Scoped implementation from saved upstream docs and offline checks; this operation remains disabled pending native usability, sustainable capacity and combined hosted acceptance. No original-reference compatibility or exhaustive coverage promise. Raw empty/error/stale/malformed or mismatched-owner source data fails with refunds, never establishes global absence. All URLs are inert source metadata, never fetched or certified for playback, downloads, current availability or full gallery/text completeness. Request cancellation and quota/Actor/HTTP/body/cleanup/projection share an active55second deadline; no automatic retry, refill or new allowance. Keyword required,default10/max20 returned notes,at least5 source rows. Native sort relevance/latest/most_liked/most_commented/most_collected,type all/image/video,published all/day/week/half_year map to pinned source inputs. Known dates/counters contradicting requested order fail; native publication windows and inclusive absolute/relative date aliases additionally filter known dates at a frozen request reference. Unknown dates remain; filter then limit without refilling. Exact source query/type and canonical note/author identities must agree. Hold5*limit,settle5 per returned note; source minimum adds no customer charge. No native cursor,total or exact global rank;pagination.has_more=false describes API continuation only. Image cover/gallery order/count differences and optional videoUrl/duration/dimensions are source observations. Missing video URL stays null even when dimensions are known. Optional source authorAvatar retains an inert accepted-CDN URL without fetching. Selected text is neither certified complete nor assumed truncated;post.ext.text_truncated stays null.",
+        "description": "Enabled as a bounded beta under the user-authorized verification waiver. Native usability, sustainable capacity and hosted acceptance remain unverified; requests require remaining allowance in the existing non-refilling source journal. No original-reference compatibility or exhaustive coverage promise. Raw empty/error/stale/malformed or mismatched-owner source data fails with refunds, never establishes global absence. All URLs are inert source metadata, never fetched or certified for playback, downloads, current availability or full gallery/text completeness. Request cancellation and quota/Actor/HTTP/body/cleanup/projection share an active55second deadline; no automatic retry, refill or new allowance. Keyword required,default10/max20 returned notes,at least5 source rows. Native sort relevance/latest/most_liked/most_commented/most_collected,type all/image/video,published all/day/week/half_year map to pinned source inputs. Known dates/counters contradicting requested order fail; native publication windows and inclusive absolute/relative date aliases additionally filter known dates at a frozen request reference. Unknown dates remain; filter then limit without refilling. Exact source query/type and canonical note/author identities must agree. Hold5*limit,settle5 per returned note; source minimum adds no customer charge. No native cursor,total or exact global rank;pagination.has_more=false describes API continuation only. Image cover/gallery order/count differences and optional videoUrl/duration/dimensions are source observations. Missing video URL stays null even when dimensions are known. Optional source authorAvatar retains an inert accepted-CDN URL without fetching. Selected text is neither certified complete nor assumed truncated;post.ext.text_truncated stays null.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -253300,8 +253309,11 @@
           "exhaustive": false,
           "implementation": "complete_offline",
           "nativeVerification": "pending",
-          "activation": "disabled"
-        }
+          "activation": "enabled_under_verification_waiver",
+          "hostedVerification": "pending",
+          "verificationWaivedByUser": true
+        },
+        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
       }
     },
     "/xiaohongshu/trending": {
@@ -253574,7 +253586,7 @@
       "get": {
         "operationId": "get_xiaohongshu_profile_posts",
         "summary": "Xiaohongshu creator note window",
-        "description": "Scoped implementation from saved upstream docs and offline checks; this operation remains disabled pending native usability, sustainable capacity and combined hosted acceptance. No original-reference compatibility or exhaustive coverage promise. Raw empty/error/stale/malformed or mismatched-owner source data fails with refunds, never establishes global absence. All URLs are inert source metadata, never fetched or certified for playback, downloads, current availability or full gallery/text completeness. Request cancellation and quota/Actor/HTTP/body/cleanup/projection share an active55second deadline; no automatic retry, refill or new allowance. Native24-character creator id or matching canonical profile URL,default10/max20 notes,at least5 source rows plus one matching creator anchor. Every note must corroborate requested creator,outer authorID and canonical authorURL. Inclusive absolute/relative date aliases filter this window,retain undated rows and do not refill. Creator anchor/source minimum add no customer charge. Hold5*limit,settle5 per returned note;unused holds refund including filtered-empty. Image galleries,optional authorAvatar and source videoUrl/duration/dimensions remain inert metadata;selected source text is not assumed complete or truncated. No native cursor,exact global recency,total or complete profile history;pagination.has_more=false describes API continuation only.",
+        "description": "Enabled as a bounded beta under the user-authorized verification waiver. Native usability, sustainable capacity and hosted acceptance remain unverified; requests require remaining allowance in the existing non-refilling source journal. No original-reference compatibility or exhaustive coverage promise. Raw empty/error/stale/malformed or mismatched-owner source data fails with refunds, never establishes global absence. All URLs are inert source metadata, never fetched or certified for playback, downloads, current availability or full gallery/text completeness. Request cancellation and quota/Actor/HTTP/body/cleanup/projection share an active55second deadline; no automatic retry, refill or new allowance. Native24-character creator id or matching canonical profile URL,default10/max20 notes,at least5 source rows plus one matching creator anchor. Every note must corroborate requested creator,outer authorID and canonical authorURL. Inclusive absolute/relative date aliases filter this window,retain undated rows and do not refill. Creator anchor/source minimum add no customer charge. Hold5*limit,settle5 per returned note;unused holds refund including filtered-empty. Image galleries,optional authorAvatar and source videoUrl/duration/dimensions remain inert metadata;selected source text is not assumed complete or truncated. No native cursor,exact global recency,total or complete profile history;pagination.has_more=false describes API continuation only.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -253858,15 +253870,18 @@
           "exhaustive": false,
           "implementation": "complete_offline",
           "nativeVerification": "pending",
-          "activation": "disabled"
-        }
+          "activation": "enabled_under_verification_waiver",
+          "hostedVerification": "pending",
+          "verificationWaivedByUser": true
+        },
+        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
       }
     },
     "/xiaohongshu/post": {
       "get": {
         "operationId": "get_xiaohongshu_post",
         "summary": "Xiaohongshu note observation",
-        "description": "Scoped implementation from saved upstream docs and offline checks; this operation remains disabled pending native usability, sustainable capacity and combined hosted acceptance. No original-reference compatibility or exhaustive coverage promise. Raw empty/error/stale/malformed or mismatched-owner source data fails with refunds, never establishes global absence. All URLs are inert source metadata, never fetched or certified for playback, downloads, current availability or full gallery/text completeness. Request cancellation and quota/Actor/HTTP/body/cleanup/projection share an active55second deadline; no automatic retry, refill or new allowance. One native24-character note id or unsigned canonical note URL. Share-link resolution and access-token URL inputs are outside this source contract. Source id/URL/input/detail trace must agree. One selected source text/counter/author observation and optional ordered image gallery or videoUrl/duration/dimensions metadata. detail=true does not certify complete text;post.ext.text_truncated remains null. Gallery count differences and missing/empty arrays stay explicit. Source URLs use the accepted HTTPS CDN families;missing media remains null. Subtitles,contact enrichment,independent binary ownership or playable download guarantees are outside this contract. Optional source authorAvatar retains an inert accepted-CDN URL without fetching. Five credits per validated note,no per-image/video surcharge.",
+        "description": "Enabled as a bounded beta under the user-authorized verification waiver. Native usability, sustainable capacity and hosted acceptance remain unverified; requests require remaining allowance in the existing non-refilling source journal. No original-reference compatibility or exhaustive coverage promise. Raw empty/error/stale/malformed or mismatched-owner source data fails with refunds, never establishes global absence. All URLs are inert source metadata, never fetched or certified for playback, downloads, current availability or full gallery/text completeness. Request cancellation and quota/Actor/HTTP/body/cleanup/projection share an active55second deadline; no automatic retry, refill or new allowance. One native24-character note id or unsigned canonical note URL. Share-link resolution and access-token URL inputs are outside this source contract. Source id/URL/input/detail trace must agree. One selected source text/counter/author observation and optional ordered image gallery or videoUrl/duration/dimensions metadata. detail=true does not certify complete text;post.ext.text_truncated remains null. Gallery count differences and missing/empty arrays stay explicit. Source URLs use the accepted HTTPS CDN families;missing media remains null. Subtitles,contact enrichment,independent binary ownership or playable download guarantees are outside this contract. Optional source authorAvatar retains an inert accepted-CDN URL without fetching. Five credits per validated note,no per-image/video surcharge.",
         "x-credit-cost": 5,
         "x-launch-status": "beta",
         "parameters": [
@@ -253985,8 +254000,11 @@
           "exhaustive": false,
           "implementation": "complete_offline",
           "nativeVerification": "pending",
-          "activation": "disabled"
-        }
+          "activation": "enabled_under_verification_waiver",
+          "hostedVerification": "pending",
+          "verificationWaivedByUser": true
+        },
+        "x-local-batch-status": "enabled_pending_deployment_verification_waived"
       }
     },
     "/xiaohongshu/post/comments": {
